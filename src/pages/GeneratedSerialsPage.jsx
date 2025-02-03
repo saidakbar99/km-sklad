@@ -43,9 +43,9 @@ const GeneratedSerialsPage = () => {
             <select
               value={selectedPrinter}
               onChange={(e) => setSelectedPrinter(e.target.value)}
-              className="border p-2 mt-2"
+              className="border p-3 mt-2 rounded-lg"
             >
-              <option value="">Select Printer</option>
+              <option value="">Printerni tanlang</option>
               {printers.map((printer, index) => (
                 <option key={index} value={printer}>
                   {printer}
