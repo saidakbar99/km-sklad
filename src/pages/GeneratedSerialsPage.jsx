@@ -1,12 +1,12 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { GeneratedSerial } from "../components/GeneratedSerial";
 // import { connectQZTray, getPrinters } from "../utils/qzHelper";
 import MainLayout from "../components/MainLayout";
 import { Link } from "react-router-dom";
 
 const GeneratedSerialsPage = () => {
-  const [printers, setPrinters] = useState([]);
-  const [selectedPrinter, setSelectedPrinter] = useState("");
+  // const [printers, setPrinters] = useState([]);
+  // const [selectedPrinter, setSelectedPrinter] = useState("");
   // const [loading, setLoading] = useState(true);
   // const [error, setError] = useState(null);
 
@@ -40,7 +40,7 @@ const GeneratedSerialsPage = () => {
         <div className="mb-6 flex justify-between items-center">
           <div>
             <h2 className="text-lg font-bold">Printerni tanlash</h2>
-            <select
+            {/* <select
               value={selectedPrinter}
               onChange={(e) => setSelectedPrinter(e.target.value)}
               className="border p-3 mt-2 rounded-lg"
@@ -51,7 +51,7 @@ const GeneratedSerialsPage = () => {
                   {printer}
                 </option>
               ))}
-            </select>
+            </select> */}
           </div>
           <Link to='/generation'>
             <button className="w-full px-4 py-2 text-white bg-[#002A50] rounded-md hover:bg-opacity-90">
@@ -59,11 +59,11 @@ const GeneratedSerialsPage = () => {
             </button>
           </Link>
         </div>
-        <GeneratedSerial selectedPrinter={selectedPrinter} />
-        <GeneratedSerial selectedPrinter={selectedPrinter} />
-        <GeneratedSerial selectedPrinter={selectedPrinter} />
-        <GeneratedSerial selectedPrinter={selectedPrinter} />
-        <GeneratedSerial selectedPrinter={selectedPrinter} />
+        <GeneratedSerial selectedPrinter={'selectedPrinter'} />
+        <GeneratedSerial selectedPrinter={'selectedPrinter'} />
+        <GeneratedSerial selectedPrinter={'selectedPrinter'} />
+        <GeneratedSerial selectedPrinter={'selectedPrinter'} />
+        <GeneratedSerial selectedPrinter={'selectedPrinter'} />
       </div>
     </MainLayout>
   );
