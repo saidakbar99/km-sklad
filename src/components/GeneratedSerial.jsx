@@ -9,6 +9,7 @@ export const GeneratedSerial = ({selectedPrinter}) => {
     }
     printLabel(selectedPrinter);
   };
+  
   return (
     <div className="flex items-center mb-12">
       <div className="flex w-full border-2 rounded-2xl">
