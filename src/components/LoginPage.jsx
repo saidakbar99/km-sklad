@@ -30,6 +30,7 @@ const LoginPage = () => {
       const response = await login({ username, password });
       const { access_token, role } = response.data.data;
 
+      console.log(role)
       localStorage.setItem('token', access_token);
       // localStorage.setItem('role', role);
 
