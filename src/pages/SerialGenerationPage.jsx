@@ -4,7 +4,6 @@ import { AutoComplete } from 'primereact/autocomplete';
 import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
 import { TabView, TabPanel } from "primereact/tabview";
-import { Link } from "react-router-dom";
 import { RadioButton } from "primereact/radiobutton";
 
 const SerialGenerationPage = () => {
