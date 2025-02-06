@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import LoginPage from "./components/LoginPage";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute, { DefaultRedirect } from "./components/ProtectedRoute";
 import SerialGenerationPage from "./pages/SerialGenerationPage";
 import GeneratedSerialsPage from "./pages/GeneratedSerialsPage";
 import RecieveFurniturePage from "./pages/RecieveFurniturePage";
@@ -15,7 +15,7 @@ const App = () => (
       <Route
         path="/generation"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={['warehouse']}>
             <SerialGenerationPage />
           </ProtectedRoute>
         }
@@ -23,7 +23,7 @@ const App = () => (
       <Route
         path="/generated"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={['warehouse']}>
             <GeneratedSerialsPage />
           </ProtectedRoute>
         }
@@ -31,7 +31,7 @@ const App = () => (
       <Route
         path="/recieve"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={['warehouse']}>
             <RecieveFurniturePage />
           </ProtectedRoute>
         }
@@ -39,7 +39,7 @@ const App = () => (
       <Route
         path="/release"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={['security']}>
             <RealeseFurniturePage />
           </ProtectedRoute>
         }
@@ -47,12 +47,12 @@ const App = () => (
       <Route
         path="/balance"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={['warehouse']}>
             <StorageBalancePage />
           </ProtectedRoute>
         }
       />
-      <Route path="*" element={<Navigate to="/generated" replace />} />
+      <Route path="*" element={<DefaultRedirect />} />
     </Routes>
     <ToastContainer />
   </Router>

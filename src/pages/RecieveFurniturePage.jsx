@@ -64,7 +64,7 @@ const RecieveFurniturePage = () => {
           </div>
           <Button 
             label="Qabul qilish" 
-            className="px-4 text-white bg-[#002A50] rounded-md hover:bg-opacity-90 w-[200px]"
+            className="px-4 text-white bg-blue rounded-md hover:bg-opacity-90 w-[200px]"
             onClick={handleRecieve}
           />
         </div>

@@ -29,19 +29,19 @@ export async function printLabel(printerName) {
 
 ^FO300,400
 ^A0N,40,40
-^FDСерия# 000014^FS
+^FDSeriya# 000014^FS
 
 ^FO400,460
 ^A0N,40,40
-^FDЗаказ# 012DV^FS
+^FDZakaz# 012DV^FS
 
 ^FO400,520
 ^A0N,30,30
-^FDСП Босфор Шкаф^FS
+^FDSP Bosfor Shkaf^FS
 
 ^FO470,570
 ^A0N,20,20
-^FDRанги: Тилла хал^FS
+^FDRangi: Tilla xal^FS
 
 ^XZ
   `;

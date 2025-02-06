@@ -4,7 +4,6 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
-// import { Button } from "primereact/button";
 
 const StorageBalancePage = () => {
   const [filter, setFilter] = useState('all');
@@ -50,10 +49,6 @@ const StorageBalancePage = () => {
             placeholder="Qidirish..."
             className="px-4 py-2 border w-full mx-4"
           />
-          {/* <Button 
-            label="Perform Action" 
-            className="px-4 py-2 text-white bg-[#002A50] rounded-md hover:bg-opacity-90"
-          /> */}
         </div>
 
         <DataTable value={filteredData}>

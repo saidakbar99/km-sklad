@@ -14,12 +14,40 @@ const MainLayout = ({children, header}) => {
   };
 
   const menuItems = [
-    { label: 'Skladga qabul qilish', icon: 'pi pi-warehouse', command: () => navigate('/recieve') },
-    { label: 'Sklad ostatok', icon: 'pi pi-receipt', command: () => navigate('/balance') },
-    { label: 'Отгрузка', icon: 'pi pi-truck', command: () => navigate('/release') },
-    { label: 'Seriya nomerlar', icon: 'pi pi-barcode', command: () => navigate('/generated') },
-    { label: 'Seriya nomer yaratish', icon: 'pi pi-plus-circle', command: () => navigate('/generation') },
+    { 
+      label: 'Skladga qabul qilish',
+      icon: 'pi pi-warehouse',
+      command: () => navigate('/recieve'),
+      roles: ['warehouse']
+    },
+    { 
+      label: 'Sklad ostatok', 
+      icon: 'pi pi-receipt', 
+      command: () => navigate('/balance'),
+      roles: ['warehouse']
+    },
+    { 
+      label: 'Отгрузка', 
+      icon: 'pi pi-truck', 
+      command: () => navigate('/release'), 
+      roles: ['security']
+    },
+    { 
+      label: 'Seriya nomerlar', 
+      icon: 'pi pi-barcode', 
+      command: () => navigate('/generated'),
+      roles: ['warehouse']
+    },
+    { 
+      label: 'Seriya nomer yaratish', 
+      icon: 'pi pi-plus-circle', 
+      command: () => navigate('/generation'),
+      roles: ['warehouse']
+    },
   ];
+  
+  const userRole = localStorage.getItem('role');
+  const filteredMenuItems = menuItems.filter(item => item.roles.includes(userRole));
 
   return (
     <div className="font-hyundai">
@@ -41,7 +69,7 @@ const MainLayout = ({children, header}) => {
         onHide={() => setVisibleSidebar(false)}
       >
         <Menu 
-          model={menuItems}
+          model={filteredMenuItems}
           className="w-full"
         />
       </Sidebar>

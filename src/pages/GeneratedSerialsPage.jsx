@@ -54,7 +54,7 @@ const GeneratedSerialsPage = () => {
             </select> */}
           </div>
           <Link to='/generation'>
-            <button className="w-full px-4 py-2 text-white bg-[#002A50] rounded-md hover:bg-opacity-90">
+            <button className="w-full px-4 py-2 text-white bg-blue rounded-md hover:bg-opacity-90">
               Generatsiya qilish
             </button>
           </Link>

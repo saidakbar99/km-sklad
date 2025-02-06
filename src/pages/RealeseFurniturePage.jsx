@@ -5,7 +5,6 @@ import { Column } from "primereact/column";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-// import { Checkbox } from "primereact/checkbox";
 
 const RealeseFurniturePage = () => {
   const [selectedItems, setSelectedItems] = useState([]);
@@ -65,7 +64,7 @@ const RealeseFurniturePage = () => {
           </div>
           <Button 
             label="Отгрузка" 
-            className="px-4 text-white bg-[#002A50] rounded-md hover:bg-opacity-90"
+            className="px-4 text-white bg-blue rounded-md hover:bg-opacity-90"
             onClick={handleRelease}
           />
         </div>

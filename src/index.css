@@ -26,3 +26,9 @@
   font-weight: 700;
   font-style: normal;
 }
+
+/* make PrimeReact radio buttons unhidden  */
+.p-radiobutton .p-radiobutton-input {
+  opacity: 1;
+  appearance: auto;
+}

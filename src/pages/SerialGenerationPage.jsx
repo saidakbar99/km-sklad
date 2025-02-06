@@ -3,22 +3,18 @@ import MainLayout from "../components/MainLayout";
 import { AutoComplete } from 'primereact/autocomplete';
 import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
-// import { Button } from "primereact/button";
 import { TabView, TabPanel } from "primereact/tabview";
 import { Link } from "react-router-dom";
+import { RadioButton } from "primereact/radiobutton";
 
 const SerialGenerationPage = () => {
   const [activeIndex, setActiveIndex] = useState(0)
   const [order, setOrder] = useState('123');
   const [mebel, setMebel] = useState('');
+  const [position, setPosition] = useState(null)
   
   return (
     <MainLayout header='Seriya nomer yaratish'>
-      <Link to='/' className="pl-5">
-        <button className="px-4 py-2 text-white bg-[#002A50] rounded-md hover:bg-opacity-90 mb-4">
-          Generatsiya qilinganlar
-        </button>
-      </Link>
       <div className="w-full flex justify-center mb-12">
         <TabView
           activeIndex={activeIndex}
@@ -32,7 +28,7 @@ const SerialGenerationPage = () => {
                   Zakaz nomeri
                 </label>
                 <AutoComplete
-                className="border pl-4 py-3 rounded-lg"
+                  className="border pl-4 py-3 rounded-lg"
                   value={order}
                   suggestions={['11', '2', '3', '4', '5']}
                   // completeMethod={search}
@@ -88,9 +84,8 @@ const SerialGenerationPage = () => {
                 </div>
               </div>
 
-              {/* <Button label='123' /> */}
               <button
-                className="w-full px-4 py-3 text-white bg-[#002A50] rounded-md hover:bg-opacity-90"
+                className="w-full px-4 py-3 text-white bg-blue rounded-md hover:bg-opacity-90"
               >
                 Generatsiya qilish
               </button>
@@ -183,19 +178,35 @@ const SerialGenerationPage = () => {
                 />
               </div>
 
+              <div className="flex flex-col mb-8">
+                <label className="text-sm mb-1.5 font-semibold">
+                  Позиция
+                </label>
+                <div className="flex flex-col flex-wrap gap-3">
+                  <div className="flex align-items-center">
+                      <RadioButton className="opacity-100 !w-5 !h-5"  inputId="ingredient1" onChange={() => setPosition(1)} checked={position === 1} />
+                      <label htmlFor="ingredient1" className="ml-2">I</label>
+                  </div>
+                  <div className="flex align-items-center">
+                      <RadioButton inputId="ingredient2" onChange={() => setPosition(2)} checked={position === 2} />
+                      <label htmlFor="ingredient2" className="ml-2">II</label>
+                  </div>
+                  <div className="flex align-items-center">
+                      <RadioButton inputId="ingredient3" onChange={() => setPosition(3)} checked={position === 3} />
+                      <label htmlFor="ingredient3" className="ml-2">III</label>
+                  </div>
+                </div>
+              </div>
+
               <button
-                className="w-full px-4 py-3 text-white bg-[#002A50] rounded-md hover:bg-opacity-90"
+                className="w-full px-4 py-3 text-white bg-blue rounded-md hover:bg-opacity-90"
               >
                 Generatsiya qilish
               </button>
             </div>
           </TabPanel>
-          
         </TabView>
-        
       </div>
-      {/* <div className="flex justify-between gap-x-12 px-8 pb-8">
-      </div> */}
     </MainLayout>
   );
 }
