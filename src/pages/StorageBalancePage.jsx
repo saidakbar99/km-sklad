@@ -81,8 +81,14 @@ const StorageBalancePage = () => {
 		item.clientId.toLowerCase().includes(searchText.toLowerCase())
 	);
 
-	if (filters.furniture !== "all" || filters.users) {
+	if (filters.furniture !== "all") {
 		filteredData = data.filter((item) => item.furniture === filters.furniture);
+	}
+
+	if (filters.users) {
+		filteredData = data.filter((item) =>
+			item.clientName.toLowerCase().includes(filters.users.toLowerCase())
+		);
 	}
 
 	return (
