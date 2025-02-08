@@ -18,7 +18,6 @@ const SerialGenerationPage = () => {
   const [selectedFurniture, setSelectedFurniture] = useState();
   const [furnitureAmount, setFurnitureAmount] = useState(0)
   const [packageQuantity, setPackageQuantity] = useState(0)
-  const [position, setPosition] = useState(null)
 
   const [allCategories, setAllCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState()
@@ -31,11 +30,9 @@ const SerialGenerationPage = () => {
   const [trees, setTrees] = useState([])
   const [selectedTree, setSelectedTree] = useState()
   const [storeAmount, setStoreAmount] = useState(0) 
-
-  console.log(">>>selectedStoreFurniture",selectedStoreFurniture)
+  const [position, setPosition] = useState(null)
 
   const searchDemands = async (event) => {
-    console.log(">>>e",event.query)
     if ( event.query.length >= 3 ) {
       const response = await axios.post('http://localhost:5000/api/demand', { demandNumber: event.query })
       setDemands(response.data.demands);
@@ -227,9 +224,9 @@ const SerialGenerationPage = () => {
               </div>
 
               <button
-                className="w-full px-4 py-3 text-white bg-blue rounded-md hover:bg-opacity-90"
+                className="w-full px-4 py-3 text-white bg-blue rounded-md"
                 onClick={generateClientSerial}
-                disabled={!selectedFurniture}
+                disabled={!selectedFurniture || !packageQuantity}
               >
                 Generatsiya qilish
               </button>
@@ -349,9 +346,9 @@ const SerialGenerationPage = () => {
               </div>
 
               <button
-                className="w-full px-4 py-3 text-white bg-blue rounded-md hover:bg-opacity-90"
+                className="w-full px-4 py-3 text-white bg-blue rounded-md"
                 onClick={generateStoreSerial}
-                disabled={!selectedStoreFurniture}
+                disabled={!selectedStoreFurniture || !storeAmount || !selectedColor || !selectedTree}
               >
                 Generatsiya qilish
               </button>

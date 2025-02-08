@@ -6,26 +6,26 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const GeneratedSerialsPage = () => {
-  // const [printers, setPrinters] = useState([]);
-  // const [selectedPrinter, setSelectedPrinter] = useState("");
+  const [printers, setPrinters] = useState([]);
+  const [selectedPrinter, setSelectedPrinter] = useState("");
   const [serials, setSerials] = useState([])
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-      // const initializeQZTray = async () => {
-      //   try {
-      //     await connectQZTray();
-      //     const printers = await getPrinters();
-      //     setPrinters(printers);
-      //   } catch (err) {
-      //     setError("Failed to connect to QZ Tray or retrieve printers.");
-      //   } finally {
-      //     setLoading(false);
-      //   }
-      // };
+      const initializeQZTray = async () => {
+        try {
+          // await connectQZTray();
+          // const printers = await getPrinters();
+          // setPrinters(printers);
+        } catch (err) {
+          setError("Failed to connect to QZ Tray or retrieve printers.");
+        } finally {
+          setLoading(false);
+        }
+      };
   
-      // initializeQZTray();
+      initializeQZTray();
       
       const fetchGeneratedSerials = async () => {
         const response = await axios.get("http://localhost:5000/api/serials")
@@ -35,13 +35,13 @@ const GeneratedSerialsPage = () => {
       fetchGeneratedSerials()
     }, []);
   
-    // if (loading) {
-    //   return <div>Loading printers...</div>;
-    // }
+    if (loading) {
+      return <div>Loading printers...</div>;
+    }
   
-    // if (error) {
-    //   return <div>{error}</div>;
-    // }
+    if (error) {
+      return <div>{error}</div>;
+    }
 
   return (
     <MainLayout header='Yaratilgan seriya nomerlar'>
@@ -49,7 +49,7 @@ const GeneratedSerialsPage = () => {
         <div className="mb-6 flex justify-between items-center">
           <div>
             <h2 className="text-lg font-bold">Printerni tanlash</h2>
-            {/* <select
+            <select
               value={selectedPrinter}
               onChange={(e) => setSelectedPrinter(e.target.value)}
               className="border p-3 mt-2 rounded-lg"
@@ -60,7 +60,7 @@ const GeneratedSerialsPage = () => {
                   {printer}
                 </option>
               ))}
-            </select> */}
+            </select>
           </div>
           <Link to='/generation'>
             <button className="w-full px-4 py-2 text-white bg-blue rounded-md hover:bg-opacity-90">
@@ -71,7 +71,7 @@ const GeneratedSerialsPage = () => {
         {serials.length ? (
           serials.map(serial => {
             return (
-              <GeneratedSerial selectedPrinter={'selectedPrinter'} />
+              <GeneratedSerial key={serial.id} selectedPrinter={'selectedPrinter'} />
             )
           })
         ) : (
