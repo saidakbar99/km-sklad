@@ -2,33 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
-@import 'primereact/resources/themes/mira/theme.css';
+@import "primereact/resources/themes/mira/theme.css";
 @import "primereact/resources/primereact.min.css";
-@import 'primeicons/primeicons.css';
+@import "primeicons/primeicons.css";
 
 @font-face {
-  font-family: 'HyundaiSans';
-  src: url('/src/assets/fonts/HyundaiSansTextOffice-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
+	font-family: "HyundaiSans";
+	src: url("/src/assets/fonts/HyundaiSansTextOffice-Regular.woff2")
+		format("woff2");
+	font-weight: 400;
+	font-style: normal;
 }
 
 @font-face {
-  font-family: 'HyundaiSans';
-  src: url('/src/assets/fonts/HyundaiSansTextOffice-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
+	font-family: "HyundaiSans";
+	src: url("/src/assets/fonts/HyundaiSansTextOffice-Medium.woff2")
+		format("woff2");
+	font-weight: 500;
+	font-style: normal;
 }
 
 @font-face {
-  font-family: 'HyundaiSans';
-  src: url('/src/assets/fonts/HyundaiSansTextOffice-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
+	font-family: "HyundaiSans";
+	src: url("/src/assets/fonts/HyundaiSansTextOffice-Bold.woff2") format("woff2");
+	font-weight: 700;
+	font-style: normal;
 }
 
 /* make PrimeReact radio buttons unhidden  */
 .p-radiobutton .p-radiobutton-input {
-  opacity: 1;
-  appearance: auto;
+	opacity: 1;
+	appearance: auto;
+}
+
+.selected-row {
+	background-color: #f0f8ff !important;
 }
