@@ -11,10 +11,9 @@ import { toast } from "react-toastify";
 
 const SerialGenerationPage = () => {
   const navigate = useNavigate();
-  const [activeIndex, setActiveIndex] = useState(1)
+  const [activeIndex, setActiveIndex] = useState(0)
   const [demands, setDemands] = useState([]);
   const [selectedDemand, setSelectedDemand] = useState();
-  const [mebel, setMebel] = useState([]);
   const [clientFurniture, setClientFurniture] = useState([]);
   const [selectedFurniture, setSelectedFurniture] = useState();
   const [furnitureAmount, setFurnitureAmount] = useState(0)
@@ -26,20 +25,21 @@ const SerialGenerationPage = () => {
   const [sets, setSets] = useState([])
   const [selectedSet, setSelectedSet] = useState()
   const [storeFurniture, setStoreFurniture] = useState([])
-  const [selectedStoreFurniture, setSelectedStoreFurniture] = useState([])
+  const [selectedStoreFurniture, setSelectedStoreFurniture] = useState()
   const [colors, setColors] = useState([])
-  const [selectedColors, setSelectedColors] = useState()
+  const [selectedColor, setSelectedColor] = useState()
   const [trees, setTrees] = useState([])
   const [selectedTree, setSelectedTree] = useState()
+  const [storeAmount, setStoreAmount] = useState(0) 
+
+  console.log(">>>selectedStoreFurniture",selectedStoreFurniture)
 
   const searchDemands = async (event) => {
-    const response = await axios.post('http://localhost:5000/api/demand', { demandNumber: event.query })
-    setDemands(response.data.demands);
-  }
-
-  const searchColors = async (event) => {
-    const response = await axios.post("http://localhost:5000/api/colors", { colorName: event.query })
-    setColors(response.data.colors)
+    console.log(">>>e",event.query)
+    if ( event.query.length >= 3 ) {
+      const response = await axios.post('http://localhost:5000/api/demand', { demandNumber: event.query })
+      setDemands(response.data.demands);
+    }
   }
 
   const handleClientFurnitureSelect = async () => {
@@ -78,10 +78,22 @@ const SerialGenerationPage = () => {
     setClientFurniture(finalFurniture);
   }
 
+  const handleStoreSetSelect = async (category) => {
+    setSelectedCategory(category)
+    const getSets = await axios.post("http://localhost:5000/api/set", { categoryId: category.id})
+    setSets(getSets.data.sets)
+  }
+
+  const handleStoreFurnitureSelect = async (set) => {
+    setSelectedSet(set)
+    const getFurnitures = await axios.post("http://localhost:5000/api/furnitures", { setId: set.id})
+    setStoreFurniture(getFurnitures.data.furnitures)
+  }
+
   const generateClientSerial = async () => {
     try {
       await Promise.all([
-        axios.post("http://localhost:5000/api/unique", {
+        axios.put("http://localhost:5000/api/unique", {
           packageQuantity: packageQuantity, 
           uniqueId: selectedFurniture.unique_id
         }),
@@ -101,34 +113,18 @@ const SerialGenerationPage = () => {
     }
   }
 
-  const handleStoreSetSelect = async (category) => {
-    setSelectedCategory(category)
-    const getSets = await axios.post("http://localhost:5000/api/set", { categoryId: category.id})
-    setSets(getSets.data.sets)
-  }
-
-  const handleStoreFurnitureSelect = async (set) => {
-    setSelectedSet(set)
-    const getFurnitures = await axios.post("http://localhost:5000/api/furnitures", { setId: set.id})
-    setStoreFurniture(getFurnitures.data.furnitures)
-    console.log('>>>getFurnitures', storeFurniture)
-  }
-
   const generateStoreSerial = async () => {
     try {
-      // await Promise.all([
-      //   axios.post("http://localhost:5000/api/unique", {
-      //     packageQuantity: packageQuantity, 
-      //     uniqueId: selectedFurniture.unique_id
-      //   }),
-      //   axios.post("http://localhost:5000/api/vipusk", {
-      //     furnitureId: selectedFurniture.id,
-      //     uniqueId: selectedFurniture.unique_id,
-      //     amount: selectedFurniture.amount,
-      //     date: new Date().toISOString(),
-      //     demandFurnitureId: selectedFurniture.demand_furniture_id
-      //   })
-      // ]);
+      await Promise.all([
+        axios.post("http://localhost:5000/api/supermarket-generation", {
+          treeId: selectedTree.id, 
+          colorId: selectedColor.id,
+          positionId: position,
+          furnitureId: selectedStoreFurniture.id,
+          amount: storeAmount,
+          date: new Date().toISOString()
+        }),
+      ]);
 
       navigate('/generated')
     } catch (error) {
@@ -140,11 +136,18 @@ const SerialGenerationPage = () => {
   useEffect(() => {
     const getAllCategories = async () => {
       if (activeIndex === 1) {
-        const response = await axios.get('http://localhost:5000/api/categories')
-        setAllCategories(response.data.categories)
+        try {
+          const categories = await axios.get('http://localhost:5000/api/categories')
+          setAllCategories(categories.data.categories)
 
-        const trees = await axios.get('http://localhost:5000/api/tree')
-        setTrees(trees.data.trees)
+          const trees = await axios.get('http://localhost:5000/api/trees')
+          setTrees(trees.data.trees)
+
+          const colors = await axios.get('http://localhost:5000/api/colors')
+          setColors(colors.data.colors)
+        } catch (error) {
+          console.log("Error:", error)
+        }
       }
     }
 
@@ -172,8 +175,8 @@ const SerialGenerationPage = () => {
                   virtualScrollerOptions={{ itemSize: 38 }} 
                   onChange={(e) => setSelectedDemand(e.value)}
                   onSelect={handleClientFurnitureSelect}
-                  className="w-full border rounded-lg pl-4 py-2"
-                  dropdown
+                  className="w-full border rounded-lg pl-4 pr-8 py-2"
+                  inputClassName="w-full"
                 />
               </div>
               
@@ -233,7 +236,7 @@ const SerialGenerationPage = () => {
               
             </div>
           </TabPanel>
-          <TabPanel header={<span className={`pb-2 ${activeIndex === 1 ? 'border-b-2 border-blue-500' : ''}`}>Magazin</span>}>
+          <TabPanel header={<span className={`pb-2 ${activeIndex === 1 ? 'border-b-2 border-blue-500' : ''}`}>Supermarket</span>}>
             <div className="w-full">
               <div className="flex flex-col mb-8">
                 <label className="text-sm mb-1.5 font-semibold">
@@ -286,10 +289,8 @@ const SerialGenerationPage = () => {
                   Soni
                 </label>
                 <InputNumber
-                  value={mebel} 
-                  onChange={(e) => setMebel(e.value)} 
-                  optionLabel="name" 
-                  placeholder="Mebel tanlang" 
+                  value={storeAmount} 
+                  onChange={(e) => setStoreAmount(e.value)} 
                   className="w-fit px-4 py-3 mr-2"
                   style={{border: '1px solid #ced4da', borderRadius: '0.5rem'}}
                 />
@@ -299,23 +300,15 @@ const SerialGenerationPage = () => {
                 <label className="text-sm mb-1.5 font-semibold">
                   Rangi
                 </label>
-                {/* <AutoComplete
-                  value={mebel} 
-                  onChange={(e) => setMebel(e.value)} 
-                  options={['bosfor', 'bosfor2', 'bosfor3']} 
-                  optionLabel="name" 
+                <Dropdown 
+                  value={selectedColor} 
+                  onChange={(e) => setSelectedColor(e.value)}
+                  options={colors}
                   placeholder="Rangni tanlang" 
-                  className="w-full border rounded-lg" 
-                /> */}
-                <AutoComplete 
-                  value={selectedColors} 
-                  suggestions={colors.map(item => item.name)} 
-                  completeMethod={searchColors}
-                  virtualScrollerOptions={{ itemSize: 38 }} 
-                  onChange={(e) => setSelectedColors(e.value)}
-                  // onSelect={handleClientFurnitureSelect}
-                  className="w-full border rounded-lg pl-4 py-2"
-                  dropdown
+                  optionLabel="name" 
+                  className="w-full border rounded-lg"
+                  disabled={!colors.length}
+                  loading={!colors.length}
                 />
               </div>
 
@@ -329,7 +322,9 @@ const SerialGenerationPage = () => {
                   options={trees} 
                   optionLabel="name" 
                   placeholder="Daraxtni tanlang" 
-                  className="w-full border rounded-lg" 
+                  className="w-full border rounded-lg"
+                  disabled={!trees.length}
+                  loading={!trees.length}
                 />
               </div>
 
@@ -356,6 +351,7 @@ const SerialGenerationPage = () => {
               <button
                 className="w-full px-4 py-3 text-white bg-blue rounded-md hover:bg-opacity-90"
                 onClick={generateStoreSerial}
+                disabled={!selectedStoreFurniture}
               >
                 Generatsiya qilish
               </button>
