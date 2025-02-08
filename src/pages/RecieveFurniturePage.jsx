@@ -5,6 +5,7 @@ import { Column } from "primereact/column";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
+import ExportButton from "../components/ExcelButton";
 
 const RecieveFurniturePage = () => {
   const [selectedItems, setSelectedItems] = useState([]);
@@ -61,10 +62,11 @@ const RecieveFurniturePage = () => {
               placeholder="Qidirish..."
               className="px-4 py-2 border w-full mx-4"
             />
+            <ExportButton data={filteredData} fileName='Склад Кабул' />
           </div>
           <Button 
             label="Qabul qilish" 
-            className="px-4 text-white bg-blue rounded-md hover:bg-opacity-90 w-[200px]"
+            className="px-4 text-white min-w-[100px] bg-blue rounded-md hover:bg-opacity-90 w-[200px] ml-4"
             onClick={handleRecieve}
           />
         </div>
@@ -73,7 +75,10 @@ const RecieveFurniturePage = () => {
           value={filteredData}
           selection={selectedItems} 
           onSelectionChange={onSelectionChange} 
-          selectionMode="multiple" 
+          selectionMode="multiple"
+          paginator 
+          rows={10} 
+          rowsPerPageOptions={[10, 25, 50, 100]}
         >
           <Column selectionMode="multiple" headerStyle={{ width: "3rem" }} />
           <Column field="id" header="N" />

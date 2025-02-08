@@ -1,16 +1,155 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import MainLayout from "../components/MainLayout";
-import { AutoComplete } from 'primereact/autocomplete';
 import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
 import { TabView, TabPanel } from "primereact/tabview";
 import { RadioButton } from "primereact/radiobutton";
+import { AutoComplete } from 'primereact/autocomplete';
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SerialGenerationPage = () => {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [order, setOrder] = useState('123');
-  const [mebel, setMebel] = useState('');
+  const navigate = useNavigate();
+  const [activeIndex, setActiveIndex] = useState(1)
+  const [demands, setDemands] = useState([]);
+  const [selectedDemand, setSelectedDemand] = useState();
+  const [mebel, setMebel] = useState([]);
+  const [clientFurniture, setClientFurniture] = useState([]);
+  const [selectedFurniture, setSelectedFurniture] = useState();
+  const [furnitureAmount, setFurnitureAmount] = useState(0)
+  const [packageQuantity, setPackageQuantity] = useState(0)
   const [position, setPosition] = useState(null)
+
+  const [allCategories, setAllCategories] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState()
+  const [sets, setSets] = useState([])
+  const [selectedSet, setSelectedSet] = useState()
+  const [storeFurniture, setStoreFurniture] = useState([])
+  const [selectedStoreFurniture, setSelectedStoreFurniture] = useState([])
+  const [colors, setColors] = useState([])
+  const [selectedColors, setSelectedColors] = useState()
+  const [trees, setTrees] = useState([])
+  const [selectedTree, setSelectedTree] = useState()
+
+  const searchDemands = async (event) => {
+    const response = await axios.post('http://localhost:5000/api/demand', { demandNumber: event.query })
+    setDemands(response.data.demands);
+  }
+
+  const searchColors = async (event) => {
+    const response = await axios.post("http://localhost:5000/api/colors", { colorName: event.query })
+    setColors(response.data.colors)
+  }
+
+  const handleClientFurnitureSelect = async () => {
+    const response = await axios.post('http://localhost:5000/api/demand-furniture', { demandId: demands[0].id });
+    const { furnitures } = response.data
+
+    const furnitureResponses = await Promise.all(
+      furnitures.map((item) =>
+        axios.post("http://localhost:5000/api/furniture", { furnitureId: item.furniture_id })
+      )
+    );
+    const furnitureData = furnitureResponses.map((res) => res.data.furniture);
+
+    const categoryResponses = await Promise.all(
+      furnitureData.map((item) =>
+        axios.post("http://localhost:5000/api/category-furniture", { categoryId: item.category_id })
+      )
+    );
+    const categoryData = categoryResponses.map((res) => res.data.category);
+
+    const setResponses = await Promise.all(
+      furnitures.map((item) =>
+        axios.post("http://localhost:5000/api/set-furniture", { furnitureId: item.furniture_id })
+      )
+    );
+    const setData = setResponses.map((res) => res.data.set)
+
+    const finalFurniture = furnitureData.map((furniture, index) => ({
+      ...furniture,
+      name: `${categoryData[index].name} ${furniture.name} ${setData[index].name} `,
+      amount: furnitures[index].amount,
+      unique_id: furnitures[index].unique_id,
+      demand_furniture_id: furnitures[index].id
+    }));
+
+    setClientFurniture(finalFurniture);
+  }
+
+  const generateClientSerial = async () => {
+    try {
+      await Promise.all([
+        axios.post("http://localhost:5000/api/unique", {
+          packageQuantity: packageQuantity, 
+          uniqueId: selectedFurniture.unique_id
+        }),
+        axios.post("http://localhost:5000/api/vipusk", {
+          furnitureId: selectedFurniture.id,
+          uniqueId: selectedFurniture.unique_id,
+          amount: selectedFurniture.amount,
+          date: new Date().toISOString(),
+          demandFurnitureId: selectedFurniture.demand_furniture_id
+        })
+      ]);
+
+      navigate('/generated')
+    } catch (error) {
+      console.log('Error:', error)
+      toast.error('Seriya nomer yaratishda xatolik!')
+    }
+  }
+
+  const handleStoreSetSelect = async (category) => {
+    setSelectedCategory(category)
+    const getSets = await axios.post("http://localhost:5000/api/set", { categoryId: category.id})
+    setSets(getSets.data.sets)
+  }
+
+  const handleStoreFurnitureSelect = async (set) => {
+    setSelectedSet(set)
+    const getFurnitures = await axios.post("http://localhost:5000/api/furnitures", { setId: set.id})
+    setStoreFurniture(getFurnitures.data.furnitures)
+    console.log('>>>getFurnitures', storeFurniture)
+  }
+
+  const generateStoreSerial = async () => {
+    try {
+      // await Promise.all([
+      //   axios.post("http://localhost:5000/api/unique", {
+      //     packageQuantity: packageQuantity, 
+      //     uniqueId: selectedFurniture.unique_id
+      //   }),
+      //   axios.post("http://localhost:5000/api/vipusk", {
+      //     furnitureId: selectedFurniture.id,
+      //     uniqueId: selectedFurniture.unique_id,
+      //     amount: selectedFurniture.amount,
+      //     date: new Date().toISOString(),
+      //     demandFurnitureId: selectedFurniture.demand_furniture_id
+      //   })
+      // ]);
+
+      navigate('/generated')
+    } catch (error) {
+      console.log('Error:', error)
+      toast.error('Seriya nomer yaratishda xatolik!')
+    }
+  }
+
+  useEffect(() => {
+    const getAllCategories = async () => {
+      if (activeIndex === 1) {
+        const response = await axios.get('http://localhost:5000/api/categories')
+        setAllCategories(response.data.categories)
+
+        const trees = await axios.get('http://localhost:5000/api/tree')
+        setTrees(trees.data.trees)
+      }
+    }
+
+    getAllCategories()
+  }, [activeIndex])
   
   return (
     <MainLayout header='Seriya nomer yaratish'>
@@ -18,7 +157,7 @@ const SerialGenerationPage = () => {
         <TabView
           activeIndex={activeIndex}
           onTabChange={(e) => setActiveIndex(e.index)}
-          className="border-none w-full"
+          className="border-none w-full max-w-[760px] mx-auto"
         >
           <TabPanel header={<span className={`pb-2 ${activeIndex === 0 ? 'border-b-2 border-blue-500' : ''}`}>Mijozniki</span>}>
             <div className="w-full">
@@ -26,12 +165,14 @@ const SerialGenerationPage = () => {
                 <label className="text-sm mb-1.5 font-semibold">
                   Zakaz nomeri
                 </label>
-                <AutoComplete
-                  className="border pl-4 py-3 rounded-lg"
-                  value={order}
-                  suggestions={['11', '2', '3', '4', '5']}
-                  // completeMethod={search}
-                  onChange={(e) => setOrder(e.value)}
+                <AutoComplete 
+                  value={selectedDemand} 
+                  suggestions={demands.map(item => item.doc_no)} 
+                  completeMethod={searchDemands}
+                  virtualScrollerOptions={{ itemSize: 38 }} 
+                  onChange={(e) => setSelectedDemand(e.value)}
+                  onSelect={handleClientFurnitureSelect}
+                  className="w-full border rounded-lg pl-4 py-2"
                   dropdown
                 />
               </div>
@@ -41,12 +182,14 @@ const SerialGenerationPage = () => {
                   Mebel
                 </label>
                 <Dropdown
-                  value={mebel} 
-                  onChange={(e) => setMebel(e.value)} 
-                  options={['bosfor', 'bosfor2', 'bosfor3']} 
+                  value={selectedFurniture} 
+                  onChange={(e) => setSelectedFurniture(e.value)}
+                  options={clientFurniture}
+                  disabled={!clientFurniture.length}
                   optionLabel="name" 
                   placeholder="Mebel tanlang" 
-                  className="w-full border rounded-lg" 
+                  className="w-full border rounded-lg"
+                  loading={!clientFurniture.length && selectedDemand}
                 />
               </div>
 
@@ -56,10 +199,9 @@ const SerialGenerationPage = () => {
                 </label>
                 <div className="flex items-end">
                   <InputNumber
-                    value={mebel} 
-                    onChange={(e) => setMebel(e.value)} 
-                    optionLabel="name" 
-                    placeholder="Mebel tanlang" 
+                    value={!!furnitureAmount ? furnitureAmount : selectedFurniture?.amount} 
+                    onChange={(e) => setFurnitureAmount(e.value)} 
+                    optionLabel="amount" 
                     className="w-fit px-4 py-3 mr-2"
                     style={{border: '1px solid #ced4da', borderRadius: '0.5rem'}}
                   />
@@ -73,10 +215,8 @@ const SerialGenerationPage = () => {
                 </label>
                 <div className="flex items-end">
                   <InputNumber
-                    value={mebel} 
-                    onChange={(e) => setMebel(e.value)} 
-                    optionLabel="name" 
-                    placeholder="Mebel tanlang" 
+                    value={packageQuantity} 
+                    onChange={(e) => setPackageQuantity(e.value)} 
                     className="w-fit px-4 py-3 mr-2"
                     style={{border: '1px solid #ced4da', borderRadius: '0.5rem'}}
                   />
@@ -85,6 +225,8 @@ const SerialGenerationPage = () => {
 
               <button
                 className="w-full px-4 py-3 text-white bg-blue rounded-md hover:bg-opacity-90"
+                onClick={generateClientSerial}
+                disabled={!selectedFurniture}
               >
                 Generatsiya qilish
               </button>
@@ -98,9 +240,9 @@ const SerialGenerationPage = () => {
                   Kategoriya
                 </label>
                 <Dropdown
-                  value={mebel} 
-                  onChange={(e) => setMebel(e.value)} 
-                  options={['bosfor', 'bosfor2', 'bosfor3']} 
+                  value={selectedCategory} 
+                  onChange={(e) => handleStoreSetSelect(e.value)}
+                  options={allCategories} 
                   optionLabel="name" 
                   placeholder="Kategoriya tanlang" 
                   className="w-full border rounded-lg" 
@@ -112,12 +254,14 @@ const SerialGenerationPage = () => {
                   Komplekt
                 </label>
                 <Dropdown
-                  value={mebel} 
-                  onChange={(e) => setMebel(e.value)} 
-                  options={['bosfor', 'bosfor2', 'bosfor3']} 
+                  value={selectedSet} 
+                  onChange={(e) => handleStoreFurnitureSelect(e.value)} 
+                  options={sets} 
                   optionLabel="name" 
                   placeholder="Komplektni tanlang" 
-                  className="w-full border rounded-lg" 
+                  className="w-full border rounded-lg"
+                  disabled={!sets.length}
+                  loading={!sets.length && selectedCategory}
                 />
               </div>
 
@@ -126,12 +270,14 @@ const SerialGenerationPage = () => {
                   Mebel
                 </label>
                 <Dropdown
-                  value={mebel} 
-                  onChange={(e) => setMebel(e.value)} 
-                  options={['bosfor', 'bosfor2', 'bosfor3']} 
+                  value={selectedStoreFurniture} 
+                  onChange={(e) => setSelectedStoreFurniture(e.value)} 
+                  options={storeFurniture} 
                   optionLabel="name" 
                   placeholder="Mebelni tanlang" 
-                  className="w-full border rounded-lg" 
+                  className="w-full border rounded-lg"
+                  disabled={!storeFurniture.length}
+                  loading={!storeFurniture.length && selectedSet }
                 />
               </div>
 
@@ -153,13 +299,23 @@ const SerialGenerationPage = () => {
                 <label className="text-sm mb-1.5 font-semibold">
                   Rangi
                 </label>
-                <Dropdown
+                {/* <AutoComplete
                   value={mebel} 
                   onChange={(e) => setMebel(e.value)} 
                   options={['bosfor', 'bosfor2', 'bosfor3']} 
                   optionLabel="name" 
                   placeholder="Rangni tanlang" 
                   className="w-full border rounded-lg" 
+                /> */}
+                <AutoComplete 
+                  value={selectedColors} 
+                  suggestions={colors.map(item => item.name)} 
+                  completeMethod={searchColors}
+                  virtualScrollerOptions={{ itemSize: 38 }} 
+                  onChange={(e) => setSelectedColors(e.value)}
+                  // onSelect={handleClientFurnitureSelect}
+                  className="w-full border rounded-lg pl-4 py-2"
+                  dropdown
                 />
               </div>
 
@@ -168,9 +324,9 @@ const SerialGenerationPage = () => {
                   Daraxt
                 </label>
                 <Dropdown
-                  value={mebel} 
-                  onChange={(e) => setMebel(e.value)} 
-                  options={['bosfor', 'bosfor2', 'bosfor3']} 
+                  value={selectedTree} 
+                  onChange={(e) => setSelectedTree(e.value)} 
+                  options={trees} 
                   optionLabel="name" 
                   placeholder="Daraxtni tanlang" 
                   className="w-full border rounded-lg" 
@@ -199,6 +355,7 @@ const SerialGenerationPage = () => {
 
               <button
                 className="w-full px-4 py-3 text-white bg-blue rounded-md hover:bg-opacity-90"
+                onClick={generateStoreSerial}
               >
                 Generatsiya qilish
               </button>

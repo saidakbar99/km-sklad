@@ -1,30 +1,39 @@
-// import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GeneratedSerial } from "../components/GeneratedSerial";
 // import { connectQZTray, getPrinters } from "../utils/qzHelper";
 import MainLayout from "../components/MainLayout";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const GeneratedSerialsPage = () => {
   // const [printers, setPrinters] = useState([]);
   // const [selectedPrinter, setSelectedPrinter] = useState("");
+  const [serials, setSerials] = useState([])
   // const [loading, setLoading] = useState(true);
   // const [error, setError] = useState(null);
 
-  // useEffect(() => {
-  //     const initializeQZTray = async () => {
-  //       try {
-  //         await connectQZTray();
-  //         const printers = await getPrinters();
-  //         setPrinters(printers);
-  //       } catch (err) {
-  //         setError("Failed to connect to QZ Tray or retrieve printers.");
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     };
+  useEffect(() => {
+      // const initializeQZTray = async () => {
+      //   try {
+      //     await connectQZTray();
+      //     const printers = await getPrinters();
+      //     setPrinters(printers);
+      //   } catch (err) {
+      //     setError("Failed to connect to QZ Tray or retrieve printers.");
+      //   } finally {
+      //     setLoading(false);
+      //   }
+      // };
   
-  //     initializeQZTray();
-  //   }, []);
+      // initializeQZTray();
+      
+      const fetchGeneratedSerials = async () => {
+        const response = await axios.get("http://localhost:5000/api/serials")
+        setSerials(response.data.serials)
+      }
+
+      fetchGeneratedSerials()
+    }, []);
   
     // if (loading) {
     //   return <div>Loading printers...</div>;
@@ -36,7 +45,7 @@ const GeneratedSerialsPage = () => {
 
   return (
     <MainLayout header='Yaratilgan seriya nomerlar'>
-      <div className="">
+      <div className="max-w-[1140px] mx-auto">
         <div className="mb-6 flex justify-between items-center">
           <div>
             <h2 className="text-lg font-bold">Printerni tanlash</h2>
@@ -59,11 +68,16 @@ const GeneratedSerialsPage = () => {
             </button>
           </Link>
         </div>
-        <GeneratedSerial selectedPrinter={'selectedPrinter'} />
-        <GeneratedSerial selectedPrinter={'selectedPrinter'} />
-        <GeneratedSerial selectedPrinter={'selectedPrinter'} />
-        <GeneratedSerial selectedPrinter={'selectedPrinter'} />
-        <GeneratedSerial selectedPrinter={'selectedPrinter'} />
+        {serials.length ? (
+          serials.map(serial => {
+            return (
+              <GeneratedSerial selectedPrinter={'selectedPrinter'} />
+            )
+          })
+        ) : (
+          <div>Seriaya nomerlarni yaratilmagan</div>
+        )}
+        
       </div>
     </MainLayout>
   );

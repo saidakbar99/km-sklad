@@ -47,7 +47,7 @@ const MainLayout = ({children, header}) => {
   ];
   
   const userRole = localStorage.getItem('role');
-  const filteredMenuItems = menuItems.filter(item => item.roles.includes(userRole));
+  // const filteredMenuItems = menuItems.filter(item => item.roles.includes(userRole));
 
   return (
     <div className="font-hyundai">
@@ -69,7 +69,8 @@ const MainLayout = ({children, header}) => {
         onHide={() => setVisibleSidebar(false)}
       >
         <Menu 
-          model={filteredMenuItems}
+          // model={filteredMenuItems}
+          model={menuItems}
           className="w-full"
         />
       </Sidebar>

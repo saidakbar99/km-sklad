@@ -5,6 +5,7 @@ import { Column } from "primereact/column";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
+import ExportButton from "../components/ExcelButton";
 
 const RealeseFurniturePage = () => {
   const [selectedItems, setSelectedItems] = useState([]);
@@ -61,10 +62,11 @@ const RealeseFurniturePage = () => {
               placeholder="Qidirish..."
               className="px-4 py-2 border w-full mx-4"
             />
+            <ExportButton data={filteredData} fileName='Отгрузка' />
           </div>
           <Button 
             label="Отгрузка" 
-            className="px-4 text-white bg-blue rounded-md hover:bg-opacity-90"
+            className="px-4 min-w-[100px] text-white bg-blue rounded-md hover:bg-opacity-90 ml-4"
             onClick={handleRelease}
           />
         </div>
@@ -74,7 +76,9 @@ const RealeseFurniturePage = () => {
           selection={selectedItems} 
           onSelectionChange={onSelectionChange} 
           selectionMode="multiple"
-          data
+          paginator 
+          rows={10} 
+          rowsPerPageOptions={[10, 25, 50, 100]}
         >
           <Column selectionMode="multiple" headerStyle={{ width: "3rem" }} />
           <Column field="id" header="N" />

@@ -33,9 +33,10 @@ const LoginPage = () => {
       console.log(role)
       localStorage.setItem('token', access_token);
       // localStorage.setItem('role', role);
+      localStorage.setItem('role', 'warehouse');
 
-      // navigate(roleRedirects[role]);
-      navigate(roleRedirects['warehouse']);
+      navigate(roleRedirects[role]);
+      // navigate(roleRedirects['warehouse']);
     } catch (err) {
       if (err.response?.status === 401) {
         toast.error('Login yoki parol noto‘g‘ri');

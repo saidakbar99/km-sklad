@@ -15,13 +15,13 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   const userRole = localStorage.getItem('role');
   const location = useLocation();
 
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
+  // if (!token) {
+  //   return <Navigate to="/login" replace />;
+  // }
 
-  if (!allowedRoles.includes(userRole)) {
-    return <Navigate to={roleRedirects[userRole] || "/"} state={{ from: location }} replace />;
-  }
+  // if (!allowedRoles.includes(userRole)) {
+  //   return <Navigate to={roleRedirects[userRole] || "/"} state={{ from: location }} replace />;
+  // }
 
   return children;
 };
