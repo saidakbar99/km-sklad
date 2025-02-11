@@ -8,10 +8,14 @@ export const GeneratedSerial = ({selectedPrinter, serial}) => {
 			alert("Please select a printer.");
 			return;
 		}
-		printLabel(selectedPrinter);
-	};
+		const series = serial.unique.name;
+		const order = serial?.demand_furniture?.demand?.doc_no;
+		const name = serial.furniture.category_furniture.name;
+		const color =
+			serial?.unique?.color?.name || serial?.demand_furniture?.color?.name;
 
-	console.log(serial);
+		printLabel({selectedPrinter, series, order, name, color});
+	};
 
 	return (
 		<div className="flex items-center mb-12">
@@ -20,10 +24,18 @@ export const GeneratedSerial = ({selectedPrinter, serial}) => {
 				<div className="">
 					<p className="mb-4 text-4xl">Серия# {serial.unique.name}</p>
 					{serial.demand_furniture && (
-						<p className="mb-4 text-4xl">Заказ# {serial?.demand_furniture?.demand?.doc_no}</p>
+						<p className="mb-4 text-4xl">
+							Заказ# {serial?.demand_furniture?.demand?.doc_no}
+						</p>
 					)}
-					<p className="text-[28px] mb-4">{serial.furniture.category_furniture.name} {serial.furniture.name}</p>
-					<p className="text-lg text-right">Ранги: {serial?.unique?.color?.name || serial?.demand_furniture?.color?.name}</p>
+					<p className="text-[28px] mb-4">
+						{serial.furniture.category_furniture.name} {serial.furniture.name}
+					</p>
+					<p className="text-lg text-right">
+						Ранги:
+						{serial?.unique?.color?.name ||
+							serial?.demand_furniture?.color?.name}
+					</p>
 					<p></p>
 				</div>
 			</div>
