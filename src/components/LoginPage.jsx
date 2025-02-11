@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate  } from "react-router-dom";
 import { toast } from 'react-toastify';
-import { login } from '../api/api';
 import { roleRedirects } from './ProtectedRoute';
+import axiosInstance from '../api/axios';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -27,13 +27,14 @@ const LoginPage = () => {
     }
 
     try {
-      const response = await login({ username, password });
-      const { access_token, role } = response.data.data;
+      const response = await axiosInstance.post(`/auth/login`, { username, password })
+      console.log('>>>res',response)
+      const { token, role } = response.data;
 
       console.log(role)
-      localStorage.setItem('token', access_token);
+      localStorage.setItem('token', token);
       // localStorage.setItem('role', role);
-      localStorage.setItem('role', 'warehouse');
+      localStorage.setItem('role', 'admin');
 
       // navigate(roleRedirects[role]);
       // navigate(roleRedirects['warehouse']);

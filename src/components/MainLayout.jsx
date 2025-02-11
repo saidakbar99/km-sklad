@@ -10,6 +10,7 @@ const MainLayout = ({children, header}) => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
     navigate('/login');
   };
 

@@ -15,7 +15,7 @@ const App = () => (
       <Route
         path="/generation"
         element={
-          <ProtectedRoute allowedRoles={['warehouse']}>
+          <ProtectedRoute allowedRoles={['warehouse', 'admin']}>
             <SerialGenerationPage />
           </ProtectedRoute>
         }
@@ -23,7 +23,7 @@ const App = () => (
       <Route
         path="/generated"
         element={
-          <ProtectedRoute allowedRoles={['warehouse']}>
+          <ProtectedRoute allowedRoles={['warehouse', 'admin']}>
             <GeneratedSerialsPage />
           </ProtectedRoute>
         }
@@ -31,7 +31,7 @@ const App = () => (
       <Route
         path="/recieve"
         element={
-          <ProtectedRoute allowedRoles={['warehouse']}>
+          <ProtectedRoute allowedRoles={['warehouse', 'admin']}>
             <RecieveFurniturePage />
           </ProtectedRoute>
         }
@@ -39,7 +39,7 @@ const App = () => (
       <Route
         path="/release"
         element={
-          <ProtectedRoute allowedRoles={['security']}>
+          <ProtectedRoute allowedRoles={['security', 'admin']}>
             <RealeseFurniturePage />
           </ProtectedRoute>
         }
@@ -47,7 +47,7 @@ const App = () => (
       <Route
         path="/balance"
         element={
-          <ProtectedRoute allowedRoles={['warehouse']}>
+          <ProtectedRoute allowedRoles={['warehouse', 'admin']}>
             <StorageBalancePage />
           </ProtectedRoute>
         }
