@@ -34,32 +34,32 @@ const SerialGenerationPage = () => {
 
   const searchDemands = async (event) => {
     if ( event.query.length >= 3 ) {
-      const response = await axios.post('http://localhost:5000/api/demand', { demandNumber: event.query })
+      const response = await axios.post(`${REACT_APP_BASE_URL}/api/demand`, { demandNumber: event.query })
       setDemands(response.data.demands);
     }
   }
 
   const handleClientFurnitureSelect = async () => {
-    const response = await axios.post('http://localhost:5000/api/demand-furniture', { demandId: demands[0].id });
+    const response = await axios.post(`${REACT_APP_BASE_URL}/api/demand-furniture`, { demandId: demands[0].id });
     const { furnitures } = response.data
 
     const furnitureResponses = await Promise.all(
       furnitures.map((item) =>
-        axios.post("http://localhost:5000/api/furniture", { furnitureId: item.furniture_id })
+        axios.post(`${REACT_APP_BASE_URL}/api/furniture`, { furnitureId: item.furniture_id })
       )
     );
     const furnitureData = furnitureResponses.map((res) => res.data.furniture);
 
     const categoryResponses = await Promise.all(
       furnitureData.map((item) =>
-        axios.post("http://localhost:5000/api/category-furniture", { categoryId: item.category_id })
+        axios.post(`${REACT_APP_BASE_URL}/api/category-furniture`, { categoryId: item.category_id })
       )
     );
     const categoryData = categoryResponses.map((res) => res.data.category);
 
     const setResponses = await Promise.all(
       furnitures.map((item) =>
-        axios.post("http://localhost:5000/api/set-furniture", { furnitureId: item.furniture_id })
+        axios.post(`${REACT_APP_BASE_URL}/api/set-furniture`, { furnitureId: item.furniture_id })
       )
     );
     const setData = setResponses.map((res) => res.data.set)
@@ -77,24 +77,24 @@ const SerialGenerationPage = () => {
 
   const handleStoreSetSelect = async (category) => {
     setSelectedCategory(category)
-    const getSets = await axios.post("http://localhost:5000/api/set", { categoryId: category.id})
+    const getSets = await axios.post(`${REACT_APP_BASE_URL}/api/set`, { categoryId: category.id})
     setSets(getSets.data.sets)
   }
 
   const handleStoreFurnitureSelect = async (set) => {
     setSelectedSet(set)
-    const getFurnitures = await axios.post("http://localhost:5000/api/furnitures", { setId: set.id})
+    const getFurnitures = await axios.post(`${REACT_APP_BASE_URL}/api/furnitures`, { setId: set.id})
     setStoreFurniture(getFurnitures.data.furnitures)
   }
 
   const generateClientSerial = async () => {
     try {
       await Promise.all([
-        axios.put("http://localhost:5000/api/unique", {
+        axios.put(`${REACT_APP_BASE_URL}/api/unique`, {
           packageQuantity: packageQuantity, 
           uniqueId: selectedFurniture.unique_id
         }),
-        axios.post("http://localhost:5000/api/vipusk", {
+        axios.post(`${REACT_APP_BASE_URL}/api/vipusk`, {
           furnitureId: selectedFurniture.id,
           uniqueId: selectedFurniture.unique_id,
           amount: selectedFurniture.amount,
@@ -113,7 +113,7 @@ const SerialGenerationPage = () => {
   const generateStoreSerial = async () => {
     try {
       await Promise.all([
-        axios.post("http://localhost:5000/api/supermarket-generation", {
+        axios.post(`${REACT_APP_BASE_URL}/api/supermarket-generation`, {
           treeId: selectedTree.id, 
           colorId: selectedColor.id,
           positionId: position,
@@ -134,13 +134,13 @@ const SerialGenerationPage = () => {
     const getAllCategories = async () => {
       if (activeIndex === 1) {
         try {
-          const categories = await axios.get('http://localhost:5000/api/categories')
+          const categories = await axios.get(`${REACT_APP_BASE_URL}/api/categories`)
           setAllCategories(categories.data.categories)
 
-          const trees = await axios.get('http://localhost:5000/api/trees')
+          const trees = await axios.get(`${REACT_APP_BASE_URL}/api/trees`)
           setTrees(trees.data.trees)
 
-          const colors = await axios.get('http://localhost:5000/api/colors')
+          const colors = await axios.get(`${REACT_APP_BASE_URL}/api/colors`)
           setColors(colors.data.colors)
         } catch (error) {
           console.log("Error:", error)

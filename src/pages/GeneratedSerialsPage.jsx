@@ -29,7 +29,7 @@ const GeneratedSerialsPage = () => {
 		initializeQZTray();
 
 		const fetchGeneratedSerials = async () => {
-			const response = await axios.get("http://localhost:5000/api/serials");
+			const response = await axios.get(`${REACT_APP_BASE_URL}/api/serials`);
 			setSerials(response.data.serials);
 		};
 
