@@ -22,7 +22,7 @@ export const GeneratedSerial = ({selectedPrinter, serial}) => {
 					{serial.demand_furniture && (
 						<p className="mb-4 text-4xl">Заказ# {serial?.demand_furniture?.demand?.doc_no}</p>
 					)}
-					<p className="text-[28px] mb-4">{serial.furniture.category_furniture.name} KOMPLEKT {serial.furniture.name}</p>
+					<p className="text-[28px] mb-4">{serial.furniture.category_furniture.name} {serial.furniture.name}</p>
 					<p className="text-lg text-right">Ранги: {serial?.unique?.color?.name || serial?.demand_furniture?.color?.name}</p>
 					<p></p>
 				</div>
