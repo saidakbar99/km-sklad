@@ -1,4 +1,4 @@
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 export const roleRedirects = {
   warehouse: "/balance",
@@ -11,9 +11,9 @@ export const DefaultRedirect = () => {
 };
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
-  const token = localStorage.getItem('token');
-  const userRole = localStorage.getItem('role');
-  const location = useLocation();
+  // const token = localStorage.getItem('token');
+  // const userRole = localStorage.getItem('role');
+  // const location = useLocation();
 
   // if (!token) {
   //   return <Navigate to="/login" replace />;

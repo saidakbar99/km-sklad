@@ -10,72 +10,62 @@ import {useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 
 const SerialGenerationPage = () => {
-	const navigate = useNavigate();
-	const [activeIndex, setActiveIndex] = useState(0);
-	const [demands, setDemands] = useState([]);
-	const [selectedDemand, setSelectedDemand] = useState();
-	const [clientFurniture, setClientFurniture] = useState([]);
-	const [selectedFurniture, setSelectedFurniture] = useState();
-	const [furnitureAmount, setFurnitureAmount] = useState(0);
-	const [packageQuantity, setPackageQuantity] = useState(0);
+  const navigate = useNavigate();
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [demands, setDemands] = useState([]);
+  const [selectedDemand, setSelectedDemand] = useState();
+  const [clientFurniture, setClientFurniture] = useState([]);
+  const [selectedFurniture, setSelectedFurniture] = useState();
+  const [furnitureAmount, setFurnitureAmount] = useState(0)
+  const [packageQuantity, setPackageQuantity] = useState(0)
+  const [position, setPosition] = useState(null)
 
-	const [allCategories, setAllCategories] = useState([]);
-	const [selectedCategory, setSelectedCategory] = useState();
-	const [sets, setSets] = useState([]);
-	const [selectedSet, setSelectedSet] = useState();
-	const [storeFurniture, setStoreFurniture] = useState([]);
-	const [selectedStoreFurniture, setSelectedStoreFurniture] = useState();
-	const [colors, setColors] = useState([]);
-	const [selectedColor, setSelectedColor] = useState();
-	const [trees, setTrees] = useState([]);
-	const [selectedTree, setSelectedTree] = useState();
-	const [storeAmount, setStoreAmount] = useState(0);
-	const [position, setPosition] = useState(null);
-	const [searchSetsFilter, setSearchSetsFilter] = useState([]);
-	const [searchStoreFurniture, setSearchStoreFurniture] = useState([]);
+  const [allCategories, setAllCategories] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState()
+  const [sets, setSets] = useState([])
+  const [selectedSet, setSelectedSet] = useState()
+  const [storeFurniture, setStoreFurniture] = useState([])
+  const [selectedStoreFurniture, setSelectedStoreFurniture] = useState()
+  const [colors, setColors] = useState([])
+  const [selectedColor, setSelectedColor] = useState()
+  const [trees, setTrees] = useState([])
+  const [selectedTree, setSelectedTree] = useState()
+  const [storeAmount, setStoreAmount] = useState(0) 
 
-	const searchDemands = async (event) => {
-		if (event.query.length >= 3) {
-			const response = await axios.post("http://localhost:5000/api/demand", {
-				demandNumber: event.query,
-			});
-			setDemands(response.data.demands);
-		}
-	};
+  console.log(">>>selectedStoreFurniture",selectedStoreFurniture)
 
-	const handleClientFurnitureSelect = async () => {
-		const response = await axios.post(
-			"http://localhost:5000/api/demand-furniture",
-			{demandId: demands[0].id}
-		);
-		const {furnitures} = response.data;
+  const searchDemands = async (event) => {
+    console.log(">>>e",event.query)
+    if ( event.query.length >= 3 ) {
+      const response = await axios.post('http://localhost:5000/api/demand', { demandNumber: event.query })
+      setDemands(response.data.demands);
+    }
+  }
 
-		const furnitureResponses = await Promise.all(
-			furnitures.map((item) =>
-				axios.post("http://localhost:5000/api/furniture", {
-					furnitureId: item.furniture_id,
-				})
-			)
-		);
-		const furnitureData = furnitureResponses.map((res) => res.data.furniture);
+  const handleClientFurnitureSelect = async () => {
+    const response = await axios.post('http://localhost:5000/api/demand-furniture', { demandId: demands[0].id });
+    const { furnitures } = response.data
 
-		const categoryResponses = await Promise.all(
-			furnitureData.map((item) =>
-				axios.post("http://localhost:5000/api/category-furniture", {
-					categoryId: item.category_id,
-				})
-			)
-		);
-		const categoryData = categoryResponses.map((res) => res.data.category);
+    const furnitureResponses = await Promise.all(
+      furnitures.map((item) =>
+        axios.post("http://localhost:5000/api/furniture", { furnitureId: item.furniture_id })
+      )
+    );
+    const furnitureData = furnitureResponses.map((res) => res.data.furniture);
 
-		const setResponses = await Promise.all(
-			furnitures.map((item) =>
-				axios.post("http://localhost:5000/api/set-furniture", {
-					furnitureId: item.furniture_id,
-				})
-			)
-		);
-		const setData = setResponses.map((res) => res.data.set);
+    const categoryResponses = await Promise.all(
+      furnitureData.map((item) =>
+        axios.post("http://localhost:5000/api/category-furniture", { categoryId: item.category_id })
+      )
+    );
+    const categoryData = categoryResponses.map((res) => res.data.category);
+
+    const setResponses = await Promise.all(
+      furnitures.map((item) =>
+        axios.post("http://localhost:5000/api/set-furniture", { furnitureId: item.furniture_id })
+      )
+    );
+    const setData = setResponses.map((res) => res.data.set)
 
 		const finalFurniture = furnitureData.map((furniture, index) => ({
 			...furniture,
@@ -88,38 +78,33 @@ const SerialGenerationPage = () => {
 		setClientFurniture(finalFurniture);
 	};
 
-	const handleStoreSetSelect = async (category) => {
-		setSelectedCategory(category);
-		const getSets = await axios.post("http://localhost:5000/api/set", {
-			categoryId: category.id,
-		});
-		setSets(getSets.data.sets);
-	};
+  const handleStoreSetSelect = async (category) => {
+    setSelectedCategory(category)
+    const getSets = await axios.post("http://localhost:5000/api/set", { categoryId: category.id})
+    setSets(getSets.data.sets)
+  }
 
-	const handleStoreFurnitureSelect = async (set) => {
-		setSelectedSet(set);
-		const getFurnitures = await axios.post(
-			"http://localhost:5000/api/furnitures",
-			{setId: set.id}
-		);
-		setStoreFurniture(getFurnitures.data.furnitures);
-	};
+  const handleStoreFurnitureSelect = async (set) => {
+    setSelectedSet(set)
+    const getFurnitures = await axios.post("http://localhost:5000/api/furnitures", { setId: set.id})
+    setStoreFurniture(getFurnitures.data.furnitures)
+  }
 
-	const generateClientSerial = async () => {
-		try {
-			await Promise.all([
-				axios.put("http://localhost:5000/api/unique", {
-					packageQuantity: packageQuantity,
-					uniqueId: selectedFurniture.unique_id,
-				}),
-				axios.post("http://localhost:5000/api/vipusk", {
-					furnitureId: selectedFurniture.id,
-					uniqueId: selectedFurniture.unique_id,
-					amount: selectedFurniture.amount,
-					date: new Date().toISOString(),
-					demandFurnitureId: selectedFurniture.demand_furniture_id,
-				}),
-			]);
+  const generateClientSerial = async () => {
+    try {
+      await Promise.all([
+        axios.put("http://localhost:5000/api/unique", {
+          packageQuantity: packageQuantity, 
+          uniqueId: selectedFurniture.unique_id
+        }),
+        axios.post("http://localhost:5000/api/vipusk", {
+          furnitureId: selectedFurniture.id,
+          uniqueId: selectedFurniture.unique_id,
+          amount: selectedFurniture.amount,
+          date: new Date().toISOString(),
+          demandFurnitureId: selectedFurniture.demand_furniture_id
+        })
+      ]);
 
 			navigate("/generated");
 		} catch (error) {
@@ -128,18 +113,18 @@ const SerialGenerationPage = () => {
 		}
 	};
 
-	const generateStoreSerial = async () => {
-		try {
-			await Promise.all([
-				axios.post("http://localhost:5000/api/supermarket-generation", {
-					treeId: selectedTree.id,
-					colorId: selectedColor.id,
-					positionId: position,
-					furnitureId: selectedStoreFurniture.id,
-					amount: storeAmount,
-					date: new Date().toISOString(),
-				}),
-			]);
+  const generateStoreSerial = async () => {
+    try {
+      await Promise.all([
+        axios.post("http://localhost:5000/api/supermarket-generation", {
+          treeId: selectedTree.id, 
+          colorId: selectedColor.id,
+          positionId: position,
+          furnitureId: selectedStoreFurniture.id,
+          amount: storeAmount,
+          date: new Date().toISOString()
+        }),
+      ]);
 
 			navigate("/generated");
 		} catch (error) {
@@ -148,91 +133,68 @@ const SerialGenerationPage = () => {
 		}
 	};
 
-	useEffect(() => {
-		const getAllCategories = async () => {
-			if (activeIndex === 1) {
-				try {
-					const categories = await axios.get(
-						"http://localhost:5000/api/categories"
-					);
-					setAllCategories(categories.data.categories);
+  useEffect(() => {
+    const getAllCategories = async () => {
+      if (activeIndex === 1) {
+        try {
+          const categories = await axios.get('http://localhost:5000/api/categories')
+          setAllCategories(categories.data.categories)
 
-					const trees = await axios.get("http://localhost:5000/api/trees");
-					setTrees(trees.data.trees);
+          const trees = await axios.get('http://localhost:5000/api/trees')
+          setTrees(trees.data.trees)
 
-					const colors = await axios.get("http://localhost:5000/api/colors");
-					setColors(colors.data.colors);
-				} catch (error) {
-					console.log("Error:", error);
-				}
-			}
-		};
+          const colors = await axios.get('http://localhost:5000/api/colors')
+          setColors(colors.data.colors)
+        } catch (error) {
+          console.log("Error:", error)
+        }
+      }
+    }
 
-		getAllCategories();
-	}, [activeIndex]);
-
-	const searchSets = (e) => {
-		setSearchSetsFilter(
-			sets.filter((value) =>
-				value.toLowerCase().includes(e.query.toLowerCase())
-			)
-		);
-	};
-
-	const searchFurniture = (e) => {
-		setSearchStoreFurniture(
-			storeFurniture.filter((value) =>
-				value?.toLowerCase().includes(e.query?.toLowerCase())
-			)
-		);
-	};
-
-	return (
-		<MainLayout header="Seriya nomer yaratish">
-			<div className="flex justify-center w-full mb-12">
-				<TabView
-					activeIndex={activeIndex}
-					onTabChange={(e) => setActiveIndex(e.index)}
-					className="border-none w-full max-w-[760px] mx-auto">
-					<TabPanel
-						header={
-							<span
-								className={`pb-2 ${
-									activeIndex === 0 ? "border-b-2 border-blue-500" : ""
-								}`}>
-								Mijozniki
-							</span>
-						}>
-						<div className="w-full">
-							<div className="flex flex-col mb-8">
-								<label className="text-sm mb-1.5 font-semibold">
-									Zakaz nomeri
-								</label>
-								<AutoComplete
-									value={selectedDemand}
-									suggestions={demands.map((item) => item.doc_no)}
-									completeMethod={searchDemands}
-									virtualScrollerOptions={{itemSize: 38}}
-									onChange={(e) => setSelectedDemand(e.value)}
-									onSelect={handleClientFurnitureSelect}
-									className="w-full py-2 pl-4 pr-8 border rounded-lg"
-									inputClassName="w-full"
-								/>
-							</div>
-
-							<div className="flex flex-col mb-8">
-								<label className="text-sm mb-1.5 font-semibold">Mebel</label>
-								<Dropdown
-									value={selectedFurniture}
-									onChange={(e) => setSelectedFurniture(e.value)}
-									options={clientFurniture}
-									disabled={!clientFurniture.length}
-									optionLabel="name"
-									placeholder="Mebel tanlang"
-									className="w-full border rounded-lg"
-									loading={!clientFurniture.length && selectedDemand}
-								/>
-							</div>
+    getAllCategories()
+  }, [activeIndex])
+  
+  return (
+    <MainLayout header='Seriya nomer yaratish'>
+      <div className="flex justify-center w-full mb-12">
+        <TabView
+          activeIndex={activeIndex}
+          onTabChange={(e) => setActiveIndex(e.index)}
+          className="border-none w-full max-w-[760px] mx-auto"
+        >
+          <TabPanel header={<span className={`pb-2 ${activeIndex === 0 ? 'border-b-2 border-blue-500' : ''}`}>Mijozniki</span>}>
+            <div className="w-full">
+              <div className="flex flex-col mb-8">
+                <label className="text-sm mb-1.5 font-semibold">
+                  Zakaz nomeri
+                </label>
+                <AutoComplete 
+                  value={selectedDemand} 
+                  suggestions={demands.map(item => item.doc_no)} 
+                  completeMethod={searchDemands}
+                  virtualScrollerOptions={{ itemSize: 38 }} 
+                  onChange={(e) => setSelectedDemand(e.value)}
+                  onSelect={handleClientFurnitureSelect}
+                  className="w-full py-2 pl-4 pr-8 border rounded-lg"
+                  inputClassName="w-full"
+                />
+              </div>
+              
+              <div className="flex flex-col mb-8">
+                <label className="text-sm mb-1.5 font-semibold">
+                  Mebel
+                </label>
+                <Dropdown
+                  value={selectedFurniture} 
+                  onChange={(e) => setSelectedFurniture(e.value)}
+                  options={clientFurniture}
+                  disabled={!clientFurniture.length}
+                  optionLabel="name" 
+                  placeholder="Mebel tanlang" 
+                  className="w-full border rounded-lg"
+                  loading={!clientFurniture.length && selectedDemand}
+                />
+              </div>
 
 							<div className="flex flex-col mb-8">
 								<label className="text-sm mb-1.5 font-semibold">Soni</label>
@@ -272,37 +234,31 @@ const SerialGenerationPage = () => {
 								</div>
 							</div>
 
-							<button
-								className="w-full px-4 py-3 text-white rounded-md bg-blue"
-								onClick={generateClientSerial}
-								disabled={!selectedFurniture || !packageQuantity}>
-								Generatsiya qilish
-							</button>
-						</div>
-					</TabPanel>
-					<TabPanel
-						header={
-							<span
-								className={`pb-2 ${
-									activeIndex === 1 ? "border-b-2 border-blue-500" : ""
-								}`}>
-								Supermarket
-							</span>
-						}>
-						<div className="w-full">
-							<div className="flex flex-col mb-8">
-								<label className="text-sm mb-1.5 font-semibold">
-									Kategoriya
-								</label>
-								<Dropdown
-									value={selectedCategory}
-									onChange={(e) => handleStoreSetSelect(e.value)}
-									options={allCategories}
-									optionLabel="name"
-									placeholder="Kategoriya tanlang"
-									className="w-full border rounded-lg"
-								/>
-							</div>
+              <button
+                className="w-full px-4 py-3 text-white rounded-md bg-blue hover:bg-opacity-90"
+                onClick={generateClientSerial}
+                disabled={!selectedFurniture}
+              >
+                Generatsiya qilish
+              </button>
+              
+            </div>
+          </TabPanel>
+          <TabPanel header={<span className={`pb-2 ${activeIndex === 1 ? 'border-b-2 border-blue-500' : ''}`}>Supermarket</span>}>
+            <div className="w-full">
+              <div className="flex flex-col mb-8">
+                <label className="text-sm mb-1.5 font-semibold">
+                  Kategoriya
+                </label>
+                <Dropdown
+                  value={selectedCategory} 
+                  onChange={(e) => handleStoreSetSelect(e.value)}
+                  options={allCategories} 
+                  optionLabel="name" 
+                  placeholder="Kategoriya tanlang" 
+                  className="w-full border rounded-lg" 
+                />
+              </div>
 
 							<div className="flex flex-col mb-8">
 								<label className="text-sm mb-1.5 font-semibold">Komplekt</label>
@@ -407,23 +363,19 @@ const SerialGenerationPage = () => {
 								</div>
 							</div>
 
-							<button
-								className="w-full px-4 py-3 text-white rounded-md bg-blue"
-								onClick={generateStoreSerial}
-								disabled={
-									!selectedStoreFurniture ||
-									!storeAmount ||
-									!selectedColor ||
-									!selectedTree
-								}>
-								Generatsiya qilish
-							</button>
-						</div>
-					</TabPanel>
-				</TabView>
-			</div>
-		</MainLayout>
-	);
-};
+              <button
+                className="w-full px-4 py-3 text-white rounded-md bg-blue hover:bg-opacity-90"
+                onClick={generateStoreSerial}
+                disabled={!selectedStoreFurniture}
+              >
+                Generatsiya qilish
+              </button>
+            </div>
+          </TabPanel>
+        </TabView>
+      </div>
+    </MainLayout>
+  );
+}
 
 export default SerialGenerationPage;

@@ -46,7 +46,7 @@ const MainLayout = ({children, header}) => {
     },
   ];
   
-  const userRole = localStorage.getItem('role');
+  // const userRole = localStorage.getItem('role');
   // const filteredMenuItems = menuItems.filter(item => item.roles.includes(userRole));
 
   return (

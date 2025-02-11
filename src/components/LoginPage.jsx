@@ -35,8 +35,9 @@ const LoginPage = () => {
       // localStorage.setItem('role', role);
       localStorage.setItem('role', 'warehouse');
 
-      navigate(roleRedirects[role]);
+      // navigate(roleRedirects[role]);
       // navigate(roleRedirects['warehouse']);
+      navigate('/serials')
     } catch (err) {
       if (err.response?.status === 401) {
         toast.error('Login yoki parol noto‘g‘ri');
