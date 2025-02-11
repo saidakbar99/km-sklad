@@ -39,8 +39,9 @@ const SerialGenerationPage = () => {
     }
   }
 
-  const handleClientFurnitureSelect = async () => {
-    const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/demand-furniture`, { demandId: demands[0].id });
+  const handleClientFurnitureSelect = async (selectedDemandDocNo) => {
+    const selectedDemand = demands.filter(item => item.doc_no === selectedDemandDocNo)
+    const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/demand-furniture`, { demandId: selectedDemand[0].id });
     const { furnitures } = response.data
 
     const furnitureResponses = await Promise.all(
@@ -171,7 +172,7 @@ const SerialGenerationPage = () => {
                   completeMethod={searchDemands}
                   virtualScrollerOptions={{ itemSize: 38 }} 
                   onChange={(e) => setSelectedDemand(e.value)}
-                  onSelect={handleClientFurnitureSelect}
+                  onSelect={(e) => handleClientFurnitureSelect(e.value)}
                   className="w-full border rounded-lg pl-4 pr-8 py-2"
                   inputClassName="w-full"
                 />
@@ -219,6 +220,11 @@ const SerialGenerationPage = () => {
                     onChange={(e) => setPackageQuantity(e.value)} 
                     className="w-fit px-4 py-3 mr-2"
                     style={{border: '1px solid #ced4da', borderRadius: '0.5rem'}}
+                    onKeyDown={(e) => {
+                      if (e.key === '-' || e.key === '.') {
+                        e.preventDefault();
+                      }
+                    }}
                   />
                 </div>
               </div>

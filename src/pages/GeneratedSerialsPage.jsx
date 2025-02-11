@@ -30,7 +30,7 @@ const GeneratedSerialsPage = () => {
 
 		const fetchGeneratedSerials = async () => {
 			const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/serials`);
-			setSerials(response.data.serials.reverse());
+			setSerials(response.data.serials);
 		};
 
 		fetchGeneratedSerials();
