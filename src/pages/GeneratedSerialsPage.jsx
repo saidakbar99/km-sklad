@@ -18,6 +18,7 @@ const GeneratedSerialsPage = () => {
 				// await connectQZTray();
 				// const printers = await getPrinters();
 				// setPrinters(printers);
+				setPrinters([]);
 			} catch (err) {
 				setError("Failed to connect to QZ Tray or retrieve printers.");
 			} finally {
