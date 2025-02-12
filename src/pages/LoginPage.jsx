@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate  } from "react-router-dom";
 import { toast } from 'react-toastify';
-import { roleRedirects } from './ProtectedRoute';
+import { roleRedirects } from '../components/ProtectedRoute';
 import axiosInstance from '../api/axios';
 
 const LoginPage = () => {
@@ -28,11 +28,11 @@ const LoginPage = () => {
 
     try {
       const response = await axiosInstance.post(`/auth/login`, { username, password })
-      console.log('>>>res',response)
-      const { token, role } = response.data;
+      const { token, role, user } = response.data;
 
       console.log(role)
       localStorage.setItem('token', token);
+      localStorage.setItem('seh_id', user.seh_id);
       // localStorage.setItem('role', role);
       localStorage.setItem('role', 'admin');
 

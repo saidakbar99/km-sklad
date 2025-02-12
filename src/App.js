@@ -1,12 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
-import LoginPage from "./components/LoginPage";
+import LoginPage from "./pages/LoginPage";
 import ProtectedRoute, { DefaultRedirect } from "./components/ProtectedRoute";
 import SerialGenerationPage from "./pages/SerialGenerationPage";
 import GeneratedSerialsPage from "./pages/GeneratedSerialsPage";
 import RecieveFurniturePage from "./pages/RecieveFurniturePage";
 import RealeseFurniturePage from "./pages/RealeseFurniturePage";
 import StorageBalancePage from "./pages/StorageBalancePage";
+import InvoicesPage from "./pages/InvoicesPage";
+import InvoiceCreationPage from "./pages/InvoiceCreationPage";
 
 const App = () => (
   <Router>
@@ -39,7 +41,7 @@ const App = () => (
       <Route
         path="/release"
         element={
-          <ProtectedRoute allowedRoles={['security', 'admin']}>
+          <ProtectedRoute allowedRoles={['warehouse', 'security', 'admin']}>
             <RealeseFurniturePage />
           </ProtectedRoute>
         }
@@ -49,6 +51,22 @@ const App = () => (
         element={
           <ProtectedRoute allowedRoles={['warehouse', 'admin']}>
             <StorageBalancePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/invoice"
+        element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <InvoicesPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/invoice-creation"
+        element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <InvoiceCreationPage />
           </ProtectedRoute>
         }
       />

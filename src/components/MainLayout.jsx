@@ -11,6 +11,7 @@ const MainLayout = ({children, header}) => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
+    localStorage.removeItem('seh_id');
     navigate('/login');
   };
 
@@ -19,31 +20,43 @@ const MainLayout = ({children, header}) => {
       label: 'Skladga qabul qilish',
       icon: 'pi pi-warehouse',
       command: () => navigate('/recieve'),
-      roles: ['warehouse']
+      roles: ['admin', 'warehouse']
     },
     { 
       label: 'Sklad ostatok', 
       icon: 'pi pi-receipt', 
       command: () => navigate('/balance'),
-      roles: ['warehouse']
+      roles: ['admin', 'warehouse']
     },
     { 
       label: 'Отгрузка', 
       icon: 'pi pi-truck', 
       command: () => navigate('/release'), 
-      roles: ['security']
+      roles: ['admin', 'warehouse', 'security']
     },
     { 
       label: 'Seriya nomerlar', 
       icon: 'pi pi-barcode', 
       command: () => navigate('/generated'),
-      roles: ['warehouse']
+      roles: ['admin', 'warehouse']
     },
     { 
       label: 'Seriya nomer yaratish', 
       icon: 'pi pi-plus-circle', 
       command: () => navigate('/generation'),
-      roles: ['warehouse']
+      roles: ['admin', 'warehouse']
+    },
+    { 
+      label: 'Nakladnoylar', 
+      icon: 'pi pi-receipt', 
+      command: () => navigate('/invoice'),
+      roles: ['admin']
+    },
+    { 
+      label: 'Nakladnoy yaratish', 
+      icon: 'pi pi-plus-circle', 
+      command: () => navigate('/invoice-creation'),
+      roles: ['admin']
     },
   ];
   

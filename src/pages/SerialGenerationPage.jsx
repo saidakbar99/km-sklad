@@ -89,6 +89,7 @@ const SerialGenerationPage = () => {
   }
 
   const generateClientSerial = async () => {
+    const sehId = localStorage.getItem('seh_id')
     try {
       await Promise.all([
         axios.put(`${process.env.REACT_APP_BASE_URL}/api/unique`, {
@@ -100,7 +101,8 @@ const SerialGenerationPage = () => {
           uniqueId: selectedFurniture.unique_id,
           amount: selectedFurniture.amount,
           date: new Date().toISOString(),
-          demandFurnitureId: selectedFurniture.demand_furniture_id
+          demandFurnitureId: selectedFurniture.demand_furniture_id,
+          sehId: parseInt(sehId)
         })
       ]);
 
@@ -112,6 +114,7 @@ const SerialGenerationPage = () => {
   }
 
   const generateStoreSerial = async () => {
+    const sehId = localStorage.getItem('seh_id')
     try {
       await Promise.all([
         axios.post(`${process.env.REACT_APP_BASE_URL}/api/supermarket-generation`, {
@@ -120,7 +123,8 @@ const SerialGenerationPage = () => {
           positionId: position,
           furnitureId: selectedStoreFurniture.id,
           amount: storeAmount,
-          date: new Date().toISOString()
+          date: new Date().toISOString(),
+          sehId: parseInt(sehId)
         }),
       ]);
 
