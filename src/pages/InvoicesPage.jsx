@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 import MainLayout from "../components/MainLayout";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
@@ -6,26 +7,47 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Pencil, Trash2 } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Dialog } from "primereact/dialog";
 
 const InvoicesPage = () => {
+  const [showDialog, setShowDialog] = useState(false);
   const [invoices, setInvoices] = useState([])
   const [searchText, setSearchText] = useState("");
+  const [selectedInvoice, setSelectedInvoice] = useState()
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const fetchInvoices = async () => {
-      const sehId = parseInt(localStorage.getItem('seh_id'))
-      const invoices = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/invoice`, { sehId })
-      setInvoices(invoices.data.invoices)
-    }
-
-    fetchInvoices()
-  }, [])
+  const fetchInvoices = async () => {
+    const sehId = parseInt(localStorage.getItem('seh_id'))
+    const invoices = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/invoice`, { sehId })
+    setInvoices(invoices.data.invoices)
+  }
 
   const filteredData = invoices.filter((item) =>
 		item.id.toString().includes(searchText.toLowerCase())
 	);
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/invoice`, { data: { invoiceId: selectedInvoice.id } });
+      setShowDialog(false);
+      fetchInvoices();
+    } catch (error) {
+      console.error("Error deleting item", error);
+    }
+  };
+
+  const handleDeleteSelection = async (rowData) => {
+    setShowDialog(true);
+    setSelectedInvoice(rowData)
+  }
+
+  const handleEdit = (rowData) => {
+    navigate("/invoice-creation", { state: { invoice: rowData } });
+  };
+
+  useEffect(() => {
+    fetchInvoices()
+  }, [])
 
   return (
     <MainLayout header='Nakladnoylar'>
@@ -68,14 +90,25 @@ const InvoicesPage = () => {
             field=""
             header="Action"
             body={(rowData) => 
-              <div className="flex justify-between">
-                <Pencil />
-                <Trash2 />
+              <div className="flex justify-between cursor-pointer">
+                <Pencil onClick={() => handleEdit(rowData)} />
+                <Trash2 onClick={() => handleDeleteSelection(rowData)} />
               </div>
             }
           />
         </DataTable>
       </div>
+      <Dialog
+        visible={showDialog}
+        onHide={() => setShowDialog(false)}
+        header="Nakladnoyni o'chirmoqchimisiz"
+        footer={
+          <div className="flex justify-between mt-2 min-w-[400px]">
+            <Button label="Bekor qilish" icon="pi pi-times" onClick={() => setShowDialog(false)} className="p-button-text" />
+            <Button label="O'chirish" icon="pi pi-check" className="p-button-danger" onClick={handleDelete} />
+          </div>
+        }
+      />
     </MainLayout>
   );
 };

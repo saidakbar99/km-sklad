@@ -7,47 +7,90 @@ import { Trash2, Plus } from 'lucide-react';
 import { Calendar } from 'primereact/calendar';
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const InvoiceCreationPage = () => {
   const navigate = useNavigate()
+  const location = useLocation();
   const [searchText, setSearchText] = useState("");
   const [date, setDate] = useState(new Date());
   const [vipusk, setVipusk] = useState([])
   const [invoice, setInvoice] = useState([])
   const [seh, setSeh] = useState()
   const [invoiceNumber, setInvoiceNumber] = useState()
+  const [editingInvoice, setEditingInvoice] = useState(null);
 
-  useEffect(() => {
-    const fetchVipusk = async () => {
-      const sehId = parseInt(localStorage.getItem('seh_id'))
-      const [vipuskRes, sehRes, lastInvoiceRes] = await Promise.all([
-        axios.post(`${process.env.REACT_APP_BASE_URL}/api/serials`, { sehId }),
-        axios.post(`${process.env.REACT_APP_BASE_URL}/api/seh`, { sehId }),
-        axios.get(`${process.env.REACT_APP_BASE_URL}/api/last-invoice`)
-      ]);
+  const fetchVipusk = async () => {
+    const sehId = parseInt(localStorage.getItem('seh_id'));
+  
+    const [sehRes, lastInvoiceRes] = await Promise.all([
+      axios.post(`${process.env.REACT_APP_BASE_URL}/api/seh`, { sehId }),
+      axios.get(`${process.env.REACT_APP_BASE_URL}/api/last-invoice`),
+    ]);
+  
+    setSeh(sehRes.data.seh);
+  
+    const vipuskRes = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/serials`, { sehId });
+  
+    let selectedInvoiceData = [];
+    if (editingInvoice) {
+      const invoiceRes = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/invoice/${editingInvoice.id}`);
+      selectedInvoiceData = invoiceRes.data.uniques;
 
-      setVipusk(vipuskRes.data.serials);
-      setSeh(sehRes.data.seh);
-      setInvoiceNumber(lastInvoiceRes.data.lastInvoiceId.id);
+      setDate(new Date(invoiceRes.data.date));
+      setInvoiceNumber(editingInvoice.id - 1);
+    } else {
+      setInvoiceNumber(lastInvoiceRes.data.lastInvoiceId?.id);
     }
 
-    fetchVipusk()
-  }, [])
+    const selectedInvoiceData2 = vipuskRes.data.serials.filter((item) =>
+      selectedInvoiceData.some((inv) => inv.id === item.unique_id)
+    );
 
-  const createInvoice = async () => {
+  
+    const availableVipusk = vipuskRes.data.serials.filter((item) =>
+      !selectedInvoiceData.some((inv) => inv.id === item.unique_id)
+    );
+  
+    setVipusk(availableVipusk);
+    setInvoice(selectedInvoiceData2);
+  };
+
+  useEffect(() => {
+    if (location.state?.invoice) {
+      setEditingInvoice(location.state.invoice);
+    }
+  }, [location.state])
+
+  useEffect(() => {
+    fetchVipusk();
+  }, [editingInvoice]);
+
+  const saveInvoice = async () => {
     try {
       const uniqueIds = invoice.map(item => item.unique_id)
-      await axios.post(`${process.env.REACT_APP_BASE_URL}/api/invoice-creation`, {
-        sehId: seh.id,
-        date,
-        uniqueIds
-      })
+
+      if (editingInvoice) {
+        await axios.put(`${process.env.REACT_APP_BASE_URL}/api/invoice`, {
+          invoiceId: editingInvoice.id,
+          sehId: seh.id,
+          date,
+          uniqueIds,
+        });
+        toast.success("Nakladnoy yangilandi");
+      } else {
+        await axios.post(`${process.env.REACT_APP_BASE_URL}/api/invoice-creation`, {
+          sehId: seh.id,
+          date,
+          uniqueIds,
+        });
+        toast.success("Nakladnoy yaratildi");
+      }
 
       navigate('/invoice')
     } catch (error) {
       console.log("Error: ", error)
-      toast.error('Nakladnoy yaratishda xatolik')
+      toast.error('Xatolik yuz berdi')
     }
   }
 
@@ -125,12 +168,15 @@ const InvoiceCreationPage = () => {
             field='' 
             header="Клиент" 
             body={(rowData) => rowData.demand_furniture_id 
-              ? rowData.demand_furniture.demand.customer_id
+              ? rowData.demand_furniture.demand.customer.name
               : 'Supermarket'
             }
           />
-          
-          <Column field="furniture.category_furniture.name" header="Комплект" />
+          <Column field="" header="Комплект"
+            body={(rowData) => 
+              `${rowData.furniture.category_furniture.name} ${rowData.furniture.komplekt_furniture[0].komplekt.name}`
+            }
+          />
           <Column field="furniture.name" header="Мебель" />
           <Column field="amount" header="Сони" />
           <Column 
@@ -169,7 +215,7 @@ const InvoiceCreationPage = () => {
               : 'Supermarket'
             }
           />
-          <Column field="furniture.komplekt_furniture[0].komplekt.name" header="Комплект"
+          <Column field="" header="Комплект"
             body={(rowData) => 
               `${rowData.furniture.category_furniture.name} ${rowData.furniture.komplekt_furniture[0].komplekt.name}`
 
@@ -188,9 +234,9 @@ const InvoiceCreationPage = () => {
         </DataTable>
         <button 
           className="px-4 py-2 text-white rounded-md bg-blue hover:bg-opacity-90 my-8"
-          onClick={createInvoice}
+          onClick={saveInvoice}
         >
-          Generatsiya qilish
+          {editingInvoice ? "Yangilash" : "Generatsiya qilish"}
         </button>
       </div>
     </MainLayout>
