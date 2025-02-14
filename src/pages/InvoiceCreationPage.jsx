@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import MainLayout from "../components/MainLayout";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
@@ -20,7 +20,7 @@ const InvoiceCreationPage = () => {
   const [invoiceNumber, setInvoiceNumber] = useState()
   const [editingInvoice, setEditingInvoice] = useState(null);
 
-  const fetchVipusk = async () => {
+  const fetchVipusk = useCallback(async () => {
     const sehId = parseInt(localStorage.getItem('seh_id'));
   
     const [sehRes, lastInvoiceRes] = await Promise.all([
@@ -54,7 +54,7 @@ const InvoiceCreationPage = () => {
   
     setVipusk(availableVipusk);
     setInvoice(selectedInvoiceData2);
-  };
+  }, [editingInvoice]);
 
   useEffect(() => {
     if (location.state?.invoice) {
@@ -64,7 +64,7 @@ const InvoiceCreationPage = () => {
 
   useEffect(() => {
     fetchVipusk();
-  }, [editingInvoice]);
+  }, [editingInvoice, fetchVipusk]);
 
   const saveInvoice = async () => {
     try {
