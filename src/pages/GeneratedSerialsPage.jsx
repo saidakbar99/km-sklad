@@ -21,8 +21,12 @@ const GeneratedSerialsPage = () => {
 		const initializeQZTray = async () => {
 			try {
 				await connectQZTray();
-				const printers = await getPrinters();
-				setPrinters(printers);
+				const availablePrinters = await getPrinters();
+				setPrinters(availablePrinters);
+				const savedPrinter = localStorage.getItem("selectedPrinter");
+				if (savedPrinter && availablePrinters.includes(savedPrinter)) {
+					setSelectedPrinter(savedPrinter);
+				}
 			} catch (err) {
 				setError("Failed to connect to QZ Tray or retrieve printers.");
 			} finally {
@@ -49,6 +53,12 @@ const GeneratedSerialsPage = () => {
 		fetchGeneratedSerials();
 	}, []);
 
+	const handlePrinterChange = (e) => {
+		const printer = e.target.value;
+		setSelectedPrinter(printer);
+		localStorage.setItem("selectedPrinter", printer);
+	};
+
 	// if (loading) {
 	// 	return <div>Loading printers...</div>;
 	// }
@@ -65,8 +75,9 @@ const GeneratedSerialsPage = () => {
 						<h2 className="text-lg font-bold">Printerni tanlash</h2>
 						<select
 							value={selectedPrinter}
-							onChange={(e) => setSelectedPrinter(e.target.value)}
-							className="p-3 mt-2 border rounded-lg">
+							onChange={handlePrinterChange}
+							className="p-3 mt-2 border rounded-lg"
+						>
 							<option value="">Printerni tanlang</option>
 							{printers.map((printer, index) => (
 								<option key={index} value={printer}>
