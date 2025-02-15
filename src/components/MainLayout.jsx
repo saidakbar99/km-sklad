@@ -38,30 +38,31 @@ const MainLayout = ({children, header}) => {
       label: 'Seriya nomerlar', 
       icon: 'pi pi-barcode', 
       command: () => navigate('/generated'),
-      roles: ['admin', 'warehouse']
+      roles: ['admin', 'warehouse', 'seh_brigadir']
     },
     { 
       label: 'Seriya nomer yaratish', 
       icon: 'pi pi-plus-circle', 
       command: () => navigate('/generation'),
-      roles: ['admin', 'warehouse']
+      roles: ['admin', 'warehouse', 'seh_brigadir']
     },
     { 
       label: 'Nakladnoylar', 
       icon: 'pi pi-receipt', 
       command: () => navigate('/invoice'),
-      roles: ['admin']
+      roles: ['admin', 'seh_brigadir']
     },
     { 
       label: 'Nakladnoy yaratish', 
       icon: 'pi pi-plus-circle', 
       command: () => navigate('/invoice-creation'),
-      roles: ['admin']
+      roles: ['admin', 'seh_brigadir']
     },
   ];
   
   // const userRole = localStorage.getItem('role');
-  // const filteredMenuItems = menuItems.filter(item => item.roles.includes(userRole));
+  // const sehId = localStorage.getItem('seh_id');
+  const filteredMenuItems = menuItems.filter(item => item.roles.includes('seh_brigadir'));
 
   return (
     <div className="font-hyundai">
@@ -83,8 +84,8 @@ const MainLayout = ({children, header}) => {
         onHide={() => setVisibleSidebar(false)}
       >
         <Menu 
-          // model={filteredMenuItems}
-          model={menuItems}
+          model={filteredMenuItems}
+          // model={menuItems}
           className="w-full"
         />
       </Sidebar>

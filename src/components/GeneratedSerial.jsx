@@ -3,19 +3,26 @@ import {printLabel} from "../utils/qzHelper";
 import {QRCodeCanvas} from "qrcode.react";
 
 export const GeneratedSerial = ({selectedPrinter, serial}) => {
+	const category = serial.furniture.category_furniture.name
+	const komplekt = serial.furniture.komplekt_furniture[0].komplekt.name
+	const mebel = serial.furniture.name
+	const furnitureFullname = `${category} ${komplekt} ${mebel}`
+	const demandNumber = serial?.demand_furniture?.demand?.doc_no
+	const color = serial?.unique?.color?.name || serial?.demand_furniture?.color?.name
+
 	const handlePrint = () => {
 		if (!selectedPrinter) {
 			alert("Please select a printer.");
 			return;
 		}
-		printLabel(selectedPrinter);
+		printLabel(
+			selectedPrinter, 
+			serial.unique.name,
+			demandNumber,
+			furnitureFullname,
+			color
+		);
 	};
-
-	const category = serial.furniture.category_furniture.name
-	const komplekt = serial.furniture.komplekt_furniture[0].komplekt.name
-	const mebel = serial.furniture.name
-	const demandNumber = serial?.demand_furniture?.demand?.doc_no
-	const color = serial?.unique?.color?.name || serial?.demand_furniture?.color?.name
 
 	return (
 		<div className="flex items-center mb-12">

@@ -1,4 +1,9 @@
 import qz from "qz-tray";
+// import iconv from "iconv-lite/encodings";
+// import iconv from "iconv-lite/encodings";
+import transliterate from "transliterate";
+// import encodings from "iconv-lite/encodings";
+// iconvLite.encodingExists("foo")
 
 export const connectQZTray = async () => {
   if (!qz.websocket.isActive()) {
@@ -16,33 +21,43 @@ export async function getPrinters() {
   return qz.printers.find();
 }
 
-export async function printLabel(printerName) {
+// function encodeToWin1251(text) {
+//   return iconvLite.encode(text, "win1251").toString("binary");
+// }
+
+export async function printLabel(
+  printerName, 
+  serialNumber,
+  demandNumber,
+  furnitureFullname,
+  color
+) {
   await connectQZTray();
   
   const config = qz.configs.create(printerName);
   const zplCommand = `
 ^XA
-^CI28
-^FO100,400
-^BQN,2,10
-^FDMM,A:/qrcode.svg^FS
+^CI28  ; Enable UTF-8 encoding
+^CWZ,E:TT0003M_.FNT  ; Load a TTF font
+^FO40,400
+^BQN,2,20
+^FD{${serialNumber}}^FS
 
-^FO300,400
-^A0N,40,40
-^FDSeriya# 000014^FS
+^FO50,300
+^A0N,60,60
+^FD${transliterate(furnitureFullname)}^FS
 
-^FO400,460
-^A0N,40,40
-^FDZakaz# 012DV^FS
+^FO300,430
+^A0N,60,60
+${demandNumber ? transliterate(`^FDZakaz# ${demandNumber}^FS`) : ''}
 
-^FO400,520
-^A0N,30,30
-^FDSP Bosfor Shkaf^FS
+^FO300,560
+^A0N,60,60
+^FD${transliterate(`Серия# ${serialNumber}`)}^FS
 
-^FO470,570
-^A0N,20,20
-^FDRangi: Tilla xal^FS
-
+^FO300,700
+^A0N,50,50
+${color ? transliterate(`^FDРанги: ${color}^FS`) : ''}
 ^XZ
   `;
 

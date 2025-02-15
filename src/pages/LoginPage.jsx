@@ -28,17 +28,16 @@ const LoginPage = () => {
 
     try {
       const response = await axiosInstance.post(`/auth/login`, { username, password })
-      const { token, role, user } = response.data;
+      const { token, user } = response.data;
 
-      console.log(role)
       localStorage.setItem('token', token);
       localStorage.setItem('seh_id', user.seh_id);
-      // localStorage.setItem('role', role);
-      localStorage.setItem('role', 'admin');
+      // localStorage.setItem('role', user.role_id);
+      localStorage.setItem('role', 'seh_brigadir');
 
       // navigate(roleRedirects[role]);
       // navigate(roleRedirects['warehouse']);
-      navigate('/serials')
+      navigate('/invoice')
     } catch (err) {
       if (err.response?.status === 401) {
         toast.error('Login yoki parol noto‘g‘ri');

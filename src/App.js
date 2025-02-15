@@ -17,7 +17,7 @@ const App = () => (
       <Route
         path="/generation"
         element={
-          <ProtectedRoute allowedRoles={['warehouse', 'admin']}>
+          <ProtectedRoute allowedRoles={['warehouse', 'admin', 'seh_brigadir']}>
             <SerialGenerationPage />
           </ProtectedRoute>
         }
@@ -25,7 +25,7 @@ const App = () => (
       <Route
         path="/generated"
         element={
-          <ProtectedRoute allowedRoles={['warehouse', 'admin']}>
+          <ProtectedRoute allowedRoles={['warehouse', 'admin', 'seh_brigadir']}>
             <GeneratedSerialsPage />
           </ProtectedRoute>
         }
@@ -57,7 +57,7 @@ const App = () => (
       <Route
         path="/invoice"
         element={
-          <ProtectedRoute allowedRoles={['admin']}>
+          <ProtectedRoute allowedRoles={['admin', 'seh_brigadir']}>
             <InvoicesPage />
           </ProtectedRoute>
         }
@@ -65,7 +65,7 @@ const App = () => (
       <Route
         path="/invoice-creation"
         element={
-          <ProtectedRoute allowedRoles={['admin']}>
+          <ProtectedRoute allowedRoles={['admin', 'seh_brigadir']}>
             <InvoiceCreationPage />
           </ProtectedRoute>
         }

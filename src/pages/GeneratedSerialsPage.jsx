@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import {GeneratedSerial} from "../components/GeneratedSerial";
-// import { connectQZTray, getPrinters } from "../utils/qzHelper";
+import { connectQZTray, getPrinters } from "../utils/qzHelper";
 import MainLayout from "../components/MainLayout";
 import {Link} from "react-router-dom";
 import axios from "axios";
@@ -15,10 +15,10 @@ const GeneratedSerialsPage = () => {
 	useEffect(() => {
 		const initializeQZTray = async () => {
 			try {
-				// await connectQZTray();
-				// const printers = await getPrinters();
-				// setPrinters(printers);
-				setPrinters([]);
+				await connectQZTray();
+				const printers = await getPrinters();
+				setPrinters(printers);
+				// setPrinters([]);
 			} catch (err) {
 				setError("Failed to connect to QZ Tray or retrieve printers.");
 			} finally {
@@ -75,7 +75,7 @@ const GeneratedSerialsPage = () => {
 							<GeneratedSerial
 								key={serial.id}
 								serial={serial}
-								selectedPrinter={"selectedPrinter"}
+								selectedPrinter={selectedPrinter}
 							/>
 						);
 					})
