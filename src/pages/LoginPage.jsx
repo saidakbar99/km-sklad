@@ -37,7 +37,7 @@ const LoginPage = () => {
 
       // navigate(roleRedirects[role]);
       // navigate(roleRedirects['warehouse']);
-      navigate('/invoice')
+      navigate('/invoice-creation')
     } catch (err) {
       if (err.response?.status === 401) {
         toast.error('Login yoki parol noto‘g‘ri');
