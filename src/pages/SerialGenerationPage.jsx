@@ -89,7 +89,7 @@ const SerialGenerationPage = () => {
   }
 
   const generateClientSerial = async () => {
-    const sehId = localStorage.getItem('seh_id')
+    const sehId = sessionStorage.getItem('seh_id')
     try {
       await Promise.all([
         axios.put(`${process.env.REACT_APP_BASE_URL}/api/unique`, {
@@ -114,7 +114,7 @@ const SerialGenerationPage = () => {
   }
 
   const generateStoreSerial = async () => {
-    const sehId = localStorage.getItem('seh_id')
+    const sehId = sessionStorage.getItem('seh_id')
     try {
       await Promise.all([
         axios.post(`${process.env.REACT_APP_BASE_URL}/api/supermarket-generation`, {

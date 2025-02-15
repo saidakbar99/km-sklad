@@ -1,6 +1,7 @@
 import {Printer} from "lucide-react";
 import {printLabel} from "../utils/qzHelper";
 import {QRCodeCanvas} from "qrcode.react";
+import { toast } from "react-toastify";
 
 export const GeneratedSerial = ({selectedPrinter, serial}) => {
 	const category = serial.furniture.category_furniture.name
@@ -12,7 +13,7 @@ export const GeneratedSerial = ({selectedPrinter, serial}) => {
 
 	const handlePrint = () => {
 		if (!selectedPrinter) {
-			alert("Please select a printer.");
+			toast.error('Printerni tanlang: G500')
 			return;
 		}
 		printLabel(

@@ -9,9 +9,9 @@ const MainLayout = ({children, header}) => {
   const [visibleSidebar, setVisibleSidebar] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-    localStorage.removeItem('seh_id');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('role');
+    sessionStorage.removeItem('seh_id');
     navigate('/login');
   };
 
@@ -60,8 +60,8 @@ const MainLayout = ({children, header}) => {
     },
   ];
   
-  // const userRole = localStorage.getItem('role');
-  // const sehId = localStorage.getItem('seh_id');
+  // const userRole = sessionStorage.getItem('role');
+  // const sehId = sessionStorage.getItem('seh_id');
   const filteredMenuItems = menuItems.filter(item => item.roles.includes('seh_brigadir'));
 
   return (

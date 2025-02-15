@@ -20,9 +20,11 @@ const InvoiceCreationPage = () => {
   const [invoiceNumber, setInvoiceNumber] = useState()
   const [editingInvoice, setEditingInvoice] = useState(null);
   const [usedUniqueIds, setUsedUniqueIds] = useState([])
+  const [loading, setLoading] = useState(false)
 
   const fetchVipusk = useCallback(async () => {
-    const sehId = parseInt(localStorage.getItem('seh_id'));
+    setLoading(true)
+    const sehId = parseInt(sessionStorage.getItem('seh_id'));
   
     const [sehRes, lastInvoiceRes, allUniquesRes] = await Promise.all([
       axios.post(`${process.env.REACT_APP_BASE_URL}/api/seh`, { sehId }),
@@ -56,10 +58,12 @@ const InvoiceCreationPage = () => {
   
     setVipusk(availableVipusk);
     setInvoice(selectedInvoiceData2);
+    setLoading(false)
   }, [editingInvoice]);
 
   useEffect(() => {
     if (location.state?.invoice) {
+      setLoading(true)
       setEditingInvoice(location.state.invoice);
     }
   }, [location.state])
@@ -110,11 +114,7 @@ const InvoiceCreationPage = () => {
     item.unique.name.toLowerCase().includes(searchText.toLowerCase()) &&
     !usedUniqueIds.includes(item.unique_id)
   );
-  // const filteredData = vipusk.filter((item) =>
 
-	// 	item.unique.name.toLowerCase().includes(searchText.toLowerCase())
-	// );
-  console.log('>>>123', usedUniqueIds)
   return (
     <MainLayout header='Nakladnoy yaratish'> 
       <div className="max-w-[1140px] mx-auto">
@@ -163,6 +163,7 @@ const InvoiceCreationPage = () => {
           paginator
           rows={5} 
           rowsPerPageOptions={[5, 10, 25, 50]}
+          loading={loading}
         >
           <Column 
             field="" 
@@ -206,6 +207,7 @@ const InvoiceCreationPage = () => {
           paginator 
           rows={5} 
           rowsPerPageOptions={[5, 10, 25, 50]}
+          loading={loading}
         >
           <Column 
             field="" 

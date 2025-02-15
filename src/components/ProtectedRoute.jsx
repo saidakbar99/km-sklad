@@ -9,13 +9,13 @@ export const roleRedirects = {
 };
 
 export const DefaultRedirect = () => {
-  const userRole = localStorage.getItem("role");
+  const userRole = sessionStorage.getItem("role");
   return <Navigate to={roleRedirects[userRole] || "/login"} replace />;
 };
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
-  const token = localStorage.getItem('token');
-  const userRole = localStorage.getItem('role');
+  const token = sessionStorage.getItem('token');
+  const userRole = sessionStorage.getItem('role');
   const location = useLocation();
 
   if (!token) {

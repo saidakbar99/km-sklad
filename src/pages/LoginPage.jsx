@@ -10,8 +10,8 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const role = localStorage.getItem("role");
+    const token = sessionStorage.getItem("token");
+    const role = sessionStorage.getItem("role");
 
     if (token && role) {
       navigate(roleRedirects[role]);
@@ -30,10 +30,10 @@ const LoginPage = () => {
       const response = await axiosInstance.post(`/auth/login`, { username, password })
       const { token, user } = response.data;
 
-      localStorage.setItem('token', token);
-      localStorage.setItem('seh_id', user.seh_id);
-      // localStorage.setItem('role', user.role_id);
-      localStorage.setItem('role', 'seh_brigadir');
+      sessionStorage.setItem('token', token);
+      sessionStorage.setItem('seh_id', user.seh_id);
+      // sessionStorage.setItem('role', user.role_id);
+      sessionStorage.setItem('role', 'seh_brigadir');
 
       // navigate(roleRedirects[role]);
       // navigate(roleRedirects['warehouse']);

@@ -4,6 +4,8 @@ import { connectQZTray, getPrinters } from "../utils/qzHelper";
 import MainLayout from "../components/MainLayout";
 import {Link} from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 const GeneratedSerialsPage = () => {
 	const [printers, setPrinters] = useState([]);
@@ -31,9 +33,17 @@ const GeneratedSerialsPage = () => {
 		initializeQZTray();
 
 		const fetchGeneratedSerials = async () => {
-			const sehId = parseInt(localStorage.getItem('seh_id'))
-			const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/serials`, { sehId });
-			setSerials(response.data.serials);
+			setLoading(true)
+			try {
+				const sehId = parseInt(sessionStorage.getItem('seh_id'))
+				const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/serials`, { sehId });
+				setSerials(response.data.serials);
+			} catch (error) {
+				toast.error("Seriya raqamlarni ko'rsatishda xatolik")
+			} finally {
+				setLoading(false)
+			}
+			
 		};
 
 		fetchGeneratedSerials();
@@ -71,18 +81,16 @@ const GeneratedSerialsPage = () => {
 						</button>
 					</Link>
 				</div>
-				{serials.length ? (
-					serials.map((serial) => {
-						return (
-							<GeneratedSerial
-								key={serial.id}
-								serial={serial}
-								selectedPrinter={selectedPrinter}
-							/>
-						);
-					})
+				{loading ? (
+					<div className="flex justify-center my-10">
+						<ProgressSpinner />
+					</div>
+				) : serials.length ? (
+					serials.map((serial) => (
+						<GeneratedSerial key={serial.id} serial={serial} selectedPrinter={selectedPrinter} />
+					))
 				) : (
-					<div>Seriaya nomerlarni yaratilmagan</div>
+					<div className="text-center text-gray-600">Seriaya nomerlarni yaratilmagan</div>
 				)}
 			</div>
 		</MainLayout>

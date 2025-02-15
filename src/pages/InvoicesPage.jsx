@@ -8,18 +8,28 @@ import { InputText } from "primereact/inputtext";
 import { Pencil, Trash2 } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import { Dialog } from "primereact/dialog";
+import { toast } from "react-toastify";
 
 const InvoicesPage = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [invoices, setInvoices] = useState([])
   const [searchText, setSearchText] = useState("");
   const [selectedInvoice, setSelectedInvoice] = useState()
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   const fetchInvoices = async () => {
-    const sehId = parseInt(localStorage.getItem('seh_id'))
-    const invoices = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/invoice`, { sehId })
-    setInvoices(invoices.data.invoices)
+    setLoading(true)
+    try {
+      const sehId = parseInt(sessionStorage.getItem('seh_id'))
+      const invoices = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/invoice`, { sehId })
+      setInvoices(invoices.data.invoices)
+    } catch (error) {
+      console.error("Error fetching invoices", error);
+      toast.error('Nakladnoylar yuklashda xatolik')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const filteredData = invoices.filter((item) =>
@@ -69,32 +79,38 @@ const InvoicesPage = () => {
             onClick={() => navigate('/invoice-creation')}
           />
         </div>
-
         <DataTable
           value={filteredData}
-          // selection={selectedItems} 
-          // onSelectionChange={onSelectionChange} 
           emptyMessage="Nakladnoylar yo'q"
-          paginator 
-          rows={5} 
+          paginator
+          rows={5}
           rowsPerPageOptions={[5, 10, 25, 50]}
+          loading={loading}
         >
           <Column field="id" header="Nakladnoy raqami" />
-          <Column 
-            field="date" 
+          <Column
+            field="date"
             header="Nakladnoy sanasi"
             body={(rowData) => new Date(rowData.date).toLocaleDateString()}
           />
-          <Column field="demand" header="Zakazlar" />
-          <Column 
+          <Column
+            field="demands"
+            header="Zakazlar"
+            body={(rowData) =>
+              Array.isArray(rowData.demands)
+                ? rowData.demands.join(", ")
+                : rowData.demands
+            }
+          />
+          <Column
             field=""
             header="Action"
-            body={(rowData) => 
+            body={(rowData) => (
               <div className="flex justify-between cursor-pointer">
                 <Pencil onClick={() => handleEdit(rowData)} />
                 <Trash2 onClick={() => handleDeleteSelection(rowData)} />
               </div>
-            }
+            )}
           />
         </DataTable>
       </div>
