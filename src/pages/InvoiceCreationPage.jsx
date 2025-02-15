@@ -19,16 +19,19 @@ const InvoiceCreationPage = () => {
   const [seh, setSeh] = useState()
   const [invoiceNumber, setInvoiceNumber] = useState()
   const [editingInvoice, setEditingInvoice] = useState(null);
+  const [usedUniqueIds, setUsedUniqueIds] = useState([])
 
   const fetchVipusk = useCallback(async () => {
     const sehId = parseInt(localStorage.getItem('seh_id'));
   
-    const [sehRes, lastInvoiceRes] = await Promise.all([
+    const [sehRes, lastInvoiceRes, allUniquesRes] = await Promise.all([
       axios.post(`${process.env.REACT_APP_BASE_URL}/api/seh`, { sehId }),
       axios.get(`${process.env.REACT_APP_BASE_URL}/api/last-invoice`),
+      axios.get(`${process.env.REACT_APP_BASE_URL}/api/invoice`),
     ]);
-  
+
     setSeh(sehRes.data.seh);
+    setUsedUniqueIds(allUniquesRes.data.uniques)
   
     const vipuskRes = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/serials`, { sehId });
   
@@ -47,7 +50,6 @@ const InvoiceCreationPage = () => {
       selectedInvoiceData.some((inv) => inv.id === item.unique_id)
     );
 
-  
     const availableVipusk = vipuskRes.data.serials.filter((item) =>
       !selectedInvoiceData.some((inv) => inv.id === item.unique_id)
     );
@@ -105,9 +107,14 @@ const InvoiceCreationPage = () => {
   }
 
   const filteredData = vipusk.filter((item) =>
-		item.unique.name.toLowerCase().includes(searchText.toLowerCase())
-	);
+    item.unique.name.toLowerCase().includes(searchText.toLowerCase()) &&
+    !usedUniqueIds.includes(item.unique_id)
+  );
+  // const filteredData = vipusk.filter((item) =>
 
+	// 	item.unique.name.toLowerCase().includes(searchText.toLowerCase())
+	// );
+  console.log('>>>123', usedUniqueIds)
   return (
     <MainLayout header='Nakladnoy yaratish'> 
       <div className="max-w-[1140px] mx-auto">
