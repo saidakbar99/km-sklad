@@ -18,7 +18,6 @@ const GeneratedSerialsPage = () => {
 				await connectQZTray();
 				const printers = await getPrinters();
 				setPrinters(printers);
-				// setPrinters([]);
 			} catch (err) {
 				setError("Failed to connect to QZ Tray or retrieve printers.");
 			} finally {
@@ -37,13 +36,13 @@ const GeneratedSerialsPage = () => {
 		fetchGeneratedSerials();
 	}, []);
 
-	if (loading) {
-		return <div>Loading printers...</div>;
-	}
+	// if (loading) {
+	// 	return <div>Loading printers...</div>;
+	// }
 
-	if (error) {
-		return <div>{error}</div>;
-	}
+	// if (error) {
+	// 	return <div>{error}</div>;
+	// }
 
 	return (
 		<MainLayout header="Yaratilgan seriya nomerlar">
