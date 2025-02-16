@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import MainLayout from "../components/MainLayout";
 import {Dropdown} from "primereact/dropdown";
@@ -341,7 +341,10 @@ const SerialGenerationPage = () => {
 									value={storeAmount}
 									onChange={(e) => setStoreAmount(e.value)}
 									className="px-4 py-3 mr-2 w-fit"
-									style={{border: "1px solid #ced4da", borderRadius: "0.5rem"}}
+									style={{
+										border: "1px solid #ced4da",
+										borderRadius: "0.5rem",
+									}}
 								/>
 							</div>
 

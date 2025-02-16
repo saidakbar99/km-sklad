@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, useRef} from "react";
 import {GeneratedSerial} from "../components/GeneratedSerial";
 import {connectQZTray, getPrinters} from "../utils/qzHelper";
 import MainLayout from "../components/MainLayout";
@@ -31,6 +31,7 @@ const GeneratedSerialsPage = () => {
 			const response = await axios.get(
 				`${process.env.REACT_APP_BASE_URL}/api/serials`
 			);
+			console.log(response);
 			setSerials(response.data.serials.reverse());
 		};
 
@@ -47,8 +48,8 @@ const GeneratedSerialsPage = () => {
 
 	return (
 		<MainLayout header="Yaratilgan seriya nomerlar">
-			<div className="max-w-[1140px] mx-auto">
-				<div className="flex items-center justify-between mb-6">
+			<div className="max-w-full min-w-[1000px] max-xl:min-w-[70%] max-md:w-full">
+				<div className="flex items-center justify-between mb-6 max-lg:w-full">
 					<div>
 						<h2 className="text-lg font-bold">Printerni tanlash</h2>
 						<select

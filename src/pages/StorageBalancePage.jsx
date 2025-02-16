@@ -93,35 +93,35 @@ const StorageBalancePage = () => {
 
 	return (
 		<MainLayout header="Sklad ostatok">
-			<div className="p-6">
-				<div className="flex mb-4 max-[1350px]:grid max-[1350px]:grid-cols-4 gap-4 max-[900px]:grid-cols-2 max-[480px]:grid-cols-1">
+			<div className="p-6 max-[1150px]:p-0 max-[1150px]:pt-2 w-full overflow-x-auto">
+				<div className="flex mb-4 max-[1520px]:grid max-[1520px]:grid-cols-5 gap-4 max-[1150px]:grid-cols-2 max-[480px]:grid-cols-1 max-[850px]:w-full">
 					<Dropdown
 						value={filters.category}
 						options={categoryOptions}
 						onChange={(e) => setFilters({...filters, category: e.value})}
-						className="border "
+						className="border max-[850px]:w-full"
 					/>
 					<Dropdown
 						value={filters.bundle}
 						options={bundleOptions}
 						onChange={(e) => setFilters({...filters, bundle: e.value})}
-						className="border"
+						className="border max-[850px]:w-full"
 					/>
 					<Dropdown
 						value={filters.placement}
 						options={placementOptions}
 						onChange={(e) => setFilters({...filters, placement: e.value})}
-						className="border"
+						className="border max-[850px]:w-full"
 						placeholder="asdasd"
 					/>
 					<Dropdown
 						value={filters.furniture}
 						options={furnitureOptions}
 						onChange={(e) => setFilters({...filters, furniture: e.value})}
-						className="border "
+						className="border max-[850px]:w-full"
 					/>
 					<InputText
-						className="pl-3 border max-[480px]:h-[2.5em] h-[2.5em]"
+						className="pl-3 border max-[480px]:h-[2.5em] h-[2.5em] max-[850px]:w-full"
 						placeholder="Mijozlarni qidiring..."
 						onChange={(e) => setFilters({...filters, users: e.target.value})}
 					/>
@@ -129,7 +129,7 @@ const StorageBalancePage = () => {
 						value={searchText}
 						onChange={(e) => setSearchText(e.target.value)}
 						placeholder="Qidirish..."
-						className="flex w-full px-4 pt-1 border max-[1350px]:col-span-2 max-[900px]:col-span-1 max-[480px]:h-[2.5em]"
+						className="flex w-full px-4 pt-1 border max-[1350px]:col-span-2 max-[900px]:col-span-1 max-[480px]:h-[2.5em] max-[850px]:w-full"
 					/>
 					<ExportButton
 						className="col-span-2"
@@ -138,23 +138,25 @@ const StorageBalancePage = () => {
 					/>
 				</div>
 
-				<DataTable
-					value={filteredData}
-					paginator
-					rows={10}
-					rowsPerPageOptions={[10, 25, 50, 100]}
-					rowClassName={(value) =>
-						selectedRow.includes(value.id) ? "selected-row" : ""
-					}>
-					<Column field="id" header="N" />
-					<Column field="clientId" header="Заказ" />
-					<Column field="clientName" header="Клиент" />
-					<Column field="bundle" header="Комплект" />
-					<Column field="furniture" header="Мебель" />
-					<Column field="quantity" header="Сони" />
-					<Column field="selected" header="tanlangan" />
-					{/* <Column field="date" header="Сана" /> */}
-				</DataTable>
+				<div className="overflow-x-auto">
+					<DataTable
+						value={filteredData}
+						paginator
+						rows={10}
+						className="min-w-[740px]"
+						rowsPerPageOptions={[10, 25, 50, 100]}
+						rowClassName={(value) =>
+							selectedRow.includes(value.id) ? "selected-row" : ""
+						}>
+						<Column field="id" header="N" />
+						<Column field="clientId" header="Заказ" />
+						<Column field="clientName" header="Клиент" />
+						<Column field="bundle" header="Комплект" />
+						<Column field="furniture" header="Мебель" />
+						<Column field="quantity" header="Сони" />
+						<Column field="selected" header="tanlangan" />
+					</DataTable>
+				</div>
 			</div>
 		</MainLayout>
 	);
