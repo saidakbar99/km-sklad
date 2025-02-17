@@ -35,7 +35,7 @@ const RecieveInvoiceDetailsPage = () => {
     };
 
     fetchVipusk();
-  }, []);
+  }, [invoiceNumber]);
 
   return (
     <MainLayout header={`Накладной №${invoiceNumber}`}> 
