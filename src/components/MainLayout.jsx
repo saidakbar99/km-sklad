@@ -20,31 +20,31 @@ const MainLayout = ({children, header}) => {
       label: 'Skladga qabul qilish',
       icon: 'pi pi-warehouse',
       command: () => navigate('/recieve'),
-      roles: ['admin', 'warehouse']
+      roles: ['admin', 'sklad_rahbari']
     },
     { 
       label: 'Sklad ostatok', 
       icon: 'pi pi-receipt', 
       command: () => navigate('/balance'),
-      roles: ['admin', 'warehouse']
+      roles: ['admin', 'sklad_rahbari']
     },
     { 
       label: 'Отгрузка', 
       icon: 'pi pi-truck', 
       command: () => navigate('/release'), 
-      roles: ['admin', 'warehouse', 'security']
+      roles: ['admin', 'sklad_rahbari', 'security']
     },
     { 
       label: 'Seriya nomerlar', 
       icon: 'pi pi-barcode', 
       command: () => navigate('/generated'),
-      roles: ['admin', 'warehouse', 'seh_brigadir']
+      roles: ['admin', 'seh_brigadir']
     },
     { 
       label: 'Seriya nomer yaratish', 
       icon: 'pi pi-plus-circle', 
       command: () => navigate('/generation'),
-      roles: ['admin', 'warehouse', 'seh_brigadir']
+      roles: ['admin', 'seh_brigadir']
     },
     { 
       label: 'Nakladnoylar', 
@@ -60,9 +60,9 @@ const MainLayout = ({children, header}) => {
     },
   ];
   
-  // const userRole = sessionStorage.getItem('role');
+  const userRole = sessionStorage.getItem('role');
   // const sehId = sessionStorage.getItem('seh_id');
-  const filteredMenuItems = menuItems.filter(item => item.roles.includes('seh_brigadir'));
+  const filteredMenuItems = menuItems.filter(item => item.roles.includes(userRole));
 
   return (
     <div className="font-hyundai">

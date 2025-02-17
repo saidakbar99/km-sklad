@@ -3,7 +3,8 @@ import { Navigate, useLocation } from 'react-router-dom';
 // import { useEffect, useState } from 'react';
 
 export const roleRedirects = {
-  warehouse: "/balance",
+  "sklad_rahbari": "/balance",
+  "seh_brigadir": "/invoice-creation",
   security: "/release",
   admin: "/balance"
 };

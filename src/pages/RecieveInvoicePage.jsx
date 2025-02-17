@@ -5,62 +5,56 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import { Pencil, Trash2 } from 'lucide-react';
+import { Eye } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
-import { Dialog } from "primereact/dialog";
 import { toast } from "react-toastify";
 
-const InvoicesPage = () => {
-  const [showDialog, setShowDialog] = useState(false);
+const RecieveInvoicePage = () => {
+  const [selectedItems, setSelectedItems] = useState([]);
   const [invoices, setInvoices] = useState([])
   const [searchText, setSearchText] = useState("");
-  const [selectedInvoice, setSelectedInvoice] = useState()
+  // const [selectedInvoice, setSelectedInvoice] = useState()
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-
-  const fetchInvoices = async () => {
-    setLoading(true)
-    try {
-      const sehId = parseInt(sessionStorage.getItem('seh_id'))
-      const invoices = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/invoice?seh_id=${sehId}`)
-      setInvoices(invoices.data.invoices)
-    } catch (error) {
-      console.error("Error fetching invoices", error);
-      toast.error('Nakladnoylar yuklashda xatolik')
-    } finally {
-      setLoading(false)
-    }
-  }
 
   const filteredData = invoices.filter((item) =>
 		item.id.toString().includes(searchText.toLowerCase())
 	);
 
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/invoice`, { data: { invoiceId: selectedInvoice.id } });
-      setShowDialog(false);
-      fetchInvoices();
-    } catch (error) {
-      console.error("Error deleting item", error);
-    }
+  const onSelectionChange = (e) => {
+    setSelectedItems(e.value);
   };
 
-  const handleDeleteSelection = async (rowData) => {
-    setShowDialog(true);
-    setSelectedInvoice(rowData)
+  const handleRecieve = async () => {
+    try {
+      const invoiceIds = selectedItems.map(item => item.id)
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/api/invoice-recieve`, { invoiceIds })
+      toast.success('Накладнойлар кабул килинди')
+    } catch (error) {
+      console.log(error)
+      toast.error('Накладнойларни кабул килишда хатолик')
+    }
   }
 
-  const handleEdit = (rowData) => {
-    navigate("/invoice-creation", { state: { invoice: rowData } });
-  };
-
   useEffect(() => {
+    const fetchInvoices = async () => {
+      setLoading(true)
+      try {
+        const invoices = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/invoice`)
+        setInvoices(invoices.data.invoices)
+      } catch (error) {
+        console.error("Error fetching invoices", error);
+        toast.error('Nakladnoylar yuklashda xatolik')
+      } finally {
+        setLoading(false)
+      }
+    }
+
     fetchInvoices()
   }, [])
-
+  
   return (
-    <MainLayout header='Nakladnoylar'>
+    <MainLayout header='Складга кабул килиш'>
       <div className="p-6 max-w-[1140px] mx-auto">
         <div className="flex justify-between mb-4">
           <div className="flex items-center w-full">
@@ -73,20 +67,25 @@ const InvoicesPage = () => {
             />
           </div>
           <Button
-            icon="pi pi-plus"
-            label="Qo'shish" 
+            label="Qabul qilish" 
             className="px-4 text-white min-w-[100px] bg-blue rounded-md hover:bg-opacity-90 w-[200px] ml-4"
-            onClick={() => navigate('/invoice-creation')}
+            onClick={handleRecieve}
+            disabled={!selectedItems.length}
           />
         </div>
         <DataTable
           value={filteredData}
+          selection={selectedItems}
+          onSelectionChange={onSelectionChange}
           emptyMessage="Nakladnoylar yo'q"
           paginator
           rows={5}
           rowsPerPageOptions={[5, 10, 25, 50]}
           loading={loading}
+          selectionMode="multiple"
         >
+          <Column selectionMode="multiple" headerStyle={{ width: "3rem" }} />
+          <Column field="seh" header="Цех" />
           <Column field="id" header="Nakladnoy raqami" />
           <Column
             field="date"
@@ -106,27 +105,13 @@ const InvoicesPage = () => {
             field=""
             header="Action"
             body={(rowData) => (
-              <div className="flex justify-between cursor-pointer">
-                <Pencil onClick={() => handleEdit(rowData)} />
-                <Trash2 onClick={() => handleDeleteSelection(rowData)} />
-              </div>
+              <Eye onClick={() => navigate(`/invoice/${rowData.id}`)} />
             )}
           />
         </DataTable>
       </div>
-      <Dialog
-        visible={showDialog}
-        onHide={() => setShowDialog(false)}
-        header="Nakladnoyni o'chirmoqchimisiz"
-        footer={
-          <div className="flex justify-between mt-2 min-w-[400px]">
-            <Button label="Bekor qilish" icon="pi pi-times" onClick={() => setShowDialog(false)} className="p-button-text" />
-            <Button label="O'chirish" icon="pi pi-check" className="p-button-danger" onClick={handleDelete} />
-          </div>
-        }
-      />
     </MainLayout>
   );
 };
 
-export default InvoicesPage;
+export default RecieveInvoicePage;

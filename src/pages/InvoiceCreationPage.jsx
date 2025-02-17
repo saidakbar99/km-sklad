@@ -29,7 +29,7 @@ const InvoiceCreationPage = () => {
     const [sehRes, lastInvoiceRes, allUniquesRes] = await Promise.all([
       axios.post(`${process.env.REACT_APP_BASE_URL}/api/seh`, { sehId }),
       axios.get(`${process.env.REACT_APP_BASE_URL}/api/last-invoice`),
-      axios.get(`${process.env.REACT_APP_BASE_URL}/api/invoice`),
+      axios.get(`${process.env.REACT_APP_BASE_URL}/api/invoice-uniques`),
     ]);
 
     setSeh(sehRes.data.seh);

@@ -3,10 +3,13 @@ import { useNavigate  } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { roleRedirects } from '../components/ProtectedRoute';
 import axiosInstance from '../api/axios';
+import { AutoComplete } from 'primereact/autocomplete';
+import axios from 'axios';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,18 +35,26 @@ const LoginPage = () => {
 
       sessionStorage.setItem('token', token);
       sessionStorage.setItem('seh_id', user.seh_id);
-      // sessionStorage.setItem('role', user.role_id);
-      sessionStorage.setItem('role', 'seh_brigadir');
-
-      // navigate(roleRedirects[role]);
-      // navigate(roleRedirects['warehouse']);
-      navigate('/invoice-creation')
+      sessionStorage.setItem('role', user.role.name);
+      
+      navigate(roleRedirects[user.role.name]);
+      // navigate('/invoice-creation')
     } catch (err) {
       if (err.response?.status === 401) {
         toast.error('Login yoki parol noto‘g‘ri');
       } else {
         toast.error('Server xatosi, keyinroq urinib ko‘ring');
       }
+    }
+  };
+
+  const searchUsers = async (event) => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/auth/users?search=${event.query}`);
+      setFilteredUsers(response.data.users.map(user => user.username));
+    } catch (err) {
+      toast.error("Xatolik yuz berdi")
+      console.error("Error fetching users", err);
     }
   };
 
@@ -61,13 +72,17 @@ const LoginPage = () => {
             >
               Login
             </label>
-            <input
-              type="username"
+            <AutoComplete
               id="username"
               className="w-full px-3 py-2 mt-1 border rounded-md focus:ring-blue focus:border-blue"
+              inputClassName='w-full'
+              // className="w-full"
               placeholder="Login kiriting"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.value)}
+              suggestions={filteredUsers}
+              completeMethod={searchUsers}
+              dropdown
             />
           </div>
           <div>
