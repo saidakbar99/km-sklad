@@ -60,23 +60,25 @@ const RecieveInvoiceDetailsPage = () => {
 
   useEffect(() => {
     let scannedCode = "";
-    const handleScan = (event) => {
-      if (event.key === "Enter" && scannedCode) {
-        const matchingInvoice = invoice.find((item) => item.unique.name === scannedCode.trim());
+    const handleBarcodeScan = (event) => {
+      scannedCode += event.key;
+      
+      if (event.key === "Enter") {
+        const trimmedCode = scannedCode.trim();
+        const matchingInvoice = invoice.find((item) => item.unique.name === trimmedCode);
         if (matchingInvoice) {
-          setSelectedItems((prev) =>
+          setSelectedItems((prev) => 
             prev.some((item) => item.unique_id === matchingInvoice.unique_id)
               ? prev
               : [...prev, matchingInvoice]
           );
         }
         scannedCode = "";
-      } else {
-        scannedCode += event.key;
       }
     };
-    window.addEventListener("keydown", handleScan);
-    return () => window.removeEventListener("keydown", handleScan);
+  
+    window.addEventListener("keydown", handleBarcodeScan);
+    return () => window.removeEventListener("keydown", handleBarcodeScan);
   }, [invoice]);
 
   return (
