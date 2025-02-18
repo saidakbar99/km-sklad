@@ -3,38 +3,20 @@ import axios from "axios";
 import MainLayout from "../components/MainLayout";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Eye } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const RecieveInvoicePage = () => {
-  const [selectedItems, setSelectedItems] = useState([]);
   const [invoices, setInvoices] = useState([])
   const [searchText, setSearchText] = useState("");
-  // const [selectedInvoice, setSelectedInvoice] = useState()
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   const filteredData = invoices.filter((item) =>
 		item.id.toString().includes(searchText.toLowerCase())
 	);
-
-  const onSelectionChange = (e) => {
-    setSelectedItems(e.value);
-  };
-
-  const handleRecieve = async () => {
-    try {
-      const invoiceIds = selectedItems.map(item => item.id)
-      await axios.post(`${process.env.REACT_APP_BASE_URL}/api/invoice-recieve`, { invoiceIds })
-      toast.success('Накладнойлар кабул килинди')
-    } catch (error) {
-      console.log(error)
-      toast.error('Накладнойларни кабул килишда хатолик')
-    }
-  }
 
   useEffect(() => {
     const fetchInvoices = async () => {
@@ -66,25 +48,21 @@ const RecieveInvoicePage = () => {
               placeholder="Qidirish..."
             />
           </div>
-          <Button
-            label="Qabul qilish" 
-            className="px-4 text-white min-w-[100px] bg-blue rounded-md hover:bg-opacity-90 w-[200px] ml-4"
-            onClick={handleRecieve}
-            disabled={!selectedItems.length}
-          />
         </div>
         <DataTable
           value={filteredData}
-          selection={selectedItems}
-          onSelectionChange={onSelectionChange}
           emptyMessage="Nakladnoylar yo'q"
           paginator
           rows={5}
           rowsPerPageOptions={[5, 10, 25, 50]}
           loading={loading}
-          selectionMode="multiple"
         >
-          <Column selectionMode="multiple" headerStyle={{ width: "3rem" }} />
+          <Column 
+            field="" 
+            header="N" 
+            headerClassName="w-fit" 
+            body={(_, { rowIndex }) => rowIndex + 1}
+          />
           <Column field="seh" header="Цех" />
           <Column field="id" header="Nakladnoy raqami" />
           <Column
@@ -105,7 +83,7 @@ const RecieveInvoicePage = () => {
             field=""
             header="Action"
             body={(rowData) => (
-              <Eye onClick={() => navigate(`/invoice/${rowData.id}`)} />
+              <Eye className="cursor-pointer" onClick={() => navigate(`/invoice/${rowData.id}`)} />
             )}
           />
         </DataTable>
