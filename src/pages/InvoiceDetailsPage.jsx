@@ -9,7 +9,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "primereact/button";
 import { toast } from "react-toastify";
 
-const RecieveInvoiceDetailsPage = () => {
+const InvoiceDetailsPage = () => {
   const navigate = useNavigate()
   const location = useLocation();
   const [date, setDate] = useState();
@@ -18,7 +18,8 @@ const RecieveInvoiceDetailsPage = () => {
   const [loading, setLoading] = useState(false)
   const [selectedItems, setSelectedItems] = useState([]);
   const invoiceNumber = location.pathname.split('/')[2]
-
+  const role = sessionStorage.getItem('role')
+  
   const onSelectionChange = (e) => {
     setSelectedItems(e.value);
   };
@@ -119,14 +120,16 @@ const RecieveInvoiceDetailsPage = () => {
                 disabled
                 />
             </div>
-            <div className="flex items-end">
-              <Button
-                label="Qabul qilish" 
-                className="h-[42px] text-white min-w-[100px] bg-blue rounded-md hover:bg-opacity-90 w-[200px] ml-4"
-                onClick={handleRecieve}
-                disabled={!selectedItems.length}
-              />
-            </div>
+            {role === 'sklad_rahbari' && (
+              <div className="flex items-end">
+                <Button
+                  label="Qabul qilish" 
+                  className="h-[42px] text-white min-w-[100px] bg-blue rounded-md hover:bg-opacity-90 w-[200px] ml-4"
+                  onClick={handleRecieve}
+                  disabled={!selectedItems.length}
+                />
+              </div>
+            )}
           </div>
         </div>
         <DataTable
@@ -139,7 +142,9 @@ const RecieveInvoiceDetailsPage = () => {
           selection={selectedItems}
           onSelectionChange={onSelectionChange}
         >
-          <Column selectionMode="multiple" headerStyle={{ width: "3rem" }} />
+          {role === 'sklad_rahbari' && (
+            <Column selectionMode="multiple" headerStyle={{ width: "3rem" }} />
+          )}
           <Column 
             field="" 
             header="N" 
@@ -168,4 +173,4 @@ const RecieveInvoiceDetailsPage = () => {
   );
 };
 
-export default RecieveInvoiceDetailsPage;
+export default InvoiceDetailsPage;

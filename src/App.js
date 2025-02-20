@@ -4,12 +4,13 @@ import LoginPage from "./pages/LoginPage";
 import ProtectedRoute, { DefaultRedirect } from "./components/ProtectedRoute";
 import SerialGenerationPage from "./pages/SerialGenerationPage";
 import GeneratedSerialsPage from "./pages/GeneratedSerialsPage";
-import RecieveInvoiceDetailsPage from "./pages/RecieveInvoiceDetailsPage";
+import InvoiceDetailsPage from "./pages/InvoiceDetailsPage";
 import RealeseFurniturePage from "./pages/RealeseFurniturePage";
 import StorageBalancePage from "./pages/StorageBalancePage";
 import InvoicesPage from "./pages/InvoicesPage";
 import InvoiceCreationPage from "./pages/InvoiceCreationPage";
 import RecieveInvoicePage from "./pages/RecieveInvoicePage";
+import InvoicesHistoryPage from "./pages/InvoicesHistoryPage";
 
 const App = () => (
   <Router>
@@ -18,7 +19,7 @@ const App = () => (
       <Route
         path="/generation"
         element={
-          <ProtectedRoute allowedRoles={['sklad_rahbari', 'admin', 'seh_brigadir']}>
+          <ProtectedRoute allowedRoles={['admin', 'seh_brigadir']}>
             <SerialGenerationPage />
           </ProtectedRoute>
         }
@@ -26,7 +27,7 @@ const App = () => (
       <Route
         path="/generated"
         element={
-          <ProtectedRoute allowedRoles={['sklad_rahbari', 'admin', 'seh_brigadir']}>
+          <ProtectedRoute allowedRoles={['admin', 'seh_brigadir']}>
             <GeneratedSerialsPage />
           </ProtectedRoute>
         }
@@ -35,7 +36,7 @@ const App = () => (
         path="/invoice/:id"
         element={
           <ProtectedRoute allowedRoles={['sklad_rahbari', 'admin']}>
-            <RecieveInvoiceDetailsPage />
+            <InvoiceDetailsPage />
           </ProtectedRoute>
         }
       />
@@ -60,6 +61,14 @@ const App = () => (
         element={
           <ProtectedRoute allowedRoles={['admin', 'seh_brigadir']}>
             <InvoicesPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/invoice-history"
+        element={
+          <ProtectedRoute allowedRoles={['admin', 'seh_brigadir']}>
+            <InvoicesHistoryPage />
           </ProtectedRoute>
         }
       />

@@ -58,10 +58,15 @@ const MainLayout = ({children, header}) => {
       command: () => navigate('/invoice-creation'),
       roles: ['admin', 'seh_brigadir']
     },
+    { 
+      label: 'Nakladnoylar tarixi', 
+      icon: 'pi pi-history', 
+      command: () => navigate('/invoice-history'),
+      roles: ['admin', 'seh_brigadir']
+    },
   ];
   
   const userRole = sessionStorage.getItem('role');
-  // const sehId = sessionStorage.getItem('seh_id');
   const filteredMenuItems = menuItems.filter(item => item.roles.includes(userRole));
 
   return (
