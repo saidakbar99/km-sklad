@@ -16,27 +16,27 @@ const InvoicesHistoryPage = () => {
   const [date, setDate] = useState(new Date())
   const navigate = useNavigate()
 
-  const fetchInvoices = async () => {
-    setLoading(true)
-    try {
-      const sehId = parseInt(sessionStorage.getItem('seh_id'))
-      const invoices = await axios.get(`
-        ${process.env.REACT_APP_BASE_URL}/api/invoice-history?seh_id=${sehId}&date=${date.toISOString()}
-      `)
-      setInvoices(invoices.data.invoices)
-    } catch (error) {
-      console.error("Error fetching invoices", error);
-      toast.error('Nakladnoylar yuklashda xatolik')
-    } finally {
-      setLoading(false)
-    }
-  }
-
   const filteredData = invoices.filter((item) =>
 		item.id.toString().includes(searchText.toLowerCase())
 	);
 
   useEffect(() => {
+    const fetchInvoices = async () => {
+      setLoading(true)
+      try {
+        const sehId = parseInt(sessionStorage.getItem('seh_id'))
+        const invoices = await axios.get(`
+          ${process.env.REACT_APP_BASE_URL}/api/invoice-history?seh_id=${sehId}&date=${date.toISOString()}
+        `)
+        setInvoices(invoices.data.invoices)
+      } catch (error) {
+        console.error("Error fetching invoices", error);
+        toast.error('Nakladnoylar yuklashda xatolik')
+      } finally {
+        setLoading(false)
+      }
+    }
+
     fetchInvoices()
   }, [date])
 
