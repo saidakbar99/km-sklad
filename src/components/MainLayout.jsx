@@ -15,59 +15,79 @@ const MainLayout = ({children, header}) => {
     navigate('/login');
   };
 
-  const menuItems = [
-    { 
-      label: 'Skladga qabul qilish',
-      icon: 'pi pi-warehouse',
-      command: () => navigate('/recieve'),
-      roles: ['admin', 'sklad_rahbari']
-    },
-    { 
-      label: 'Sklad ostatok', 
-      icon: 'pi pi-receipt', 
-      command: () => navigate('/balance'),
-      roles: ['admin', 'sklad_rahbari']
-    },
-    { 
-      label: 'Отгрузка', 
-      icon: 'pi pi-truck', 
-      command: () => navigate('/release'), 
-      roles: ['admin', 'sklad_rahbari', 'security']
-    },
-    { 
-      label: 'Seriya nomerlar', 
-      icon: 'pi pi-barcode', 
-      command: () => navigate('/generated'),
-      roles: ['admin', 'seh_brigadir']
-    },
-    { 
-      label: 'Seriya nomer yaratish', 
-      icon: 'pi pi-plus-circle', 
-      command: () => navigate('/generation'),
-      roles: ['admin', 'seh_brigadir']
-    },
-    { 
-      label: 'Nakladnoylar', 
-      icon: 'pi pi-receipt', 
-      command: () => navigate('/invoice'),
-      roles: ['admin', 'seh_brigadir']
-    },
-    { 
-      label: 'Nakladnoy yaratish', 
-      icon: 'pi pi-plus-circle', 
-      command: () => navigate('/invoice-creation'),
-      roles: ['admin', 'seh_brigadir']
-    },
-    { 
-      label: 'Nakladnoylar tarixi', 
-      icon: 'pi pi-history', 
-      command: () => navigate('/invoice-history'),
-      roles: ['admin', 'seh_brigadir']
-    },
-  ];
+  const menuItems2 = [
+		{
+			label: "Seriya nomerlar",
+			items: [
+				{ 
+          label: 'Seriya nomer yaratish', 
+          icon: 'pi pi-plus-circle', 
+          command: () => navigate('/generation'),
+          roles: ['admin', 'seh_brigadir']
+        },
+				{ 
+          label: 'Qidirish', 
+          icon: 'pi pi-barcode', 
+          command: () => navigate('/generated'),
+          roles: ['admin', 'seh_brigadir']
+        },
+			],
+		},
+		{
+			label: "Nakladnoylar",
+			items: [
+				{ 
+          label: 'Nakladnoy yaratish', 
+          icon: 'pi pi-plus-circle', 
+          command: () => navigate('/invoice-creation'),
+          roles: ['admin', 'seh_brigadir']
+        },
+				{ 
+          label: 'Qidirish', 
+          icon: 'pi pi-receipt', 
+          command: () => navigate('/invoice'),
+          roles: ['admin', 'seh_brigadir']
+        },
+        { 
+          label: 'Tarix', 
+          icon: 'pi pi-history', 
+          command: () => navigate('/invoice-history'),
+          roles: ['admin', 'seh_brigadir']
+        },
+			],
+		},
+    {
+			label: "Sklad",
+			items: [
+				{ 
+          label: 'Qabul qilish', 
+          icon: 'pi pi-plus-circle', 
+          command: () => navigate('/generation'),
+          roles: ['admin', 'sklad_rahbari']
+        },
+				{ 
+          label: 'Остаток', 
+          icon: 'pi pi-receipt', 
+          command: () => navigate('/balance'),
+          roles: ['admin', 'sklad_rahbari']
+        },
+        { 
+          label: 'Отгрузка', 
+          icon: 'pi pi-truck', 
+          command: () => navigate('/release'), 
+          roles: ['admin', 'sklad_rahbari', 'security']
+        },
+			],
+		},
+	];
   
   const userRole = sessionStorage.getItem('role');
-  const filteredMenuItems = menuItems.filter(item => item.roles.includes(userRole));
+  const filteredMenuItems = menuItems2
+    .map(route => ({
+      ...route,
+      items: route.items.filter(item => item.roles.includes(userRole))
+    }))
+    .filter(route => route.items.length > 0); 
 
   return (
     <div className="font-hyundai">
