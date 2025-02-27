@@ -24,8 +24,10 @@ const InvoiceDetailsPage = () => {
   const role = sessionStorage.getItem('role')
   const scannerInputRef = useRef(null);
 
+  console.log('>>>invoice',invoice)
+
   const handleScannerInput = (scannedId) => {
-    const invoiceToSelect = invoice.find(inv => inv.unique_id === scannedId);
+    const invoiceToSelect = invoice.find(inv => inv.unique.name === scannedId);
     if (invoiceToSelect) {
       setSelectedFurnitures(prev => {
         const isAlreadySelected = prev.some(item => item.unique_id === scannedId);
