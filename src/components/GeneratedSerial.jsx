@@ -10,6 +10,7 @@ export const GeneratedSerial = ({selectedPrinter, serial}) => {
 	const furnitureFullname = `${category} ${komplekt} ${mebel}`
 	const demandNumber = serial?.demand_furniture?.demand?.doc_no
 	const color = serial?.unique?.color?.name || serial?.demand_furniture?.color?.name
+	const packageQuantity = serial?.unique?.package_quantity
 
 	const handlePrint = () => {
 		if (!selectedPrinter) {
@@ -21,7 +22,8 @@ export const GeneratedSerial = ({selectedPrinter, serial}) => {
 			serial.unique.name,
 			demandNumber,
 			furnitureFullname,
-			color
+			color,
+			packageQuantity
 		);
 	};
 
@@ -31,12 +33,9 @@ export const GeneratedSerial = ({selectedPrinter, serial}) => {
 				<QRCodeCanvas value={serial.unique.name} size={200} />
 				<div className="w-full">
 					<p className="mb-4 text-4xl">Серия# {serial.unique.name}</p>
+					<p className="text-[28px] mb-4">{category} {komplekt} {mebel}</p>
 					{serial.demand_furniture && (
 						<p className="mb-4 text-4xl">Заказ# {demandNumber}</p>
-					)}
-					<p className="text-[28px] mb-4">{category} {komplekt} {mebel}</p>
-					{color && (
-						<p className="text-lg text-right">Ранги: {color}</p>
 					)}
 				</div>
 			</div>

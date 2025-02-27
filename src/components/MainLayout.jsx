@@ -15,7 +15,7 @@ const MainLayout = ({children, header}) => {
     navigate('/login');
   };
 
-  const menuItems2 = [
+  const menuItems = [
 		{
 			label: "Seriya nomerlar",
 			items: [
@@ -62,7 +62,7 @@ const MainLayout = ({children, header}) => {
 				{ 
           label: 'Qabul qilish', 
           icon: 'pi pi-plus-circle', 
-          command: () => navigate('/generation'),
+          command: () => navigate('/recieve'),
           roles: ['admin', 'sklad_rahbari']
         },
 				{ 
@@ -82,7 +82,7 @@ const MainLayout = ({children, header}) => {
 	];
   
   const userRole = sessionStorage.getItem('role');
-  const filteredMenuItems = menuItems2
+  const filteredMenuItems = menuItems
     .map(route => ({
       ...route,
       items: route.items.filter(item => item.roles.includes(userRole))

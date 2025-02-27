@@ -21,7 +21,8 @@ export async function printLabel(
   serialNumber,
   demandNumber,
   furnitureFullname,
-  color
+  color,
+  copies = 1
 ) {
   await connectQZTray();
   
@@ -29,31 +30,31 @@ export async function printLabel(
   const zplCommand = `
 ^XA
 ^CI28
+
 ^FO20,200
 ^BQN,2,20
 ^FD   ${serialNumber}^FS
 
 ^FO30,100
-^AUN,60,60
+^AUN,40,40
 ^FD${furnitureFullname}^FS
 
-^FO300,230
-^AUN,60,60
-${demandNumber ? `^FDЗаказ# ${demandNumber}^FS` : ''}
+^FO300,200
+^AUN,40,40
+^FDСерия# ${serialNumber}^FS
 
-^FO300,360
-^AUN,60,60
-^FD${`Серия# ${serialNumber}`}^FS
+${demandNumber ? `^FO300,300
+^AUN,40,40
+^FDЗаказ# ${demandNumber}^FS` : ''}
 
-^FO300,500
-^AUN,50,50
-${color ? `^FDРанги: ${color}^FS` : ''}
 ^XZ
-  `;
+`;
 
   try {
-    await qz.print(config, [zplCommand]);
-    console.log("Print job sent successfully");
+    for (let i = 0; i < copies; i++) {
+      await qz.print(config, [zplCommand]);
+    }
+    console.log(`Print job sent successfully (${copies} copies)`);
   } catch (error) {
     console.error("Print error:", error);
   }
