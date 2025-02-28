@@ -30,7 +30,7 @@ const LoginPage = () => {
     }
 
     try {
-      const response = await axiosInstance.post(`/auth/login`, { username, password })
+      const response = await axiosInstance.post(`/api/login`, { username, password })
       const { token, user } = response.data;
 
       sessionStorage.setItem('token', token);
@@ -50,7 +50,7 @@ const LoginPage = () => {
 
   const searchUsers = async (event) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/auth/users?search=${event.query}`);
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/users?search=${event.query}`);
       setFilteredUsers(response.data.users.map(user => user.username));
     } catch (err) {
       toast.error("Xatolik yuz berdi")
