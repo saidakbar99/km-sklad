@@ -51,10 +51,8 @@ ${demandNumber ? `^FO300,300
 `;
 
   try {
-    for (let i = 0; i < copies; i++) {
-      await qz.print(config, [zplCommand]);
-    }
-    console.log(`Print job sent successfully (${copies} copies)`);
+    await qz.print(config, [zplCommand]);
+    console.log("Print job sent successfully");
   } catch (error) {
     console.error("Print error:", error);
   }
