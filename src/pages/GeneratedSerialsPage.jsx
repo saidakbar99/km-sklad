@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { InputText } from "primereact/inputtext";
 
 const GeneratedSerialsPage = () => {
 	const [printers, setPrinters] = useState([]);
@@ -13,9 +14,24 @@ const GeneratedSerialsPage = () => {
 	const [serials, setSerials] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+	const [searchText, setSearchText] = useState("");
 
 	console.log(error)
-	console.log(loading)
+
+	const filteredSerials = serials.filter((serial) =>
+		serial.unique?.name?.toLowerCase().includes(searchText.toLowerCase()) ||
+		(Array.isArray(serial.demand_furniture) && 
+			serial.demand_furniture.some((df) => 
+				df.demand?.doc_no?.toLowerCase().includes(searchText.toLowerCase())
+			)
+		)
+	);
+
+	const handlePrinterChange = (e) => {
+		const printer = e.target.value;
+		setSelectedPrinter(printer);
+		localStorage.setItem("selectedPrinter", printer);
+	};
 
 	useEffect(() => {
 		const initializeQZTray = async () => {
@@ -53,30 +69,16 @@ const GeneratedSerialsPage = () => {
 		fetchGeneratedSerials();
 	}, []);
 
-	const handlePrinterChange = (e) => {
-		const printer = e.target.value;
-		setSelectedPrinter(printer);
-		localStorage.setItem("selectedPrinter", printer);
-	};
-
-	// if (loading) {
-	// 	return <div>Loading printers...</div>;
-	// }
-
-	// if (error) {
-	// 	return <div>{error}</div>;
-	// }
-
 	return (
 		<MainLayout header="Yaratilgan seriya nomerlar">
 			<div className="max-w-[1140px] mx-auto">
-				<div className="flex items-center justify-between mb-6">
+				<div className="flex items-end justify-between mb-6">
 					<div>
 						<h2 className="text-lg font-bold">Printerni tanlash</h2>
 						<select
 							value={selectedPrinter}
 							onChange={handlePrinterChange}
-							className="p-3 mt-2 border rounded-lg"
+							className="p-2.5 mt-2 border rounded-lg"
 						>
 							<option value="">Printerni tanlang</option>
 							{printers.map((printer, index) => (
@@ -86,8 +88,15 @@ const GeneratedSerialsPage = () => {
 							))}
 						</select>
 					</div>
+					<InputText
+						value={searchText}
+						onChange={(e) => setSearchText(e.target.value)}
+						className="px-4 py-2 border w-full mx-4"
+						icon="pi pi-search"
+						placeholder="Qidirish..."
+					/>
 					<Link to="/generation">
-						<button className="w-full px-4 py-2 text-white rounded-md bg-blue hover:bg-opacity-90">
+						<button className="w-full px-4 py-2.5 text-white rounded-md bg-blue hover:bg-opacity-90 whitespace-nowrap">
 							Generatsiya qilish
 						</button>
 					</Link>
@@ -96,8 +105,8 @@ const GeneratedSerialsPage = () => {
 					<div className="flex justify-center my-10">
 						<ProgressSpinner />
 					</div>
-				) : serials.length ? (
-					serials.map((serial) => (
+				) : filteredSerials.length ? (
+					filteredSerials.map((serial) => (
 						<GeneratedSerial key={serial.id} serial={serial} selectedPrinter={selectedPrinter} />
 					))
 				) : (
