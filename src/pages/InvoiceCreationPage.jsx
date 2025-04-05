@@ -116,7 +116,7 @@ const InvoiceCreationPage = () => {
   );
 
   return (
-    <MainLayout header='Nakladnoy yaratish'> 
+    <MainLayout header='Создание накладной'> 
       <div className="max-w-[1140px] mx-auto">
         <div className="p-6 pt-0">
           <div className="flex">
@@ -124,7 +124,7 @@ const InvoiceCreationPage = () => {
               <label
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                Nakladnoy raqami
+                Номер накладной
               </label>
               <InputText
                 value={invoiceNumber + 1 || ''}
@@ -134,9 +134,9 @@ const InvoiceCreationPage = () => {
             </div>
             <div className="flex flex-col mr-12">
               <label
-                className="text-sm font-medium text-gray-700 mb-1"
+                className="text-sm font-medium text-gray-700 mb-1"  
               >
-                Seh
+                Склад
               </label>
               <InputText
                 value={seh?.name || ''}
@@ -148,7 +148,7 @@ const InvoiceCreationPage = () => {
               <label
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                Nakladnoy sanasi
+                Дата накладной:
               </label>
               <Calendar 
                 value={date}
@@ -171,7 +171,7 @@ const InvoiceCreationPage = () => {
             headerClassName="w-fit" 
             body={(_, { rowIndex }) => rowIndex + 1}
           />
-          <Column field="unique.name" header="Unikal nomer" />
+          <Column field="unique.name" header="Уникальный номер" />
           <Column 
             field='' 
             header="Клиент" 
@@ -186,7 +186,7 @@ const InvoiceCreationPage = () => {
             }
           />
           <Column field="furniture.name" header="Мебель" />
-          <Column field="amount" header="Сони" />
+          <Column field="amount" header="Количество" />
           <Column 
             body={(rowData) => (
               <Trash2 
@@ -199,7 +199,7 @@ const InvoiceCreationPage = () => {
 
         <InputText
           className="pl-3 border max-[480px]:h-[2.5em] h-[2.5em] my-4"
-          placeholder="Unikal nomer"
+          placeholder="Уникал номер"
           onChange={(e) => setSearchText(e.target.value)}
         />
         <DataTable
@@ -215,7 +215,7 @@ const InvoiceCreationPage = () => {
             headerClassName="w-fit" 
             body={(_, { rowIndex }) => rowIndex + 1} 
           />
-          <Column field="unique.name" header="Unikal nomer" />
+          <Column field="unique.name" header="Уникальный номер" />
           <Column 
             field='' 
             header="Клиент" 
@@ -231,7 +231,7 @@ const InvoiceCreationPage = () => {
             }
           />
           <Column field="furniture.name" header="Мебель" />
-          <Column field="amount" header="Сони" />
+          <Column field="amount" header="Количество" />
           <Column 
             body={(rowData) => (
               <Plus 
@@ -245,7 +245,7 @@ const InvoiceCreationPage = () => {
           className="px-4 py-2 text-white rounded-md bg-blue hover:bg-opacity-90 my-8"
           onClick={saveInvoice}
         >
-          {editingInvoice ? "Yangilash" : "Generatsiya qilish"}
+          {editingInvoice ? "Обновить" : "Генерация данных"}
         </button>
       </div>
     </MainLayout>

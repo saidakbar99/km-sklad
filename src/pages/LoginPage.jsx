@@ -25,7 +25,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     if (!username || !password) {
-      toast.error('Login va parolni kiriting');
+      toast.error('Введите логин и пароль');
       return;
     }
 
@@ -41,9 +41,9 @@ const LoginPage = () => {
       // navigate('/invoice-creation')
     } catch (err) {
       if (err.response?.status === 401) {
-        toast.error('Login yoki parol noto‘g‘ri');
+        toast.error('Логин или пароль неверный');
       } else {
-        toast.error('Server xatosi, keyinroq urinib ko‘ring');
+        toast.error('Ошибка сервера, попробуйте позже');
       }
     }
   };
@@ -53,7 +53,7 @@ const LoginPage = () => {
       const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/users?search=${event.query}`);
       setFilteredUsers(response.data.users.map(user => user.username));
     } catch (err) {
-      toast.error("Xatolik yuz berdi")
+      toast.error("Произошла ошибка")
       console.error("Error fetching users", err);
     }
   };
@@ -76,7 +76,7 @@ const LoginPage = () => {
               id="username"
               className="w-full px-3 py-2 mt-1 border rounded-md focus:ring-blue focus:border-blue"
               inputClassName='w-full'
-              placeholder="Login kiriting"
+              placeholder="Введите логин"
               value={username}
               onChange={(e) => setUsername(e.value)}
               suggestions={filteredUsers}
@@ -95,7 +95,7 @@ const LoginPage = () => {
               type="password"
               id="password"
               className="w-full px-3 py-2 mt-1 border rounded-md focus:ring-blue focus:border-blue"
-              placeholder="Parol kiriting"
+              placeholder="Введите пароль"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -104,7 +104,7 @@ const LoginPage = () => {
               type="submit"
               className="w-full px-4 py-2 text-white bg-blue rounded-md hover:bg-opacity-90 mt-8"
             >
-              Kirish
+              Войти
             </button>
         </form>
       </div>

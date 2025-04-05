@@ -17,16 +17,16 @@ const MainLayout = ({children, header}) => {
 
   const menuItems = [
 		{
-			label: "Seriya nomerlar",
+			label: "Номера серий",
 			items: [
 				{ 
-          label: 'Seriya nomer yaratish', 
+          label: 'Создание номера серии', 
           icon: 'pi pi-plus-circle', 
           command: () => navigate('/generation'),
           roles: ['admin', 'seh_brigadir']
         },
 				{ 
-          label: 'Qidirish', 
+          label: 'Поиск', 
           icon: 'pi pi-barcode', 
           command: () => navigate('/generated'),
           roles: ['admin', 'seh_brigadir']
@@ -34,22 +34,22 @@ const MainLayout = ({children, header}) => {
 			],
 		},
 		{
-			label: "Nakladnoylar",
+			label: "Накладные",
 			items: [
 				{ 
-          label: 'Nakladnoy yaratish', 
+          label: 'Создать накладную', 
           icon: 'pi pi-plus-circle', 
           command: () => navigate('/invoice-creation'),
           roles: ['admin', 'seh_brigadir']
         },
 				{ 
-          label: 'Qidirish', 
+          label: 'Поиск', 
           icon: 'pi pi-receipt', 
           command: () => navigate('/invoice'),
           roles: ['admin', 'seh_brigadir']
         },
         { 
-          label: 'Tarix', 
+          label: 'История', 
           icon: 'pi pi-history', 
           command: () => navigate('/invoice-history'),
           roles: ['admin', 'seh_brigadir']
@@ -57,10 +57,10 @@ const MainLayout = ({children, header}) => {
 			],
 		},
     {
-			label: "Sklad",
+			label: "Склад",
 			items: [
 				{ 
-          label: 'Qabul qilish', 
+          label: 'Принять', 
           icon: 'pi pi-plus-circle', 
           command: () => navigate('/recieve'),
           roles: ['admin', 'sklad_rahbari']
@@ -100,7 +100,7 @@ const MainLayout = ({children, header}) => {
         <h1 className="w-full text-3xl font-bold">
           {header}
         </h1>
-        <button onClick={handleLogout} className="border rounded-lg p-2">Chiqish</button>
+        <button onClick={handleLogout} className="border rounded-lg p-2">Выход</button>
         
       </div>
 

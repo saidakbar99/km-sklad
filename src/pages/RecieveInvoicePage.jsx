@@ -26,7 +26,7 @@ const RecieveInvoicePage = () => {
         setInvoices(invoices.data.invoices)
       } catch (error) {
         console.error("Error fetching invoices", error);
-        toast.error('Nakladnoylar yuklashda xatolik')
+        toast.error('Ошибка при загрузке накладных')
       } finally {
         setLoading(false)
       }

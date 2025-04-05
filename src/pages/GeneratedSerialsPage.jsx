@@ -59,7 +59,7 @@ const GeneratedSerialsPage = () => {
 				const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/serials`, { sehId });
 				setSerials(response.data.serials);
 			} catch (error) {
-				toast.error("Seriya raqamlarni ko'rsatishda xatolik")
+				toast.error("Ошибка при отображении серийных номеров")
 			} finally {
 				setLoading(false)
 			}
@@ -70,17 +70,17 @@ const GeneratedSerialsPage = () => {
 	}, []);
 
 	return (
-		<MainLayout header="Yaratilgan seriya nomerlar">
+		<MainLayout header="Созданные серийные номера">
 			<div className="max-w-[1140px] mx-auto">
 				<div className="flex items-end justify-between mb-6">
 					<div>
-						<h2 className="text-lg font-bold">Printerni tanlash</h2>
+						<h2 className="text-lg font-bold">Выбор принтера</h2>
 						<select
 							value={selectedPrinter}
 							onChange={handlePrinterChange}
 							className="p-2.5 mt-2 border rounded-lg"
 						>
-							<option value="">Printerni tanlang</option>
+							<option value="">Выбор принтера</option>
 							{printers.map((printer, index) => (
 								<option key={index} value={printer}>
 									{printer}
@@ -93,11 +93,11 @@ const GeneratedSerialsPage = () => {
 						onChange={(e) => setSearchText(e.target.value)}
 						className="px-4 py-2 border w-full mx-4"
 						icon="pi pi-search"
-						placeholder="Qidirish..."
+						placeholder="Поиск..."
 					/>
 					<Link to="/generation">
 						<button className="w-full px-4 py-2.5 text-white rounded-md bg-blue hover:bg-opacity-90 whitespace-nowrap">
-							Generatsiya qilish
+						Генерировать
 						</button>
 					</Link>
 				</div>
@@ -110,7 +110,7 @@ const GeneratedSerialsPage = () => {
 						<GeneratedSerial key={serial.id} serial={serial} selectedPrinter={selectedPrinter} />
 					))
 				) : (
-					<div className="text-center text-gray-600">Seriaya nomerlarni yaratilmagan</div>
+					<div className="text-center text-gray-600">Серийные номера не созданы</div>
 				)}
 			</div>
 		</MainLayout>

@@ -13,7 +13,7 @@ const RealeseFurniturePage = () => {
   const [searchText, setSearchText] = useState("");
 
   const options = [
-    { label: "Tanlanmagan", value: "" },
+    { label: "Не выбран", value: "" },
     { label: "A1-blok", value: "a1" },
     { label: "A2-blok", value: "a2" },
     { label: "B1-blok", value: "b1" },
@@ -53,13 +53,13 @@ const RealeseFurniturePage = () => {
               value={filter} 
               options={options} 
               onChange={(e) => setFilter(e.value)} 
-              placeholder="Blokni tanlang" 
+              placeholder="Выберите блок" 
               className="w-48 border"
             />
             <InputText
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              placeholder="Qidirish..."
+              placeholder="Поиск..."
               className="px-4 py-2 border w-full mx-4"
             />
             <ExportButton data={filteredData} fileName='Отгрузка' />
@@ -86,7 +86,7 @@ const RealeseFurniturePage = () => {
           <Column field="clientName" header="Клиент" />
           <Column field="bundle" header="Комплект" />
           <Column field="furniture" header="Мебель" />
-          <Column field="quantity" header="Сони" />
+          <Column field="quantity" header="Количество" />
           {/* <Column field="date" header="Сана" /> */}
         </DataTable>
       </div>

@@ -109,7 +109,7 @@ const SerialGenerationPage = () => {
       navigate('/generated')
     } catch (error) {
       console.log('Error:', error)
-      toast.error('Seriya nomer yaratishda xatolik!')
+      toast.error('Ошибка при создании серийного номера!')
     }
   }
 
@@ -131,7 +131,7 @@ const SerialGenerationPage = () => {
       navigate('/generated')
     } catch (error) {
       console.log('Error:', error)
-      toast.error('Seriya nomer yaratishda xatolik!')
+      toast.error('Ошибка при создании серийного номера!')
     }
   }
 
@@ -157,18 +157,18 @@ const SerialGenerationPage = () => {
   }, [activeIndex])
   
   return (
-    <MainLayout header='Seriya nomer yaratish'>
+    <MainLayout header='Создание серийного номера'>
       <div className="w-full flex justify-center mb-12">
         <TabView
           activeIndex={activeIndex}
           onTabChange={(e) => setActiveIndex(e.index)}
           className="border-none w-full max-w-[760px] mx-auto"
         >
-          <TabPanel header={<span className={`pb-2 ${activeIndex === 0 ? 'border-b-2 border-blue-500' : ''}`}>Mijozniki</span>}>
+          <TabPanel header={<span className={`pb-2 ${activeIndex === 0 ? 'border-b-2 border-blue-500' : ''}`}>Клиентские</span>}>
             <div className="w-full">
               <div className="flex flex-col mb-8">
                 <label className="text-sm mb-1.5 font-semibold">
-                  Zakaz nomeri
+                Номер заказа
                 </label>
                 <AutoComplete 
                   value={selectedDemand} 
@@ -184,7 +184,7 @@ const SerialGenerationPage = () => {
               
               <div className="flex flex-col mb-8">
                 <label className="text-sm mb-1.5 font-semibold">
-                  Mebel
+                  Мебель
                 </label>
                 <Dropdown
                   value={selectedFurniture} 
@@ -192,7 +192,7 @@ const SerialGenerationPage = () => {
                   options={clientFurniture}
                   disabled={!clientFurniture.length}
                   optionLabel="name" 
-                  placeholder="Mebel tanlang" 
+                  placeholder="Выберите мебель" 
                   className="w-full border rounded-lg"
                   loading={!clientFurniture.length && selectedDemand}
                 />
@@ -200,7 +200,7 @@ const SerialGenerationPage = () => {
 
               <div className="flex flex-col mb-8">
                 <label className="text-sm mb-1.5 font-semibold">
-                  Soni
+                  Количесво
                 </label>
                 <div className="flex items-end">
                   <InputNumber
@@ -216,7 +216,7 @@ const SerialGenerationPage = () => {
 
               <div className="flex flex-col mb-8">
                 <label className="text-sm mb-1.5 font-semibold">
-                  Bitta mebel nechta qutiga joylandi
+                В какую количество коробок была упакована одна мебель
                 </label>
                 <div className="flex items-end">
                   <InputNumber
@@ -238,37 +238,37 @@ const SerialGenerationPage = () => {
                 onClick={generateClientSerial}
                 disabled={!selectedFurniture || !packageQuantity}
               >
-                Generatsiya qilish
+                Генерировать
               </button>
               
             </div>
           </TabPanel>
-          <TabPanel header={<span className={`pb-2 ${activeIndex === 1 ? 'border-b-2 border-blue-500' : ''}`}>Supermarket</span>}>
+          <TabPanel header={<span className={`pb-2 ${activeIndex === 1 ? 'border-b-2 border-blue-500' : ''}`}>Супермаркет</span>}>
             <div className="w-full">
               <div className="flex flex-col mb-8">
                 <label className="text-sm mb-1.5 font-semibold">
-                  Kategoriya
+                  Категория
                 </label>
                 <Dropdown
                   value={selectedCategory} 
                   onChange={(e) => handleStoreSetSelect(e.value)}
                   options={allCategories} 
                   optionLabel="name" 
-                  placeholder="Kategoriya tanlang" 
+                  placeholder="Выберите категорию" 
                   className="w-full border rounded-lg" 
                 />
               </div>
 
               <div className="flex flex-col mb-8">
                 <label className="text-sm mb-1.5 font-semibold">
-                  Komplekt
+                  Комплект
                 </label>
                 <Dropdown
                   value={selectedSet} 
                   onChange={(e) => handleStoreFurnitureSelect(e.value)} 
                   options={sets} 
                   optionLabel="name" 
-                  placeholder="Komplektni tanlang" 
+                  placeholder="Выберите комплект" 
                   className="w-full border rounded-lg"
                   disabled={!sets.length}
                   loading={!sets.length && selectedCategory}
@@ -277,14 +277,14 @@ const SerialGenerationPage = () => {
 
               <div className="flex flex-col mb-8">
                 <label className="text-sm mb-1.5 font-semibold">
-                  Mebel
+                  Мебель
                 </label>
                 <Dropdown
                   value={selectedStoreFurniture} 
                   onChange={(e) => setSelectedStoreFurniture(e.value)} 
                   options={storeFurniture} 
                   optionLabel="name" 
-                  placeholder="Mebelni tanlang" 
+                  placeholder="Выберите мебель" 
                   className="w-full border rounded-lg"
                   disabled={!storeFurniture.length}
                   loading={!storeFurniture.length && selectedSet }
@@ -293,7 +293,7 @@ const SerialGenerationPage = () => {
 
               <div className="flex flex-col mb-8">
                 <label className="text-sm mb-1.5 font-semibold">
-                  Soni
+                  Количесво
                 </label>
                 <InputNumber
                   value={storeAmount} 
@@ -305,13 +305,13 @@ const SerialGenerationPage = () => {
 
               <div className="flex flex-col mb-8">
                 <label className="text-sm mb-1.5 font-semibold">
-                  Rangi
+                  Цвет
                 </label>
                 <Dropdown 
                   value={selectedColor} 
                   onChange={(e) => setSelectedColor(e.value)}
                   options={colors}
-                  placeholder="Rangni tanlang" 
+                  placeholder="Выберите цвет" 
                   optionLabel="name" 
                   className="w-full border rounded-lg"
                   disabled={!colors.length}
@@ -321,14 +321,14 @@ const SerialGenerationPage = () => {
 
               <div className="flex flex-col mb-8">
                 <label className="text-sm mb-1.5 font-semibold">
-                  Daraxt
+                Дерево
                 </label>
                 <Dropdown
                   value={selectedTree} 
                   onChange={(e) => setSelectedTree(e.value)} 
                   options={trees} 
                   optionLabel="name" 
-                  placeholder="Daraxtni tanlang" 
+                  placeholder="Выберите дерево" 
                   className="w-full border rounded-lg"
                   disabled={!trees.length}
                   loading={!trees.length}
@@ -360,7 +360,7 @@ const SerialGenerationPage = () => {
                 onClick={generateStoreSerial}
                 disabled={!selectedStoreFurniture || !storeAmount || !selectedColor || !selectedTree}
               >
-                Generatsiya qilish
+                Генерировать
               </button>
             </div>
           </TabPanel>
