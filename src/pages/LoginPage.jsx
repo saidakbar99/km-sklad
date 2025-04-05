@@ -25,7 +25,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     if (!username || !password) {
-      toast.error('Login va parolni kiriting');
+      toast.error('Введите логин и пароль');
       return;
     }
 
@@ -40,10 +40,10 @@ const LoginPage = () => {
       navigate(roleRedirects[user.role.name]);
       // navigate('/invoice-creation')
     } catch (err) {
-      if (err.status === 403) {
-        toast.error('Login yoki parol noto‘g‘ri');
+      if (err.response?.status === 401) {
+        toast.error('Логин или пароль неверный');
       } else {
-        toast.error('Server xatosi, keyinroq urinib ko‘ring');
+        toast.error('Ошибка сервера, попробуйте позже');
       }
     }
   };
@@ -53,7 +53,7 @@ const LoginPage = () => {
       const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/users?search=${event.query}`);
       setFilteredUsers(response.data.users.map(user => user.username));
     } catch (err) {
-      toast.error("Xatolik yuz berdi")
+      toast.error("Произошла ошибка")
       console.error("Error fetching users", err);
     }
   };
@@ -62,7 +62,7 @@ const LoginPage = () => {
     <div className="flex items-center justify-center min-h-screen bg-blue">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
         <h2 className="mb-6 text-2xl font-bold text-center text-blue">
-          Login
+          Вход 
         </h2>
         <form className="space-y-4" onSubmit={handleLogin}>
           <div>
@@ -70,13 +70,13 @@ const LoginPage = () => {
               htmlFor="username"
               className="text-sm font-medium text-gray-700"
             >
-              Login
+              Логин
             </label>
             <AutoComplete
               id="username"
               className="w-full px-3 py-2 mt-1 border rounded-md focus:ring-blue focus:border-blue"
               inputClassName='w-full'
-              placeholder="Login kiriting"
+              placeholder="Введите логин"
               value={username}
               onChange={(e) => setUsername(e.value)}
               suggestions={filteredUsers}
@@ -89,13 +89,13 @@ const LoginPage = () => {
               htmlFor="password"
               className="text-sm font-medium text-gray-700"
             >
-              Password
+              Пароль
             </label>
             <input
               type="password"
               id="password"
               className="w-full px-3 py-2 mt-1 border rounded-md focus:ring-blue focus:border-blue"
-              placeholder="Parol kiriting"
+              placeholder="Введите пароль"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -104,7 +104,7 @@ const LoginPage = () => {
               type="submit"
               className="w-full px-4 py-2 mt-8 text-white rounded-md bg-blue hover:bg-opacity-90"
             >
-              Kirish
+              Войти
             </button>
         </form>
       </div>
