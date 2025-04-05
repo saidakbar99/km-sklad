@@ -91,16 +91,16 @@ const MainLayout = ({children, header}) => {
 
   return (
     <div className="font-hyundai">
-      <div className="flex bg-blue text-white p-4 text-center items-center">
+      <div className="flex items-center p-4 text-center text-white bg-blue">
         <Button 
           icon="pi pi-bars" 
-          className="ml-4 p-2 text-white" 
+          className="p-2 ml-4 text-white" 
           onClick={() => setVisibleSidebar(true)} 
         />
-        <h1 className="w-full text-3xl font-bold">
+        <h1 className="w-full text-3xl font-bold max-sm:text-2xl max-[460px]:text-xl px-3">
           {header}
         </h1>
-        <button onClick={handleLogout} className="border rounded-lg p-2">Chiqish</button>
+        <button onClick={handleLogout} className="p-2 border rounded-lg">Chiqish</button>
         
       </div>
 

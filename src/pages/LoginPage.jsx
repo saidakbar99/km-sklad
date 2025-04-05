@@ -59,7 +59,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-blue">
+    <div className="flex items-center justify-center min-h-screen bg-blue">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
         <h2 className="mb-6 text-2xl font-bold text-center text-blue">
           Login
@@ -102,7 +102,7 @@ const LoginPage = () => {
           </div>
             <button
               type="submit"
-              className="w-full px-4 py-2 text-white bg-blue rounded-md hover:bg-opacity-90 mt-8"
+              className="w-full px-4 py-2 mt-8 text-white rounded-md bg-blue hover:bg-opacity-90"
             >
               Kirish
             </button>
