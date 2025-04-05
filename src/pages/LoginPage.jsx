@@ -40,7 +40,7 @@ const LoginPage = () => {
       navigate(roleRedirects[user.role.name]);
       // navigate('/invoice-creation')
     } catch (err) {
-      if (err.response?.status === 401) {
+      if (err.status === 403) {
         toast.error('Login yoki parol noto‘g‘ri');
       } else {
         toast.error('Server xatosi, keyinroq urinib ko‘ring');
