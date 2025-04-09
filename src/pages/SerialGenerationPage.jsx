@@ -130,6 +130,9 @@ const SerialGenerationPage = () => {
 					date: new Date().toISOString(),
 					demandFurnitureId: selectedFurniture.demand_furniture_id,
 					sehId: parseInt(sehId),
+					glass_quantity: mirror,
+					glass_wood_quantity: mirrorWood,
+					lxdf_quantity: lxdf,
 				}),
 			]);
 
@@ -154,6 +157,10 @@ const SerialGenerationPage = () => {
 						amount: storeAmount,
 						date: new Date().toISOString(),
 						sehId: parseInt(sehId),
+						packageQuantity: marketPackage,
+						glass_quantity: marketMirror,
+						glass_wood_quantity: marketMirrorWood,
+						lxdf_quantity: marketLxdf,
 					}
 				),
 			]);
