@@ -83,20 +83,20 @@ const InvoiceCreationPage = () => {
           date,
           uniqueIds,
         });
-        toast.success("Nakladnoy yangilandi");
+        toast.success("Накладной янгиланди");
       } else {
         await axios.post(`${process.env.REACT_APP_BASE_URL}/api/invoice-creation`, {
           sehId: seh.id,
           date,
           uniqueIds,
         });
-        toast.success("Nakladnoy yaratildi");
+        toast.success("Накладной янгиланди");
       }
 
       navigate('/invoice')
     } catch (error) {
       console.log("Error: ", error)
-      toast.error('Xatolik yuz berdi')
+      toast.error('Хатолик юз берди')
     }
   }
 
@@ -116,7 +116,7 @@ const InvoiceCreationPage = () => {
   );
 
   return (
-    <MainLayout header='Создание накладной'> 
+    <MainLayout header='Накландной яратиш'> 
       <div className="max-w-[1140px] mx-auto">
         <div className="p-6 pt-0">
           <div className="flex">
@@ -124,7 +124,7 @@ const InvoiceCreationPage = () => {
               <label
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                Номер накладной
+                Накладной раками 
               </label>
               <InputText
                 value={invoiceNumber + 1 || ''}
@@ -136,7 +136,7 @@ const InvoiceCreationPage = () => {
               <label
                 className="text-sm font-medium text-gray-700 mb-1"  
               >
-                Склад
+                Сех
               </label>
               <InputText
                 value={seh?.name || ''}
@@ -148,7 +148,7 @@ const InvoiceCreationPage = () => {
               <label
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                Дата накладной:
+                Накладной санаси
               </label>
               <Calendar 
                 value={date}
@@ -171,13 +171,13 @@ const InvoiceCreationPage = () => {
             headerClassName="w-fit" 
             body={(_, { rowIndex }) => rowIndex + 1}
           />
-          <Column field="unique.name" header="Уникальный номер" />
+          <Column field="unique.name" header="Уникал номер" />
           <Column 
             field='' 
             header="Клиент" 
             body={(rowData) => rowData.demand_furniture_id 
               ? rowData.demand_furniture.demand.customer.name
-              : 'Supermarket'
+              : 'Супермаркет'
             }
           />
           <Column field="" header="Комплект"
@@ -186,7 +186,7 @@ const InvoiceCreationPage = () => {
             }
           />
           <Column field="furniture.name" header="Мебель" />
-          <Column field="amount" header="Количество" />
+          <Column field="amount" header="Сони" />
           <Column 
             body={(rowData) => (
               <Trash2 
@@ -215,13 +215,13 @@ const InvoiceCreationPage = () => {
             headerClassName="w-fit" 
             body={(_, { rowIndex }) => rowIndex + 1} 
           />
-          <Column field="unique.name" header="Уникальный номер" />
+          <Column field="unique.name" header="Уникал номер" />
           <Column 
             field='' 
             header="Клиент" 
             body={(rowData) => rowData.demand_furniture_id 
               ? rowData.demand_furniture.demand.customer.name
-              : 'Supermarket'
+              : 'Супермаркет'
             }
           />
           <Column field="" header="Комплект"
@@ -231,7 +231,7 @@ const InvoiceCreationPage = () => {
             }
           />
           <Column field="furniture.name" header="Мебель" />
-          <Column field="amount" header="Количество" />
+          <Column field="amount" header="Сони" />
           <Column 
             body={(rowData) => (
               <Plus 
@@ -245,7 +245,7 @@ const InvoiceCreationPage = () => {
           className="px-4 py-2 text-white rounded-md bg-blue hover:bg-opacity-90 my-8"
           onClick={saveInvoice}
         >
-          {editingInvoice ? "Обновить" : "Генерация данных"}
+          {editingInvoice ? "Янгилаш" : "Генерация килиш"}
         </button>
       </div>
     </MainLayout>

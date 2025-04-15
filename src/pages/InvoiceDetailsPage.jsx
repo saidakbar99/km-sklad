@@ -31,9 +31,9 @@ const InvoiceDetailsPage = () => {
         const isAlreadySelected = prev.some(item => item.unique_id === scannedId);
         return isAlreadySelected ? prev : [...prev, invoiceToSelect];
       });
-      toast.success(`Накладной ${scannedId} выбран`);
+      toast.success(`Накладной ${scannedId} танланди`);
     } else {
-      toast.error(`Накладной ${scannedId} не найден`);
+      toast.error(`Накладной ${scannedId} топилмади`);
     }
     if (scannerInputRef.current) {
       scannerInputRef.current.value = '';
@@ -134,7 +134,7 @@ const InvoiceDetailsPage = () => {
           <div className="flex w-full">
             <div className="flex flex-col mr-8 w-full">
               <label className="text-sm font-medium text-gray-700 mb-1">
-              Блок склада
+              Склад блок
               </label>
               <Dropdown
                 value={selectedBlock}
@@ -147,7 +147,7 @@ const InvoiceDetailsPage = () => {
             </div>
             <div className="flex flex-col mr-8 w-fit">
               <label className="text-sm font-medium text-gray-700 mb-1">
-              Накладной номер
+              Накладной раками
               </label>
               <InputText
                 value={invoiceNumber || ''}
@@ -157,7 +157,7 @@ const InvoiceDetailsPage = () => {
             </div>
             <div className="flex flex-col mr-8 w-full">
               <label className="text-sm font-medium text-gray-700 mb-1">
-                Склад
+                Сех
               </label>
               <InputText
                 value={seh || ''}
@@ -169,7 +169,7 @@ const InvoiceDetailsPage = () => {
               <label
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                Накладной дата
+                Накладной санаси
               </label>
               <Calendar 
                 value={date}
@@ -181,7 +181,7 @@ const InvoiceDetailsPage = () => {
             {role === 'sklad_rahbari' && (
               <div className="flex items-end w-full">
                 <Button
-                  label="Принять" 
+                  label="Кабул килиш" 
                   className="h-[42px] text-white min-w-[100px] bg-blue rounded-md hover:bg-opacity-90 w-[200px] ml-4"
                   onClick={handleRecieve}
                   disabled={!selectedFurnitures.length}
@@ -209,7 +209,7 @@ const InvoiceDetailsPage = () => {
             headerClassName="w-fit" 
             body={(_, { rowIndex }) => rowIndex + 1}
           />
-          <Column field="unique.name" header="Уникальный  номер" />
+          <Column field="unique.name" header="Уникал номер" />
           <Column 
             field='' 
             header="Клиент" 
@@ -224,7 +224,7 @@ const InvoiceDetailsPage = () => {
             }
           />
           <Column field="furniture.name" header="Мебель" />
-          <Column field="amount" header="Количесво" />
+          <Column field="amount" header="Сони" />
         </DataTable>
       </div>
     </MainLayout>

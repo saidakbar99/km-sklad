@@ -25,7 +25,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     if (!username || !password) {
-      toast.error('Введите логин и пароль');
+      toast.error('Логин ва парольни киритинг');
       return;
     }
 
@@ -41,9 +41,9 @@ const LoginPage = () => {
       // navigate('/invoice-creation')
     } catch (err) {
       if (err.response?.status === 401) {
-        toast.error('Логин или пароль неверный');
+        toast.error('Логин йоки пароль нотогри');
       } else {
-        toast.error('Ошибка сервера, попробуйте позже');
+        toast.error('Сервер хатоси, кейинрок кириб коринг');
       }
     }
   };
@@ -53,7 +53,7 @@ const LoginPage = () => {
       const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/users?search=${event.query}`);
       setFilteredUsers(response.data.users.map(user => user.username));
     } catch (err) {
-      toast.error("Произошла ошибка")
+      toast.error("Хатолик юз берди")
       console.error("Error fetching users", err);
     }
   };
@@ -62,7 +62,7 @@ const LoginPage = () => {
     <div className="flex min-h-screen items-center justify-center bg-blue">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
         <h2 className="mb-6 text-2xl font-bold text-center text-blue">
-          Login
+          Логин
         </h2>
         <form className="space-y-4" onSubmit={handleLogin}>
           <div>
@@ -70,13 +70,13 @@ const LoginPage = () => {
               htmlFor="username"
               className="text-sm font-medium text-gray-700"
             >
-              Login
+              Логин
             </label>
             <AutoComplete
               id="username"
               className="w-full px-3 py-2 mt-1 border rounded-md focus:ring-blue focus:border-blue"
               inputClassName='w-full'
-              placeholder="Введите логин"
+              placeholder="Логин киритинг"
               value={username}
               onChange={(e) => setUsername(e.value)}
               suggestions={filteredUsers}
@@ -86,16 +86,16 @@ const LoginPage = () => {
           </div>
           <div>
             <label
-              htmlFor="password"
+              htmlFor="Пароль"
               className="text-sm font-medium text-gray-700"
             >
-              Password
+              Пароль
             </label>
             <input
               type="password"
               id="password"
               className="w-full px-3 py-2 mt-1 border rounded-md focus:ring-blue focus:border-blue"
-              placeholder="Введите пароль"
+              placeholder="Пароль киритинг"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -104,7 +104,7 @@ const LoginPage = () => {
               type="submit"
               className="w-full px-4 py-2 text-white bg-blue rounded-md hover:bg-opacity-90 mt-8"
             >
-              Войти
+              Кириш
             </button>
         </form>
       </div>

@@ -13,21 +13,21 @@ const RealeseFurniturePage = () => {
   const [searchText, setSearchText] = useState("");
 
   const options = [
-    { label: "Не выбран", value: "" },
-    { label: "A1-blok", value: "a1" },
-    { label: "A2-blok", value: "a2" },
-    { label: "B1-blok", value: "b1" },
-    { label: "B2-blok", value: "b2" },
-    { label: "C1-blok", value: "c1" },
-    { label: "C2-blok", value: "c2" },
+    { label: "Танланмаган", value: "" },
+    { label: "A1-блок", value: "a1" },
+    { label: "A2-блок", value: "a2" },
+    { label: "B1-блок", value: "b1" },
+    { label: "B2-блок", value: "b2" },
+    { label: "C1-блок", value: "c1" },
+    { label: "C2-блок", value: "c2" },
   ];
 
   const data = Array.from({ length: 10 }, (_, i) => ({
     id: i + 1,
     clientId: '010AB',
-    clientName: 'Farxod aka',
+    clientName: 'Фарход ака',
     bundle: 'SP / Barokko',
-    furniture: i % 2 === 0 ? 'Krovat' : 'Stul',
+    furniture: i % 2 === 0 ? 'Кровать' : 'Стул',
     quantity: i % 2 === 0 ? 1 : 2,
     // date: new Date().toLocaleDateString(),
   }));
@@ -45,7 +45,7 @@ const RealeseFurniturePage = () => {
   );
 
   return (
-    <MainLayout header='Отгрузка'>
+    <MainLayout header='Жонатиш'>
       <div className="p-6">
         <div className="flex justify-between mb-4">
           <div className="flex items-center w-full">
@@ -53,19 +53,19 @@ const RealeseFurniturePage = () => {
               value={filter} 
               options={options} 
               onChange={(e) => setFilter(e.value)} 
-              placeholder="Выберите блок" 
+              placeholder="Блокни танланг" 
               className="w-48 border"
             />
             <InputText
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              placeholder="Поиск..."
+              placeholder="Кидириш..."
               className="px-4 py-2 border w-full mx-4"
             />
             <ExportButton data={filteredData} fileName='Отгрузка' />
           </div>
           <Button 
-            label="Отгрузка" 
+            label="Жонатиш" // отгрузка 
             className="px-4 min-w-[100px] text-white bg-blue rounded-md hover:bg-opacity-90 ml-4"
             onClick={handleRelease}
           />
@@ -86,7 +86,7 @@ const RealeseFurniturePage = () => {
           <Column field="clientName" header="Клиент" />
           <Column field="bundle" header="Комплект" />
           <Column field="furniture" header="Мебель" />
-          <Column field="quantity" header="Количество" />
+          <Column field="quantity" header="Сони" />
           {/* <Column field="date" header="Сана" /> */}
         </DataTable>
       </div>

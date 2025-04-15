@@ -14,7 +14,7 @@ export const GeneratedSerial = ({selectedPrinter, serial}) => {
 
 	const handlePrint = () => {
 		if (!selectedPrinter) {
-			toast.error('Выберите принтер: G500') // Printerni tanlang 
+			toast.error('Принтерни танланг: G500') // Printerni tanlang 
 			return;
 		}
 		printLabel(

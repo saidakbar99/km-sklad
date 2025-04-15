@@ -31,7 +31,7 @@ const InvoicesHistoryPage = () => {
         setInvoices(invoices.data.invoices)
       } catch (error) {
         console.error("Error fetching invoices", error);
-        toast.error('Nakladnoylar yuklashda xatolik')
+        toast.error('Накладной юклашда хатолик')
       } finally {
         setLoading(false)
       }
@@ -41,7 +41,7 @@ const InvoicesHistoryPage = () => {
   }, [date])
 
   return (
-    <MainLayout header='Принятые накладные'>
+    <MainLayout header='Кабул килинган накладнойлар'>
       <div className="p-6 max-w-[1140px] mx-auto">
         <div className="flex mb-4">
           <div className="flex items-center w-full">
@@ -50,14 +50,14 @@ const InvoicesHistoryPage = () => {
               onChange={(e) => setSearchText(e.target.value)}
               className="px-4 py-2 border"
               icon="pi pi-search"
-              placeholder="Поиск..."
+              placeholder="Кидириш..."
             />
           </div>
           <div className="flex flex-col">
             <label
               className="text-sm font-medium text-gray-700 mb-1"
             >
-              Накладной месяц 
+              Накладной ойи 
             </label>
             <Calendar 
               value={date}
@@ -70,21 +70,21 @@ const InvoicesHistoryPage = () => {
         </div>
         <DataTable
           value={filteredData}
-          emptyMessage="Накладных нет"
+          emptyMessage="Накладнойлар йок"
           paginator
           rows={5}
           rowsPerPageOptions={[5, 10, 25, 50]}
           loading={loading}
         >
-          <Column field="id" header="Накладной номер" />
+          <Column field="id" header="Накладной раками" />
           <Column
             field="date"
-            header="Накладной дата"
+            header="Накладной санаси"
             body={(rowData) => new Date(rowData.date).toLocaleDateString()}
           />
           <Column
             field="demands"
-            header="Заказы"
+            header="Заказлар"
             body={(rowData) =>
               Array.isArray(rowData.demands)
                 ? rowData.demands.join(", ")
@@ -93,7 +93,7 @@ const InvoicesHistoryPage = () => {
           />
           <Column
             field=""
-            header="Дейские"
+            header="Амал"
             body={(rowData) => (
               <Eye className="cursor-pointer" onClick={() => navigate(`/invoice/${rowData.id}`)} />
             )}

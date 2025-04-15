@@ -26,7 +26,7 @@ const RecieveInvoicePage = () => {
         setInvoices(invoices.data.invoices)
       } catch (error) {
         console.error("Error fetching invoices", error);
-        toast.error('Ошибка при загрузке накладных')
+        toast.error('Накладнойлар юклашда хатолик')
       } finally {
         setLoading(false)
       }
@@ -45,13 +45,13 @@ const RecieveInvoicePage = () => {
               onChange={(e) => setSearchText(e.target.value)}
               className="px-4 py-2 border"
               icon="pi pi-search"
-              placeholder="Qidirish..."
+              placeholder="Кидириш..."
             />
           </div>
         </div>
         <DataTable
           value={filteredData}
-          emptyMessage="Nakladnoylar yo'q"
+          emptyMessage="Накладнойлар йок"
           paginator
           rows={5}
           rowsPerPageOptions={[5, 10, 25, 50]}
@@ -64,15 +64,15 @@ const RecieveInvoicePage = () => {
             body={(_, { rowIndex }) => rowIndex + 1}
           />
           <Column field="seh" header="Цех" />
-          <Column field="id" header="Nakladnoy raqami" />
+          <Column field="id" header="Накладной раками" />
           <Column
             field="date"
-            header="Nakladnoy sanasi"
+            header="Накладной раками"
             body={(rowData) => new Date(rowData.date).toLocaleDateString()}
           />
           <Column
             field="demands"
-            header="Zakazlar"
+            header="Заказлар"
             body={(rowData) =>
               Array.isArray(rowData.demands)
                 ? rowData.demands.join(", ")
@@ -81,7 +81,7 @@ const RecieveInvoicePage = () => {
           />
           <Column
             field=""
-            header="Action"
+            header="Амал"
             body={(rowData) => (
               <Eye className="cursor-pointer" onClick={() => navigate(`/invoice/${rowData.id}`)} />
             )}

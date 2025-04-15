@@ -26,7 +26,7 @@ const InvoicesPage = () => {
       setInvoices(invoices.data.invoices)
     } catch (error) {
       console.error("Error fetching invoices", error);
-      toast.error('Nakladnoylar yuklashda xatolik')
+      toast.error('Накладной юклашда хатолик')
     } finally {
       setLoading(false)
     }
@@ -60,7 +60,7 @@ const InvoicesPage = () => {
   }, [])
 
   return (
-    <MainLayout header='Накладные'>
+    <MainLayout header='Накладнойлар'>
       <div className="p-6 max-w-[1140px] mx-auto">
         <div className="flex justify-between mb-4">
           <div className="flex items-center w-full">
@@ -69,25 +69,25 @@ const InvoicesPage = () => {
               onChange={(e) => setSearchText(e.target.value)}
               className="px-4 py-2 border"
               icon="pi pi-search"
-              placeholder="Поиск..."
+              placeholder="Кидириш..."
             />
           </div>
           <Button
             icon="pi pi-plus"
-            label="Добавить" 
+            label="Кошиш" 
             className="px-4 text-white min-w-[100px] bg-blue rounded-md hover:bg-opacity-90 w-[200px] ml-4"
             onClick={() => navigate('/invoice-creation')}
           />
         </div>
         <DataTable
           value={filteredData}
-          emptyMessage="Накладных нет"
+          emptyMessage="Накладнойлар йок"
           paginator
           rows={5}
           rowsPerPageOptions={[5, 10, 25, 50]}
           loading={loading}
         >
-          <Column field="id" header="Накладной номер" />
+          <Column field="id" header="Накладной раками" />
           <Column
             field="date"
             header="Накладная дата"
@@ -95,7 +95,7 @@ const InvoicesPage = () => {
           />
           <Column
             field="demands"
-            header="Заказы"
+            header="Заказлар"
             body={(rowData) =>
               Array.isArray(rowData.demands)
                 ? rowData.demands.join(", ")
@@ -104,7 +104,7 @@ const InvoicesPage = () => {
           />
           <Column
             field=""
-            header="Действие" // action
+            header="Амал" 
             body={(rowData) => (
               <div className="flex justify-between cursor-pointer">
                 <Pencil onClick={() => handleEdit(rowData)} />
@@ -117,11 +117,11 @@ const InvoicesPage = () => {
       <Dialog
         visible={showDialog}
         onHide={() => setShowDialog(false)}
-        header="Вы хотите удалить накладную?"
+        header="Накладнойни очирмокчимисиз"
         footer={
           <div className="flex justify-between mt-2 min-w-[400px]">
-            <Button label="Отменить" icon="pi pi-times" onClick={() => setShowDialog(false)} className="p-button-text" />
-            <Button label="Удалить" icon="pi pi-check" className="p-button-danger" onClick={handleDelete} />
+            <Button label="Бекор килиш" icon="pi pi-times" onClick={() => setShowDialog(false)} className="p-button-text" />
+            <Button label="Очириш" icon="pi pi-check" className="p-button-danger" onClick={handleDelete} />
           </div>
         }
       />

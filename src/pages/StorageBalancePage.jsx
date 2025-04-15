@@ -12,7 +12,7 @@ import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 
 const bundleOptions = [
-	{label: "Все комплекты", value: "all"},
+	{label: "Хамма комплектлар", value: "all"},
 	{label: "Босфор", value: "123"},
 	{label: "Шедевр", value: "222"},
 	{label: "Граф", value: "4112"},
@@ -22,7 +22,7 @@ const bundleOptions = [
 ];
 
 const categoryOptions = [
-	{label: "Все категории", value: "all"},
+	{label: "Хамма категорялар", value: "all"},
 	{label: "СП", value: "A12"},
 	{label: "Стул", value: "B21"},
 	{label: "Стол", value: "D22"},
@@ -30,7 +30,7 @@ const categoryOptions = [
 ];
 
 const furnitureOptions = [
-	{label: "Вся мебель", value: "all"},
+	{label: "Хамма мебельлар", value: "all"},
 	{label: "Кровать", value: "Krovat"},
 	{label: "Стул", value: "Stul"},
 ];
@@ -77,7 +77,7 @@ const StorageBalancePage = () => {
 			setUniques(response.data.uniques)
 		} catch (error) {
 			console.log(error)
-			toast.error("Ошибка при отображении склада")
+			toast.error("Складни корсатишда хатолик")
 		} finally {
 			setLoading(false)
 		}
@@ -97,10 +97,10 @@ const StorageBalancePage = () => {
 				uniqueId: selectedUnique
 			})
 			await fetchRecievedInvoices()
-			toast.success("Склад был изменен")
+			toast.success("Склад озгартирилди")
 			setShowDialog(false)
 		} catch (error) {
-			toast.error("Ошибка при изменении склада")
+			toast.error("Склад озгартиришда хатолик")
 			console.log(error)
 		} finally {
 			setLoading(false)
@@ -114,7 +114,7 @@ const StorageBalancePage = () => {
 				setBlocks(response.data.blocks)
 			} catch (error) {
 				console.log(error)
-				toast.error("Ошибка при отображении склада")
+				toast.error("Склад ни корсатишда хатолик")
 			}
 		}
 
@@ -123,7 +123,7 @@ const StorageBalancePage = () => {
 	}, [])
 
 	return (
-		<MainLayout header="Остаток на складе">
+		<MainLayout header="Склад остаток">
 			<div className="p-6">
 				<div className="flex mb-4 max-[1350px]:grid max-[1350px]:grid-cols-4 gap-4 max-[900px]:grid-cols-2 max-[480px]:grid-cols-1">
 					<Dropdown
@@ -145,7 +145,7 @@ const StorageBalancePage = () => {
 						options={blocks.map((block) => ({label: block.name, value: block.id}))}
 						onChange={(e) => setFilters({...filters, block: e.value})}
 						className="border"
-						placeholder="Все блоки"
+						placeholder="Хамма блоклар"
 						showClear={filters.block}
 					/>
 					<Dropdown
@@ -157,19 +157,19 @@ const StorageBalancePage = () => {
 					/>
 					<InputText
 						className="pl-3 border max-[480px]:h-[2.5em] h-[2.5em]"
-						placeholder="Ищите клиентов..."
+						placeholder="Мижосларни кидиринг..."
 						onChange={(e) => setFilters({...filters, client: e.target.value})}
 					/>
 					<InputText
 						value={searchText}
 						onChange={(e) => setSearchText(e.target.value)}
-						placeholder="Ищите заказ..."
+						placeholder="Заказни кидиринг..."
 						className="flex w-full px-4 pt-1 border max-[1350px]:col-span-2 max-[900px]:col-span-1 max-[480px]:h-[2.5em]"
 					/>
 					<ExportButton
 						className="col-span-2"
 						data={filteredUniques}
-						fileName="Остаток склада"
+						fileName="Склад остаток"
 					/>
 				</div>
 
@@ -205,7 +205,7 @@ const StorageBalancePage = () => {
             }
           />
           <Column field="furniture.name" header="Мебель" />
-					<Column field="amount" header="Количество" />
+					<Column field="amount" header="Сони" />
 					{/* <Column field="selected" header="tanlangan" /> */}
 					{/* <Column field="date" header="Сана" /> */}
 				</DataTable>
@@ -214,18 +214,18 @@ const StorageBalancePage = () => {
 				<Dialog
 					visible={showDialog}
 					onHide={() => setShowDialog(false)}
-					header="Изменить блок"
+					header="Блокни озгартириш"
 					footer={
 						<div className="flex justify-between mt-2 min-w-[400px]">
 							<Button 
-								label="Отменить" 
+								label="Бекор килиш" 
 								icon="pi pi-times" 
 								onClick={() => setShowDialog(false)} 
 								className="p-button-text"
 								loading={loading}
 							/>
 							<Button 
-								label="Изменить" 
+								label="Озгартириш" 
 								icon="pi pi-check" 
 								className="p-button-danger" 
 								onClick={handleStorageEdit}
@@ -236,7 +236,7 @@ const StorageBalancePage = () => {
 				>
 					<div className="flex flex-col w-[400px]">
 						<label className="text-lg mb-1">
-							Б
+							Блок
 						</label>
 						<Dropdown
 							value={selectedBlock}

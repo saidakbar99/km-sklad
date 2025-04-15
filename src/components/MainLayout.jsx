@@ -17,16 +17,16 @@ const MainLayout = ({children, header}) => {
 
   const menuItems = [
 		{
-			label: "Номера серий",
+			label: "Серия номерлар",
 			items: [
 				{ 
-          label: 'Создание номера серии', 
+          label: 'Серия номер яратиш', 
           icon: 'pi pi-plus-circle', 
           command: () => navigate('/generation'),
           roles: ['admin', 'seh_brigadir']
         },
 				{ 
-          label: 'Поиск', 
+          label: 'Кидириш', 
           icon: 'pi pi-barcode', 
           command: () => navigate('/generated'),
           roles: ['admin', 'seh_brigadir']
@@ -34,22 +34,22 @@ const MainLayout = ({children, header}) => {
 			],
 		},
 		{
-			label: "Накладные",
+			label: "Накладнойлар",
 			items: [
 				{ 
-          label: 'Создать накладную', 
+          label: 'Накладной яратиш', 
           icon: 'pi pi-plus-circle', 
           command: () => navigate('/invoice-creation'),
           roles: ['admin', 'seh_brigadir']
         },
 				{ 
-          label: 'Поиск', 
+          label: 'Кидириш', 
           icon: 'pi pi-receipt', 
           command: () => navigate('/invoice'),
           roles: ['admin', 'seh_brigadir']
         },
         { 
-          label: 'История', 
+          label: 'Тарих', 
           icon: 'pi pi-history', 
           command: () => navigate('/invoice-history'),
           roles: ['admin', 'seh_brigadir']
@@ -60,19 +60,19 @@ const MainLayout = ({children, header}) => {
 			label: "Склад",
 			items: [
 				{ 
-          label: 'Принять', 
+          label: 'Кабул килиш', 
           icon: 'pi pi-plus-circle', 
           command: () => navigate('/recieve'),
           roles: ['admin', 'sklad_rahbari']
         },
 				{ 
-          label: 'Остаток', 
+          label: 'Колдик', // остаток 
           icon: 'pi pi-receipt', 
           command: () => navigate('/balance'),
           roles: ['admin', 'sklad_rahbari']
         },
         { 
-          label: 'Отгрузка', 
+          label: 'Жонатиш', // отгрузка
           icon: 'pi pi-truck', 
           command: () => navigate('/release'), 
           roles: ['admin', 'sklad_rahbari', 'security']
@@ -100,7 +100,7 @@ const MainLayout = ({children, header}) => {
         <h1 className="w-full text-3xl font-bold">
           {header}
         </h1>
-        <button onClick={handleLogout} className="border rounded-lg p-2">Выход</button>
+        <button onClick={handleLogout} className="border rounded-lg p-2">Чикиш</button>
         
       </div>
 
