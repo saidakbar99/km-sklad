@@ -238,7 +238,7 @@ const SerialGenerationPage = () => {
                 onClick={generateClientSerial}
                 disabled={!selectedFurniture || !packageQuantity}
               >
-                Генерация килиш
+                Генерация қилиш
               </button>
               
             </div>
@@ -360,7 +360,7 @@ const SerialGenerationPage = () => {
                 onClick={generateStoreSerial}
                 disabled={!selectedStoreFurniture || !storeAmount || !selectedColor || !selectedTree}
               >
-                Генерация килиш
+                Генерация қилиш
               </button>
             </div>
           </TabPanel>

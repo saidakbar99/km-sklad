@@ -26,7 +26,7 @@ const MainLayout = ({children, header}) => {
           roles: ['admin', 'seh_brigadir']
         },
 				{ 
-          label: 'Кидириш', 
+          label: 'Қидириш', 
           icon: 'pi pi-barcode', 
           command: () => navigate('/generated'),
           roles: ['admin', 'seh_brigadir']
@@ -43,7 +43,7 @@ const MainLayout = ({children, header}) => {
           roles: ['admin', 'seh_brigadir']
         },
 				{ 
-          label: 'Кидириш', 
+          label: 'Қидириш', 
           icon: 'pi pi-receipt', 
           command: () => navigate('/invoice'),
           roles: ['admin', 'seh_brigadir']
@@ -60,19 +60,19 @@ const MainLayout = ({children, header}) => {
 			label: "Склад",
 			items: [
 				{ 
-          label: 'Кабул килиш', 
+          label: 'Қабул Қилиш', 
           icon: 'pi pi-plus-circle', 
           command: () => navigate('/recieve'),
           roles: ['admin', 'sklad_rahbari']
         },
 				{ 
-          label: 'Колдик', // остаток 
+          label: 'Қолдик', // остаток 
           icon: 'pi pi-receipt', 
           command: () => navigate('/balance'),
           roles: ['admin', 'sklad_rahbari']
         },
         { 
-          label: 'Жонатиш', // отгрузка
+          label: 'Отгрузка', // отгрузка
           icon: 'pi pi-truck', 
           command: () => navigate('/release'), 
           roles: ['admin', 'sklad_rahbari', 'security']
@@ -100,7 +100,7 @@ const MainLayout = ({children, header}) => {
         <h1 className="w-full text-3xl font-bold">
           {header}
         </h1>
-        <button onClick={handleLogout} className="border rounded-lg p-2">Чикиш</button>
+        <button onClick={handleLogout} className="border rounded-lg p-2">Чиқиш</button>
         
       </div>
 

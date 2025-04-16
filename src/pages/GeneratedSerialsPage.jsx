@@ -59,7 +59,7 @@ const GeneratedSerialsPage = () => {
 				const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/serials`, { sehId });
 				setSerials(response.data.serials);
 			} catch (error) {
-				toast.error("Серия ракамлари корсатишда хатолик")
+				toast.error("Серия рақамлари кўрсатишда хатолик")
 			} finally {
 				setLoading(false)
 			}
@@ -93,11 +93,11 @@ const GeneratedSerialsPage = () => {
 						onChange={(e) => setSearchText(e.target.value)}
 						className="px-4 py-2 border w-full mx-4"
 						icon="pi pi-search"
-						placeholder="Кидириш..."
+						placeholder="Қидириш..."
 					/>
 					<Link to="/generation">
 						<button className="w-full px-4 py-2.5 text-white rounded-md bg-blue hover:bg-opacity-90 whitespace-nowrap">
-						Генерация килиш 
+						Генерация қилиш 
 						</button>
 					</Link>
 				</div>

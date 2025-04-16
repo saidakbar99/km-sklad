@@ -124,7 +124,7 @@ const InvoiceCreationPage = () => {
               <label
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                Накладной раками 
+                Накладной рақами 
               </label>
               <InputText
                 value={invoiceNumber + 1 || ''}
@@ -136,7 +136,7 @@ const InvoiceCreationPage = () => {
               <label
                 className="text-sm font-medium text-gray-700 mb-1"  
               >
-                Сех
+                Цех
               </label>
               <InputText
                 value={seh?.name || ''}
@@ -245,7 +245,7 @@ const InvoiceCreationPage = () => {
           className="px-4 py-2 text-white rounded-md bg-blue hover:bg-opacity-90 my-8"
           onClick={saveInvoice}
         >
-          {editingInvoice ? "Янгилаш" : "Генерация килиш"}
+          {editingInvoice ? "Янгилаш" : "Генерация қилиш"}
         </button>
       </div>
     </MainLayout>

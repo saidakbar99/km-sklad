@@ -33,7 +33,7 @@ const furnitureOptions = [
 	{label: "Хамма мебельлар", value: "all"},
 	{label: "Кровать", value: "Krovat"},
 	{label: "Стул", value: "Stul"},
-];
+]
 
 const StorageBalancePage = () => {
 	const [filters, setFilters] = useState({
@@ -77,7 +77,7 @@ const StorageBalancePage = () => {
 			setUniques(response.data.uniques)
 		} catch (error) {
 			console.log(error)
-			toast.error("Складни корсатишда хатолик")
+			toast.error("Складни кўрсатишда хатолик")
 		} finally {
 			setLoading(false)
 		}
@@ -97,10 +97,10 @@ const StorageBalancePage = () => {
 				uniqueId: selectedUnique
 			})
 			await fetchRecievedInvoices()
-			toast.success("Склад озгартирилди")
+			toast.success("Склад ўзгартирилди")
 			setShowDialog(false)
 		} catch (error) {
-			toast.error("Склад озгартиришда хатолик")
+			toast.error("Склад ўзгартиришда хатолик")
 			console.log(error)
 		} finally {
 			setLoading(false)
@@ -157,13 +157,13 @@ const StorageBalancePage = () => {
 					/>
 					<InputText
 						className="pl-3 border max-[480px]:h-[2.5em] h-[2.5em]"
-						placeholder="Мижосларни кидиринг..."
+						placeholder="Мижосларни қидиринг..."
 						onChange={(e) => setFilters({...filters, client: e.target.value})}
 					/>
 					<InputText
 						value={searchText}
 						onChange={(e) => setSearchText(e.target.value)}
-						placeholder="Заказни кидиринг..."
+						placeholder="Заказни қидиринг..."
 						className="flex w-full px-4 pt-1 border max-[1350px]:col-span-2 max-[900px]:col-span-1 max-[480px]:h-[2.5em]"
 					/>
 					<ExportButton
@@ -214,18 +214,18 @@ const StorageBalancePage = () => {
 				<Dialog
 					visible={showDialog}
 					onHide={() => setShowDialog(false)}
-					header="Блокни озгартириш"
+					header="Блокни ўзгартириш"
 					footer={
 						<div className="flex justify-between mt-2 min-w-[400px]">
 							<Button 
-								label="Бекор килиш" 
+								label="Бекор қилиш" 
 								icon="pi pi-times" 
 								onClick={() => setShowDialog(false)} 
 								className="p-button-text"
 								loading={loading}
 							/>
 							<Button 
-								label="Озгартириш" 
+								label="Ўзгартириш" 
 								icon="pi pi-check" 
 								className="p-button-danger" 
 								onClick={handleStorageEdit}

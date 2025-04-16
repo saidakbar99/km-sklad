@@ -60,11 +60,11 @@ const InvoiceDetailsPage = () => {
         blockId: selectedBlock,
       })
 
-      toast.success('Накладнойлар кабул килинди')
+      toast.success('Накладнойлар қабул қилинди')
       navigate('/recieve')
     } catch (error) {
       console.log(error)
-      toast.error('Накладнойларни кабул килишда хатолик')
+      toast.error('Накладнойларни қабул қилишда хатолик')
     }
   }
 
@@ -141,13 +141,13 @@ const InvoiceDetailsPage = () => {
                 options={blocks.map((block) => ({label: block.name, value: block.id}))}
                 onChange={(e) => setSelectedBlock(e.value)}
                 className="w-full border"
-                placeholder="Blockni tanlang"
+                placeholder="Блокни танланг"
                 disabled={loading}
               />
             </div>
             <div className="flex flex-col mr-8 w-fit">
               <label className="text-sm font-medium text-gray-700 mb-1">
-              Накладной раками
+              Накладной рақами
               </label>
               <InputText
                 value={invoiceNumber || ''}
@@ -157,7 +157,7 @@ const InvoiceDetailsPage = () => {
             </div>
             <div className="flex flex-col mr-8 w-full">
               <label className="text-sm font-medium text-gray-700 mb-1">
-                Сех
+                Цех
               </label>
               <InputText
                 value={seh || ''}
@@ -181,7 +181,7 @@ const InvoiceDetailsPage = () => {
             {role === 'sklad_rahbari' && (
               <div className="flex items-end w-full">
                 <Button
-                  label="Кабул килиш" 
+                  label="Қабул қилиш" 
                   className="h-[42px] text-white min-w-[100px] bg-blue rounded-md hover:bg-opacity-90 w-[200px] ml-4"
                   onClick={handleRecieve}
                   disabled={!selectedFurnitures.length}

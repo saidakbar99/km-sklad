@@ -69,19 +69,19 @@ const InvoicesPage = () => {
               onChange={(e) => setSearchText(e.target.value)}
               className="px-4 py-2 border"
               icon="pi pi-search"
-              placeholder="Кидириш..."
+              placeholder="Қидириш..."
             />
           </div>
           <Button
             icon="pi pi-plus"
-            label="Кошиш" 
+            label="Қошиш" 
             className="px-4 text-white min-w-[100px] bg-blue rounded-md hover:bg-opacity-90 w-[200px] ml-4"
             onClick={() => navigate('/invoice-creation')}
           />
         </div>
         <DataTable
           value={filteredData}
-          emptyMessage="Накладнойлар йок"
+          emptyMessage="Накладнойлар йоқ"
           paginator
           rows={5}
           rowsPerPageOptions={[5, 10, 25, 50]}
@@ -90,7 +90,7 @@ const InvoicesPage = () => {
           <Column field="id" header="Накладной раками" />
           <Column
             field="date"
-            header="Накладная дата"
+            header="Накладной санаси"
             body={(rowData) => new Date(rowData.date).toLocaleDateString()}
           />
           <Column
@@ -117,10 +117,10 @@ const InvoicesPage = () => {
       <Dialog
         visible={showDialog}
         onHide={() => setShowDialog(false)}
-        header="Накладнойни очирмокчимисиз"
+        header="Накладнойни очирмоқчимисиз"
         footer={
           <div className="flex justify-between mt-2 min-w-[400px]">
-            <Button label="Бекор килиш" icon="pi pi-times" onClick={() => setShowDialog(false)} className="p-button-text" />
+            <Button label="Бекор қилиш" icon="pi pi-times" onClick={() => setShowDialog(false)} className="p-button-text" />
             <Button label="Очириш" icon="pi pi-check" className="p-button-danger" onClick={handleDelete} />
           </div>
         }

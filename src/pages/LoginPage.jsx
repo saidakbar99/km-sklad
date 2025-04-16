@@ -41,7 +41,7 @@ const LoginPage = () => {
       // navigate('/invoice-creation')
     } catch (err) {
       if (err.response?.status === 401) {
-        toast.error('Логин йоки пароль нотогри');
+        toast.error('Логин йоки пароль нотўғри');
       } else {
         toast.error('Сервер хатоси, кейинрок кириб коринг');
       }

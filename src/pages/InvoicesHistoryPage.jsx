@@ -41,7 +41,7 @@ const InvoicesHistoryPage = () => {
   }, [date])
 
   return (
-    <MainLayout header='Кабул килинган накладнойлар'>
+    <MainLayout header='Қабул қилинган накладнойлар'>
       <div className="p-6 max-w-[1140px] mx-auto">
         <div className="flex mb-4">
           <div className="flex items-center w-full">
@@ -50,7 +50,7 @@ const InvoicesHistoryPage = () => {
               onChange={(e) => setSearchText(e.target.value)}
               className="px-4 py-2 border"
               icon="pi pi-search"
-              placeholder="Кидириш..."
+              placeholder="Қидириш..."
             />
           </div>
           <div className="flex flex-col">
@@ -70,13 +70,13 @@ const InvoicesHistoryPage = () => {
         </div>
         <DataTable
           value={filteredData}
-          emptyMessage="Накладнойлар йок"
+          emptyMessage="Накладнойлар йоқ"
           paginator
           rows={5}
           rowsPerPageOptions={[5, 10, 25, 50]}
           loading={loading}
         >
-          <Column field="id" header="Накладной раками" />
+          <Column field="id" header="Накладной рақами" />
           <Column
             field="date"
             header="Накладной санаси"

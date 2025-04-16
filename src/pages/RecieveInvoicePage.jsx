@@ -36,7 +36,7 @@ const RecieveInvoicePage = () => {
   }, [])
   
   return (
-    <MainLayout header='Складга кабул килиш'>
+    <MainLayout header='Складга қабул қилиш'>
       <div className="p-6 max-w-[1140px] mx-auto">
         <div className="flex justify-between mb-4">
           <div className="flex items-center w-full">
@@ -45,7 +45,7 @@ const RecieveInvoicePage = () => {
               onChange={(e) => setSearchText(e.target.value)}
               className="px-4 py-2 border"
               icon="pi pi-search"
-              placeholder="Кидириш..."
+              placeholder="Қидириш..."
             />
           </div>
         </div>
@@ -64,10 +64,10 @@ const RecieveInvoicePage = () => {
             body={(_, { rowIndex }) => rowIndex + 1}
           />
           <Column field="seh" header="Цех" />
-          <Column field="id" header="Накладной раками" />
+          <Column field="id" header="Накладной рақами" />
           <Column
             field="date"
-            header="Накладной раками"
+            header="Накладной рақами"
             body={(rowData) => new Date(rowData.date).toLocaleDateString()}
           />
           <Column

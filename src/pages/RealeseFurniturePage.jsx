@@ -45,7 +45,7 @@ const RealeseFurniturePage = () => {
   );
 
   return (
-    <MainLayout header='Жонатиш'>
+    <MainLayout header='Жўнатиш'>
       <div className="p-6">
         <div className="flex justify-between mb-4">
           <div className="flex items-center w-full">
@@ -59,13 +59,13 @@ const RealeseFurniturePage = () => {
             <InputText
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              placeholder="Кидириш..."
+              placeholder="Қидириш..."
               className="px-4 py-2 border w-full mx-4"
             />
             <ExportButton data={filteredData} fileName='Отгрузка' />
           </div>
           <Button 
-            label="Жонатиш" // отгрузка 
+            label="Жўнатиш" // отгрузка 
             className="px-4 min-w-[100px] text-white bg-blue rounded-md hover:bg-opacity-90 ml-4"
             onClick={handleRelease}
           />
