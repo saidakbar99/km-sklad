@@ -31,19 +31,19 @@ export async function printLabel(
 ^XA
 ^CI28
 
-^FO20,200
+^FO70,200
 ^BQN,2,20
 ^FD   ${serialNumber}^FS
 
-^FO30,100
+^FO80,100
 ^AUN,40,40
 ^FD${furnitureFullname}^FS
 
-^FO300,200
+^FO350,200
 ^AUN,40,40
 ^FDСерия# ${serialNumber}^FS
 
-${demandNumber ? `^FO300,300
+${demandNumber ? `^FO350,300
 ^AUN,40,40
 ^FDЗаказ# ${demandNumber}^FS` : ''}
 
